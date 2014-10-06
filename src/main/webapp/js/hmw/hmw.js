@@ -1,0 +1,176 @@
+/*
+ * HMW JavaScript Library 
+ * 
+ * Released under the MIT license
+ */
+var hmw = {};
+var date = {};
+var cur_date = new Date();
+
+(function(){
+	
+	hmw.geoServerProcess = function(obj){
+		console.log($(obj).attr('data-name'));
+		switch($(obj).attr('data-name')){
+		case 'loadVector':
+			var mapLayers = Map.map.getLayers(),
+			obj_exist=false,
+			name = $(obj).attr('data-id'),
+			r = Math.floor(Math.random()*256),
+			g = Math.floor(Math.random()*256),
+			b = Math.floor(Math.random()*256); 
+			mapLayers.forEach(function(data){
+				if(data.get('title')==name){
+					obj_exist = true;		
+					Layer.removeLayer(data);
+					return ;
+				}
+			}); 
+			if(!obj_exist)	
+				Layer.createLayer(name,'rgba('+r+','+g+','+b+',1.0)',1);
+			
+		break;
+		case 'createWorkspace':
+			createkeyValueJsonString($(obj));
+			ajaxNetwork(obj);
+			break;
+		
+		}
+		//ajaxNetwork(obj);
+	};
+	//http://stackoverflow.com/questions/2195161/how-to-return-an-array-from-jquery-ajax-success-function-properly
+	
+	/** keyValue, DateValue, TimeValue -- data-key, data-value**/
+	hmw.publicOpenData = function(obj,state,data){
+		state = (typeof(state) !== 'undefined') ? state : "start";
+		data = (typeof(data) !== 'undefined') ? data : null;
+		console.log($(obj).attr('data-name')); 
+		
+		///// Checkbox Check!!
+		var chkValues = ["keyValue","dateValue","timeValue"];
+		var chkArray=[];
+		chkArray.push($(obj));
+		for(i in chkValues){
+			if( $("#chk"+chkValues[i]).is(":checked") ){
+				$('#'+chkValues[i]).attr('data-value',$('#'+chkValues[i]).attr('value'));
+				chkArray.push($('#'+chkValues[i]));
+			}
+		}  
+		//6473565a72696e7438326262524174    env
+		//4b56506967696e7437317348694371	road
+		switch($(obj).attr('data-name')){
+		case 'SeoulpublicOpenData':
+			if(state=="start"){  
+				var jsonStringData = createkeyValueJsonString(chkArray);
+				$('#'+$(obj).attr('data-popup')).popup('close');
+				ajaxNetwork(obj,jsonStringData);
+			}
+			else if(state=="jsondata"){
+				var dataList = data[ $(obj).attr('data-value') ];
+				console.log(dataList);
+				var keys = Object.keys(dataList);
+				console.log($('#dataSelect'));
+				$('#dataSelect').popup("open");
+				$('#dataSelect').empty();
+				$('#dataSelect').append(JSON.stringify(dataList)); 	
+			} 
+			else if(state=="tableView"){
+				console.log($('#selectData').attr('value'));
+			}
+			else if(state=="d3View"){
+				
+			}
+		break; 
+		} 
+	};
+	hmw.baseMap = function(obj){ 
+		console.log(obj);
+	}; 
+	
+	createkeyValueJsonString = function(data){    
+		var str = "{";
+		for(var i in data){ 
+			str= str + '"'+data[i].attr('data-key')+'":';
+			str= str + '"'+data[i].attr('data-value'); 
+			if((data.length-1)==i)	str +='"}';
+			else						str +='",';
+		} 
+		console.log(str);
+		return JSON.parse(str); 
+	};//JSON�쑝濡� 留뚮뱾怨� �떢�� 媛믩뱾�쓣 諛곗뿴濡� 留뚮뱾�뼱 �씤�옄瑜� 蹂대궡硫� 留뚮뱾�뼱以�.. {key:value} 
+	
+	ajaxNetwork = function(obj, data){  
+		$.ajax({
+			type:'POST',
+			url:$(obj).attr('data-name')+'.do',
+			data: JSON.stringify(data), 
+			contentType : "application/json;charset=UTF-8",
+			dataType : 'json',
+			success:function(msg){   
+				hmw.publicOpenData(obj,"jsondata",JSON.parse(msg.data));
+			},
+			error:function(){
+				console.log("err");
+			}
+		}); 
+	};
+
+	
+/**
+ * getDate Module About Public Date 
+ */	
+	 
+	date.getYear = function(){	return cur_date.getFullYear();	};
+	date.getDate = function(){	return cur_date.getDate();		};
+	date.getMonth= function(){	return cur_date.getMonth();		};
+	date.getHour = function(){
+		var hours;
+		var minute = cur_date.getMinutes();
+			if(minute < 30){
+				if(cur_date.getHours()==0){  
+					hours = leadingZeros(cur_date.getHours()+23,2);
+				}else	hours = leadingZeros(cur_date.getHours()-1,2);
+			}else{
+				hours = leadingZeros(cur_date.getHours(),2); 
+			} 
+		return hours;
+	};// 30 minute cut line  (30 up) +1 
+	date.getMin = function(){	return cur_date.getMinutes();	}; 
+	date.getYYYYMMDDHH = function(){
+		var year = cur_date.getFullYear();
+		var month = leadingZeros(cur_date.getMonth()+1,2);
+		var date = leadingZeros(cur_date.getDate(),2);
+		var minute = cur_date.getMinutes();
+		var hours;
+			if(minute < 30){
+				if(cur_date.getHours()==0){
+					date = leadingZeros(cur_date.getDate()-1,2);
+					hours = 23;
+				}else	hours = leadingZeros(cur_date.getHours()-1,2);
+			}else{
+				hours = leadingZeros(cur_date.getHours(),2); 
+			} 
+			minute = "00";
+		return year+month+date+hours+minute;
+	};
+	date.getYYYYMMDD = function(plug){	
+		var year = cur_date.getFullYear();
+		var month = leadingZeros(cur_date.getMonth()+1,2);
+		var date = leadingZeros(cur_date.getDate(),2);
+		if(plug==null)
+			return year+month+date;
+		else
+			return year+plug+month+plug+date;
+	};
+
+	leadingZeros = function(n,digits){
+		var zero = '';
+		n = n.toString();
+		if (n.length < digits) {
+			for (var i = 0; i < digits - n.length; i++)
+				zero += '0';
+		}
+	  return zero + n;
+	};	
+	
+})();
