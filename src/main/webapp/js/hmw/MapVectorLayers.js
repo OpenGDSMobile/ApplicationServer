@@ -9,9 +9,9 @@ Layer.createLayer = function(data,color,width){
 		format: new ol.format.GeoJSON(),
 		loader: function(extent, resolution, projection){
 			//console.log('Loading Data: '+data);
-			var url = 'http://192.168.0.9/geoserver/wfs?service=WFS&' +
+			var url = 'http://113.198.80.9/geoserver/wfs?service=WFS&' +
 			'version=1.1.0&request=GetFeature&' +
-			'typeNames=korea:'+data+
+			'typeNames=opengds:'+data+
 			'&outputFormat=application/json' +
 			'&srsname=EPSG:3857&bbox=' + extent.join(',') + ',EPSG:3857';
 			//console.log(url);
