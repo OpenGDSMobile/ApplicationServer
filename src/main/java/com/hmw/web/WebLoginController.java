@@ -1,9 +1,5 @@
-package com.hmw.web; 
- 
-  
-  
-import java.util.HashMap;
-import java.util.Map;
+package com.hmw.web;  
+   
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,81 +8,18 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod; 
-import org.springframework.web.bind.annotation.ResponseBody; 
-
-import com.hmw.geomanager.GeoManagerService;
+import org.springframework.util.StringUtils; 
+import org.springframework.web.bind.annotation.RequestMapping; 
+ 
 import com.hmw.ums.User;
-import com.hmw.ums.UserService;
-import com.hmw.util.Util;
+import com.hmw.ums.UserService; 
  
 
 @Controller
 public class WebLoginController {
 	 
 	@Autowired
-	UserService ser;
-	
-	@Autowired
-	GeoManagerService geomanager;
-	 
-	
-	 
-	
-	@RequestMapping(headers="Content-Type=application/json", value="/createWorkspace.do",
-					method={RequestMethod.POST,RequestMethod.GET})
-	public @ResponseBody Map<String, Object> workspaceCreate(@RequestBody String JSONData){
-		
-		Map<String, Object> message = new HashMap<String, Object>();
-		try {
-			//Map<String,Object> data = Util.convertJsonToObject(JSONData);
-			//boolean result = geomanager.createWorkspace(data.get("name").toString());
-			
-			message.put("result", "OK");
-			message.put("message", null);
-		//	message.put("data", result);
-			return message;			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			message.put("result", "ERROR");
-			message.put("message", e.getMessage());
-			message.put("data", null);
-			return message;
-		} 
-	} 
-	
-	
-	@RequestMapping(headers="Content-Type=application/json", value="/loadVector.do",
-			method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> loadVector(@RequestBody String JSONData){
-		//System.out.println(geomanager.requestLoadVector());
-		geomanager.requestLoadVector("korea", "");
-		/*
-		Map<String, Object> message = new HashMap<String, Object>();
-		try {
-			Map<String,Object> data = Util.convertJsonToObject(JSONData);
-		//	geomanager.requestLoadVector("korea", data.get("name").toString());
-			message.put("result", "OK");
-			message.put("message", null);
-		//	message.put("data", geomanager.requestLoadVector("korea", data.get("name").toString() ));
-			return message;
-		} catch (Exception e) { 
-			// TODO Auto-generated catch block
-			message.put("result", "ERROR");
-			message.put("message", e.getMessage());
-			message.put("data", null);
-			return message;
-		} 
-		//return geomanager.requestLoadVector();
-		 * 
-		 */
-		return null;
-	}
-	
-	
+	UserService ser;  
 	
 	@RequestMapping("/index.do")
 	public String indexPage(Model m){
