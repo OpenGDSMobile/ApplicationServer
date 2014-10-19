@@ -36,13 +36,7 @@ Map.createMap = function(mapStyle){
 	} 
 };
 
-Map.createMap.wmsLayer = function(mapStyle){ 
-	var projection = new ol.proj.Projection({
-		code: 'EPSG:900913',
-		extent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
-		units : 'm'
-	});
-	ol.proj.addProjection(projection);
+Map.createMap.wmsLayer = function(mapStyle){  
 	var wmslayer = new ol.layer.Tile({
 			source: new ol.source.TileWMS(({
 				url: "http://map.vworld.kr/js/wms.do",

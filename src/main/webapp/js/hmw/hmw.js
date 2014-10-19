@@ -1,15 +1,29 @@
 /*
- * HMW JavaScript Library 
- * 
+ * OpenGDS Mobile JavaScript Library  
  * Released under the MIT license
  */
 var hmw = {};
 	hmw.wmsMap = {};
 var date = {};
-var cur_date = new Date();
-
-(function(){
-	
+var cur_date = new Date(); 
+(function(){ 
+	hmw.baseMap = function(mapStyle){ 
+		var mapType=null;
+		if(mapStyle =='osm'){
+			mapType = new ol.source.OSM();
+		}
+		else if(mapStyle=='vworld'){
+			mapType = new ol.source.XYZ(({
+  				url : "http://xdworld.vworld.kr:8080/2d/Base/201310/{z}/{x}/{y}.png"
+  			}));
+		} 
+		Map.createMap(mapType); 
+	}; 
+	hmw.wmsMap.vworld = function(wmsStyle){
+		wmsStyle = $(wmsStyle).attr('data-layer'); 
+		Map.createMap.wmsLayer(wmsStyle);
+	};	
+	///////////////////////////////////////////////////////
 	hmw.geoServerProcess = function(obj){
 		console.log($(obj).attr('data-name'));
 		var data = {name:'aaa'};
@@ -43,6 +57,7 @@ var cur_date = new Date();
 		}
 		//ajaxNetwork(obj);
 	}; 
+	
 	/** keyValue, DateValue, TimeValue -- data-key, data-value**/
 	hmw.publicOpenData = function(obj,state,data){
 		state = (typeof(state) !== 'undefined') ? state : "start";
@@ -86,23 +101,7 @@ var cur_date = new Date();
 		break; 
 		} 
 	};
-	hmw.baseMap = function(mapStyle){ 
-		var mapType=null;
-		if(mapStyle =='osm'){
-			mapType = new ol.source.OSM();
-		}
-		else if(mapStyle=='vworld'){
-			mapType = new ol.source.XYZ(({
-  				url : "http://xdworld.vworld.kr:8080/2d/Base/201310/{z}/{x}/{y}.png"
-  			}));
-		} 
-		Map.createMap(mapType); 
-	}; 
-	hmw.wmsMap.vworld = function(wmsStyle){
-		wmsStyle = $(wmsStyle).attr('data-layer');
-		console.log(wmsStyle);
-		Map.createMap.wmsLayer(wmsStyle);
-	};	
+	
 	createkeyValueJsonString = function(data){    
 		var str = "{";
 		for(var i in data){ 
@@ -157,8 +156,7 @@ var cur_date = new Date();
 	
 /**
  * getDate Module About Public Date 
- */	
-	 
+ */	 
 	date.getYear = function(){	return cur_date.getFullYear();	};
 	date.getDate = function(){	return cur_date.getDate();		};
 	date.getMonth= function(){	return cur_date.getMonth();		};

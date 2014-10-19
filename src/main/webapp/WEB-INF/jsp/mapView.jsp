@@ -34,10 +34,9 @@
 	 
 	<script type="text/javascript" src="js/hmw/hmw.js"></script>
 	 
-
+	
 	<title>Map Select</title>
-	<script>
-
+	<script> 
 	beforeProcess = {
 		popupSize: function(obj,width,height){
 			width = (typeof(width) !== 'undefined') ? width : $(window).width()-50;
@@ -52,12 +51,9 @@
 		}
 	};
 	styleChange = function(obj){
-		$('#wmsButton').attr('data-layer',$(obj).attr('value'));
-		console.log($('#wmsButton').attr('data-layer'));
-		
-	}
-	$(document).ready(function(){
-		//없어도 되지만.... 편의를 위해...
+		$('#wmsButton').attr('data-layer',$(obj).attr('value')); 
+	};
+	$(document).ready(function(){ 
  		$("#dateValue").attr('value',date.getYYYYMMDD("-"));
 		$("#timeValue").attr('value',date.getHour()+":00");
 		beforeProcess.popupSize("#dataSelect");
