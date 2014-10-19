@@ -4,6 +4,7 @@
  * Released under the MIT license
  */
 var hmw = {};
+	hmw.wmsMap = {};
 var date = {};
 var cur_date = new Date();
 
@@ -11,6 +12,8 @@ var cur_date = new Date();
 	
 	hmw.geoServerProcess = function(obj){
 		console.log($(obj).attr('data-name'));
+		var data = {name:'aaa'};
+		console.log(data);
 		switch($(obj).attr('data-name')){
 		case 'loadVector':
 			var mapLayers = Map.map.getLayers(),
@@ -26,20 +29,20 @@ var cur_date = new Date();
 					return ;
 				}
 			}); 
-			if(!obj_exist)	
-				Layer.createLayer(name,'rgba('+r+','+g+','+b+',1.0)',1);
+			if(!obj_exist)	{
+				Layer.createLayer(obj,'rgba('+r+','+g+','+b+',1.0)',1);
+			//ajaxNetwork(obj,data);
+			}
 			
 		break;
 		case 'createWorkspace':
-			createkeyValueJsonString($(obj));
-			ajaxNetwork(obj);
+			//createkeyValueJsonString($(obj));
+			ajaxNetwork(obj,data);
 			break;
 		
 		}
 		//ajaxNetwork(obj);
-	};
-	//http://stackoverflow.com/questions/2195161/how-to-return-an-array-from-jquery-ajax-success-function-properly
-	
+	}; 
 	/** keyValue, DateValue, TimeValue -- data-key, data-value**/
 	hmw.publicOpenData = function(obj,state,data){
 		state = (typeof(state) !== 'undefined') ? state : "start";
@@ -83,10 +86,23 @@ var cur_date = new Date();
 		break; 
 		} 
 	};
-	hmw.baseMap = function(obj){ 
-		console.log(obj);
+	hmw.baseMap = function(mapStyle){ 
+		var mapType=null;
+		if(mapStyle =='osm'){
+			mapType = new ol.source.OSM();
+		}
+		else if(mapStyle=='vworld'){
+			mapType = new ol.source.XYZ(({
+  				url : "http://xdworld.vworld.kr:8080/2d/Base/201310/{z}/{x}/{y}.png"
+  			}));
+		} 
+		Map.createMap(mapType); 
 	}; 
-	
+	hmw.wmsMap.vworld = function(wmsStyle){
+		wmsStyle = $(wmsStyle).attr('data-layer');
+		console.log(wmsStyle);
+		Map.createMap.wmsLayer(wmsStyle);
+	};	
 	createkeyValueJsonString = function(data){    
 		var str = "{";
 		for(var i in data){ 
@@ -97,17 +113,40 @@ var cur_date = new Date();
 		} 
 		console.log(str);
 		return JSON.parse(str); 
-	};//JSON�쑝濡� 留뚮뱾怨� �떢�� 媛믩뱾�쓣 諛곗뿴濡� 留뚮뱾�뼱 �씤�옄瑜� 蹂대궡硫� 留뚮뱾�뼱以�.. {key:value} 
+	};//JSON {key:value} 
+	
+	hmw.geoServertest = function(obj,GeoJson){
+		console.log($(obj).attr('data-id'));
+		var vectorTemp = new ol.layer.Vector({
+	    	title:$(obj).attr('data-id'),
+	 	   	source: new ol.source.GeoJSON({
+	 	   		projection: 'EPSG:4326',
+	 	   		//url : "loadVector.do",
+	 	   		url : GeoJson
+	 	   		//url : "geoserver-GetFeature1.json"
+	 	   	}), 
+	 	   	style: new ol.style.Style({
+	 		   stroke: new ol.style.Stroke({
+	 			   color:"rgba(255,255,0,1.0)",
+	 			   width:1
+	 		   })
+	 	   })
+	    });
+	    Map.map.addLayer(vectorTemp);
+	};
 	
 	ajaxNetwork = function(obj, data){  
+		console.log(obj);
 		$.ajax({
 			type:'POST',
 			url:$(obj).attr('data-name')+'.do',
 			data: JSON.stringify(data), 
 			contentType : "application/json;charset=UTF-8",
 			dataType : 'json',
-			success:function(msg){   
-				hmw.publicOpenData(obj,"jsondata",JSON.parse(msg.data));
+			success:function(msg){
+				console.log(JSON.parse(msg.data));
+				//hmw.publicOpenData(obj,"jsondata",JSON.parse(msg.data));
+				hmw.geoServertest(obj,JSON.parse(msg.data));
 			},
 			error:function(){
 				console.log("err");

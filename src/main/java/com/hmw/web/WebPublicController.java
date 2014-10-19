@@ -39,5 +39,6 @@ public class WebPublicController {
 			message.put("data", null);
 			return message;
 		} 
-	} 
+	}  
+	
 }

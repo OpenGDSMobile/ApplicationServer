@@ -32,7 +32,15 @@ Gui.initViewer = function(){
 	    Map.setWindowOrientation(window.orientation);
 	});   
 	
-	Map.createMap();
+	var projection = new ol.proj.Projection({
+		code: 'EPSG:900913',
+		extent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
+		units : 'm'
+	});
+	ol.proj.addProjection(projection); 
+	
+	hmw.baseMap('osm');
+	//Map.createMap();
 	Map.centerOnLocation();  
 	
 	/**

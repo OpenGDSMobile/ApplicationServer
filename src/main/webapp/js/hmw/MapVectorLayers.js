@@ -4,35 +4,40 @@ var	LayerSources =null;
 	 
 //192.168.0.9
 //113.198.80.60:8080
-Layer.createLayer = function(data,color,width){
+Layer.createLayer = function(obj,color,width){
 	Layer.vectorSource = new ol.source.ServerVector({
 		format: new ol.format.GeoJSON(),
 		loader: function(extent, resolution, projection){
 			//console.log('Loading Data: '+data);
 			var url = 'http://113.198.80.9/geoserver/wfs?service=WFS&' +
 			'version=1.1.0&request=GetFeature&' +
-			'typeNames=opengds:'+data+
-			'&outputFormat=application/json' +
+			'typeNames=opengds:'+$(obj).attr('data-id')+
+			'&outputFormat=application/json&callback=loadFeatures'+
 			'&srsname=EPSG:3857&bbox=' + extent.join(',') + ',EPSG:3857';
-			//console.log(url);
+			//console.log(url);  
+			$.ajaxPrefilter('json', function(options, orig, jqXHR) { 
+		        return 'jsonp';
+		    }); 
 			$.ajax({
-				url: url,
-		//		url : 'loadVector.do',
+			//	url : $(obj).attr('data-name')+'.do',
+				crossDomain: true,
+				url : url,
 				dataType: 'json',
-				success:loadFeatures 
+				//success:loadFeatures 
 			});
+			
 		},
 		strategy: ol.loadingstrategy.createTile(new ol.tilegrid.XYZ({
 			maxZoom: 19
 		})),
 		projection: 'EPSG:3857'
 	}); 
-	loadFeatures = function(response){ 
+	loadFeatures = function(response){  
 		Layer.vectorSource.addFeatures(Layer.vectorSource.readFeatures(response)); 
 	};
 	
 	var vectorTemp = new ol.layer.Vector({
-    	title:data,
+    	title:$(obj).attr('data-id'),
  	   	source: Layer.vectorSource,
  	   	style: new ol.style.Style({
  		   stroke: new ol.style.Stroke({

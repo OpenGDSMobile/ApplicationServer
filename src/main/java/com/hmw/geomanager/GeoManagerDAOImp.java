@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository;
 public class GeoManagerDAOImp implements GeoManagerDAO {
 
 	//static String RESTURL = "http://113.198.80.60:8080/geoserver";
-	static String RESTURL = "http://192.168.0.9/geoserver";
+	static String RESTURL = "http://113.198.80.9/geoserver";
 	static String RESTUSER = "admin";
 	static String RESTPW = "geoserver";
 	
@@ -32,7 +32,7 @@ public class GeoManagerDAOImp implements GeoManagerDAO {
 	ObjectMapper mapper;
 	
 	//String path ="http://192.168.0.9/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typeNames=korea:Seoul_dong&outputFormat=application/json&srsname=EPSG:3857&bbox=14167144.570487704,4539747.983913189,14206280.328969715,4578883.742395199,EPSG";
-	String path = "http://192.168.0.9/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typeNames=korea:Seoul_dong&outputFormat=application/json";
+	String path = RESTURL+"/wfs?service=WFS&version=1.1.0&request=GetFeature&typeNames=opengds:Seoul_dong&outputFormat=application/json";
 	GeoManagerDAOImp() throws MalformedURLException{
 		super();
 		publisher = new GeoServerRESTPublisher(RESTURL, RESTUSER, RESTPW);

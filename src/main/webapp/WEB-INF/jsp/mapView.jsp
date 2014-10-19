@@ -13,7 +13,7 @@
 	<!-- jQuery Mobile -->
 	<script type="text/javascript" src="js/egovframework/mbl/cmm/jquery.mobile-1.3.2.min.js"></script>
 	<link rel="stylesheet" href="css/egovframework/mbl/cmm/jquery.mobile-1.3.2.css">
-	
+	 
 	<!-- eGov Mobile -->
 	<script type="text/javascript" src="js/egovframework/mbl/cmm/EgovMobile-1.3.2.js"></script>
 	<link rel="stylesheet" href="css/egovframework/mbl/cmm/EgovMobile-1.3.2.css">
@@ -32,7 +32,8 @@
 	<script type="text/javascript" src="js/hmw/MapGui.js"></script>
 	<script type="text/javascript" src="js/hmw/EventScript.js"></script>
 	 
-	<script type="text/javascript" src="js/hmw/hmw.js"></script> 
+	<script type="text/javascript" src="js/hmw/hmw.js"></script>
+	 
 
 	<title>Map Select</title>
 	<script>
@@ -50,6 +51,11 @@
 			$('#serviceName').attr('data-value',$(obj).attr('data-value'));	
 		}
 	};
+	styleChange = function(obj){
+		$('#wmsButton').attr('data-layer',$(obj).attr('value'));
+		console.log($('#wmsButton').attr('data-layer'));
+		
+	}
 	$(document).ready(function(){
 		//없어도 되지만.... 편의를 위해...
  		$("#dateValue").attr('value',date.getYYYYMMDD("-"));
@@ -62,19 +68,19 @@
 </head>
 <body>  
 <div data-role="page" id="mapview">
-	<!-- Vworld WMS -->
-		<div data-role="popup" id="vworldList" data-dismissible="false" data-overlay-theme="a" style="padding: 15px">
-			<a href="#" data-rel="back" data-role="button" data-them="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-				키 값 :<input type="text" id="vworldKey" value="4DE8808B-91DA-3D6D-82D9-FE9406A79E1A">
-				<input id="radio-1" type="radio" name="vworldRadio" value="LT_C_UQ111" checked>
+	<!-- Vworld WMS --><!--  data-dismissible="false" -->
+		<div data-role="popup" id="vworldList"  data-overlay-theme="a" style="padding: 15px">
+		<!--  <a href="#" data-rel="back" data-role="button" data-them="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>-->
+				키 값 :<input type="text" id="vworldKey" value="E9CACC10-B443-30E1-9E2E-9E18F49049CA">
+				<input id="radio-1" type="radio" name="vworldRadio" value="LT_C_UQ111" onclick="styleChange(this)">
 				<label for="radio-1">도시지역</label>
-				<input id="radio-2" type="radio" name="vworldRadio" value="LT_C_UQ112" checked>
+				<input id="radio-2" type="radio" name="vworldRadio" value="LT_C_UQ112" onclick="styleChange(this)">
 				<label for="radio-2">관리지역</label>
-				<input id="radio-3" type="radio" name="vworldRadio" value="LT_C_UQ113" checked>
+				<input id="radio-3" type="radio" name="vworldRadio" value="LT_C_UQ113" onclick="styleChange(this)">
 				<label for="radio-3">농립지역</label>
-				<input id="radio-4" type="radio" name="vworldRadio" value="LT_C_UQ114" checked>
+				<input id="radio-4" type="radio" name="vworldRadio" value="LT_C_UQ114" onclick="styleChange(this)">
 				<label for="radio-4">자연환경보전지역</label>
-			<a href="#" data-popup="setting" data-role="button" onclick="hmw.baseMap(this)">지도 변경</a>
+			<a href="#" id=wmsButton data-layer="" data-popup="setting" data-role="button" onclick="hmw.wmsMap.vworld(this)">지도 추가</a>
 		</div> 
 	<!-- Data Table 아직... --> 
 		<div data-role="panel" data-display="overlay" data-position="right" id="publicDataView">
@@ -127,7 +133,11 @@
 					<li data-theme="g" data-icon="delete" style="height: 2.8em;">
 					  <a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a>
 					</li>
-					<li><a href="#vworldList"  data-rel="popup" data-position-to="window" >Vworld</a></li> 
+					<li data-theme="z" data-role="list-divider">배경 지도</li>
+					<li><a href="#" data-id="osm"  onclick="hmw.baseMap('osm')">OpenStreetMap</a></li>
+					<li><a href="#"  onclick="hmw.baseMap('vworld')">V-World</a></li>
+					<li data-theme="z" data-role="list-divider">WMS</li> 
+					<li><a href="#vworldList"  data-rel="popup" data-position-to="window" >V-World</a></li>
 				</ul>
 		</div>  
 	<!-- List Panel -->

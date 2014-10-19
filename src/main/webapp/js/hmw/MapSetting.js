@@ -1,6 +1,6 @@
 var styleCache = {};
 var Map = {};
-	Map.map = null;
+	Map.map = null; 
 	Map.minResolution = null;
 	Map.layers = {};
 	
@@ -8,25 +8,60 @@ var Map = {};
 	Map.windowOrientation = undefined;
 	Map.geolocation = null;
 
-Map.createMap = function(){ 
-	  
-	Map.map = new ol.Map({
-		layers:[new ol.layer.Tile({
-					title: 'basemap',
-		    	   source: new ol.source.OSM()
-		       })], 
-		target: 'map',
-		view : new ol.View(Config.map.viewOptions) 
-	}); 
-	Map.map.getView().on('change:rotation',function(){
-		$.event.trigger({type:'maprotation',rotation:Map.map.getView().getRotation()});
-	});
-	Map.map.getView().on('change:resolution',function(){
-		if(Map.map.getView().getResolution() < Map.minResolution){
-			Map.map.getView().setResolution(Map.minResolution);
-		}
-	});
+Map.createMap = function(mapStyle){ 
+	if(Map.map==null){
+		Map.layers.baselayer = new ol.layer.Tile({
+								title: 'basemap',
+								source: mapStyle
+								});
+		Map.map = new ol.Map({
+			layers:[Map.layers.baselayer], 
+			target: 'map',
+			view : new ol.View(Config.map.viewOptions) 
+		}); 
+		Map.map.getView().on('change:rotation',function(){
+			$.event.trigger({type:'maprotation',rotation:Map.map.getView().getRotation()});
+		});
+		Map.map.getView().on('change:resolution',function(){
+			if(Map.map.getView().getResolution() < Map.minResolution){
+				Map.map.getView().setResolution(Map.minResolution);
+			}
+		});
+	}else{	  
+		Map.map.removeLayer(Map.layers.baselayer);
+		Map.map.addLayer(Map.layers.baselayer=new ol.layer.Tile({
+			title:'basemap',
+			source : mapStyle
+		}));
+	} 
 };
+
+Map.createMap.wmsLayer = function(mapStyle){ 
+	var projection = new ol.proj.Projection({
+		code: 'EPSG:900913',
+		extent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
+		units : 'm'
+	});
+	ol.proj.addProjection(projection);
+	var wmslayer = new ol.layer.Tile({
+			source: new ol.source.TileWMS(({
+				url: "http://map.vworld.kr/js/wms.do",
+				params: {
+					domain:'http://localhost',
+  					apiKey:'9E21E5EE-67D4-36B9-85BB-E153321EEE65',
+  					LAYERS:mapStyle,
+  					STYLES:mapStyle,
+  					FORMAT:'image/png',
+  					CRS:'EPSG:900913',
+  					EXCEPTIONS:'text/xml',
+  					TRANSPARENT:true
+  					}
+  			}))
+	});
+	Map.map.addLayer(wmslayer);
+	
+};
+
 
 Map.adjustedHeading = function(heading) {
 	if (Map.windowOrientation != undefined) {
