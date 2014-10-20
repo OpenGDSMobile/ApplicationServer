@@ -12,12 +12,13 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class PublicDataServiceImp implements PublicDataService{ 
+public class SeoulPublicDataServiceImp implements SeoulPublicDataService{ 
 
 	@Autowired
 	@Qualifier("publicdao")
 	PublicDataDAO publicDataobj; 
-	
+	//6473565a72696e7438326262524174 - env Key value
+	//4a73434758696e7438316a5146744f - road Key value
 	String[] keysData = {"serviceName","keyValue","dateValue","timeValue"};
 	String[] keysValue; 
 	String amount = "";

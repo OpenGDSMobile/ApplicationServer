@@ -41,9 +41,9 @@ Map.createMap.wmsLayer = function(mapStyle){
 			source: new ol.source.TileWMS(({
 				url: "http://map.vworld.kr/js/wms.do",
 				params: {
-			//		domain:'http://localhost',
-  			//		apiKey:'9E21E5EE-67D4-36B9-85BB-E153321EEE65',
-					apiKey:'F65FC751-4918-3760-9218-318D5E3577E0',	//113
+					domain:'http://localhost',
+  					apiKey:'9E21E5EE-67D4-36B9-85BB-E153321EEE65',
+			//		apiKey:'F65FC751-4918-3760-9218-318D5E3577E0',	//113
   					LAYERS:mapStyle,
   					STYLES:mapStyle,
   					FORMAT:'image/png',

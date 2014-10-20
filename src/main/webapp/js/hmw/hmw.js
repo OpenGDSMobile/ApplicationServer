@@ -113,7 +113,7 @@ var cur_date = new Date();
 		console.log(str);
 		return JSON.parse(str); 
 	};//JSON {key:value} 
-	
+	/*
 	hmw.geoServertest = function(obj,GeoJson){
 		console.log($(obj).attr('data-id'));
 		var vectorTemp = new ol.layer.Vector({
@@ -133,7 +133,7 @@ var cur_date = new Date();
 	    });
 	    Map.map.addLayer(vectorTemp);
 	};
-	
+	*/
 	ajaxNetwork = function(obj, data){  
 		console.log(obj);
 		$.ajax({
@@ -144,8 +144,8 @@ var cur_date = new Date();
 			dataType : 'json',
 			success:function(msg){
 				console.log(JSON.parse(msg.data));
-				//hmw.publicOpenData(obj,"jsondata",JSON.parse(msg.data));
-				hmw.geoServertest(obj,JSON.parse(msg.data));
+				hmw.publicOpenData(obj,"jsondata",JSON.parse(msg.data));
+				//hmw.geoServertest(obj,JSON.parse(msg.data));
 			},
 			error:function(){
 				console.log("err");

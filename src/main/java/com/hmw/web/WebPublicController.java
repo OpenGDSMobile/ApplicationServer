@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
  
-import com.hmw.publicData.PublicDataService;
+import com.hmw.publicData.SeoulPublicDataService;
 import com.hmw.util.Util;
  
 
@@ -19,7 +19,7 @@ import com.hmw.util.Util;
 public class WebPublicController { 
 
 	@Autowired
-	PublicDataService pds;
+	SeoulPublicDataService pds;
 	
 	@RequestMapping(headers="Content-Type=application/json", 
 			value="/SeoulpublicOpenData.do",method=RequestMethod.POST)
