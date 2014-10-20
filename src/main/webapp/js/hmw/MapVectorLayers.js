@@ -9,10 +9,11 @@ Layer.createLayer = function(obj,color,width){
 		format: new ol.format.GeoJSON(),
 		loader: function(extent, resolution, projection){
 			//console.log('Loading Data: '+data);
-			var url = 'http://113.198.80.9/geoserver/wfs?service=WFS&' +
-			'version=1.1.0&request=GetFeature&' +
-			'typeNames=opengds:'+$(obj).attr('data-id')+
-			'&outputFormat=application/json&callback=loadFeatures'+
+			var url = 'http://113.198.80.60:8080/geoserver/wfs?service=WFS&' +
+			'version=1.1.0&request=GetFeature&' + 
+			//'typeNames=opengds:'+data+
+			'typeNames=opengds:Seoul_dong'+
+			'&outputFormat=application/json' + 
 			'&srsname=EPSG:3857&bbox=' + extent.join(',') + ',EPSG:3857';
 			//console.log(url);  
 			$.ajaxPrefilter('json', function(options, orig, jqXHR) { 
