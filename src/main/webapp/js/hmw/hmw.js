@@ -61,8 +61,7 @@ var cur_date = new Date();
 	/** keyValue, DateValue, TimeValue -- data-key, data-value**/
 	hmw.publicOpenData = function(obj,state,data){
 		state = (typeof(state) !== 'undefined') ? state : "start";
-		data = (typeof(data) !== 'undefined') ? data : null;
-		console.log($(obj).attr('data-name')); 
+		data = (typeof(data) !== 'undefined') ? data : null; 
 		
 		///// Checkbox Check!!
 		var chkValues = ["keyValue","dateValue","timeValue"];
@@ -77,7 +76,6 @@ var cur_date = new Date();
 		//6473565a72696e7438326262524174    env
 		//4b56506967696e7437317348694371	road
 
-		var x_data = [];
 		switch($(obj).attr('data-name')){
 		case 'SeoulpublicOpenData':
 			if(state=="start"){  
@@ -86,48 +84,31 @@ var cur_date = new Date();
 				ajaxNetwork(obj,jsonStringData);
 			}
 			else if(state=="jsondata"){
-				var dataList = data[ $(obj).attr('data-value') ];
-				console.log(dataList);
-				var keys = Object.keys(dataList);
-				console.log($('#dataSelect'));
+				var dataList = data[ $(obj).attr('data-value') ]; // Service Name
+			//	var keys = Object.keys(dataList);  
+
 				$('#dataSelect').popup("open");
-				//$('#dataSelect').empty();
-				//$('#dataSelect').append(JSON.stringify(dataList));
-				json = dataList;
-				console.log(json);
-				map_selected="";
-				x_selected="PM10";
-				//taa_list  = json.TimeAverageAirQuality;
-				taa_count = json.list_total_count;
-				console.log(taa_count);
-				taa_row   = json.row; 
-				console.log(taa_row);
-				$.each(taa_row,function(idx){
-					if(map_selected=="")		y_axis.push(taa_row[idx].MSRSTE_NM);
-					else						y_axis.push(taa_row[idx].MSRDT);
-					switch(x_selected){
-						case "PM10":
-							x_data.push(taa_row[idx].PM10);
-							break;
-						case "PM25":
-							x_data.push(taa_row[idx].PM25);
-							break;
-						case "CO":
-							x_data.push(taa_row[idx].CO);
-							break;
-						case "NO2":
-							x_data.push(taa_row[idx].NO2);
-							break;
-						case "SO2":
-							x_data.push(taa_row[idx].SO2);
-							break;
-						case "O3":
-							x_data.push(taa_row[idx].O3);
-							break;
-					}
-				});
 				
 				
+				if($(obj).attr('data-value')=="TimeAverageAirQuality"){
+					var envType = $(':radio[name="env"]:checked').val();
+					var colorRange =hmw.seoulOpenData.env.colorRange; 
+					var xyData=hmw.seoulOpenData.env.xydivision(dataList, envType);
+					if(envType=="PM10")
+						envType = hmw.seoulOpenData.env.PM10Range;
+					else if(envType=="PM25")
+						envType = hmw.seoulOpenData.env.PM25Range;
+					else if(envType=="CO")
+						envType = hmw.seoulOpenData.env.CORange;
+					else if(envType=="NO2")
+						envType = hmw.seoulOpenData.env.NO2Range;
+					else if(envType=="SO2")
+						envType = hmw.seoulOpenData.env.SO2Range;
+					else if(envType=="O3")
+						envType = hmw.seoulOpenData.env.O3Range;
+					
+					hmw.d3.barchart('d3View',xyData,colorRange,envType);	
+				} 
 				
 			} 
 			else if(state=="tableView"){
@@ -147,8 +128,7 @@ var cur_date = new Date();
 			str= str + '"'+data[i].attr('data-value'); 
 			if((data.length-1)==i)	str +='"}';
 			else						str +='",';
-		} 
-		console.log(str);
+		}  
 		return JSON.parse(str); 
 	};//JSON {key:value} 
 	/*
@@ -172,16 +152,14 @@ var cur_date = new Date();
 	    Map.map.addLayer(vectorTemp);
 	};
 	*/
-	ajaxNetwork = function(obj, data){  
-		console.log(obj);
+	ajaxNetwork = function(obj, data){
 		$.ajax({
 			type:'POST',
 			url:$(obj).attr('data-name')+'.do',
 			data: JSON.stringify(data), 
 			contentType : "application/json;charset=UTF-8",
 			dataType : 'json',
-			success:function(msg){
-				console.log(JSON.parse(msg.data));
+			success:function(msg){ 
 				hmw.publicOpenData(obj,"jsondata",JSON.parse(msg.data));
 				//hmw.geoServertest(obj,JSON.parse(msg.data));
 			},

@@ -36,6 +36,8 @@
 	<script type="text/javascript" src="js/hmw/EventScript.js"></script>
 	 
 	<script type="text/javascript" src="js/hmw/hmw.js"></script>
+	<script type="text/javascript" src="js/hmw/hmwSeoulOpenData.js"></script>
+	<script type="text/javascript" src="js/hmw/hmwD3.js"></script>
 	 
 	
 	<title>Map Select</title>
@@ -59,6 +61,7 @@
 	$(document).ready(function(){ 
  		$("#dateValue").attr('value',date.getYYYYMMDD("-"));
 		$("#timeValue").attr('value',date.getHour()+":00");
+		$("#d3View").attr('width',$(window).width()-100);
 		beforeProcess.popupSize("#dataSelect");
 		beforeProcess.popupSize("#vworldList","300px"); 
 	});
@@ -88,7 +91,26 @@
 		</div>
 	<!-- Public Data Select -->
 		<div data-role="popup" id="dataSelect" data-overlay-theme="a">
-			<div id="d3View">qqqqq</div>		
+		  <div id="range">
+              			<table style="margin:0 auto">
+              				<tr>
+              					<td style="background:#4c4cff; margin:0; padding:0">　</td>
+              					<td style="background:#9999ff; margin:0; padding:0">　</td>
+              					<td>Good</td>
+              					<td style="background:#4CFF4C; margin:0; padding:0">　</td>
+              					<td style="background:#99FF99; margin:0; padding:0">　</td>
+              					<td>Normal</td>
+              					<td style="background:#FFFF00; margin:0; padding:0">　</td>
+              					<td style="background:#FFFF99; margin:0; padding:0">　</td>
+              					<td>Sensitive</td>
+              					<td style="background:#FF9900; margin:0; padding:0">　</td>
+              					<td>Bad</td>
+              					<td style="background:#FF0000; margin:0; padding:0">　</td>
+              					<td>Very Bad</td> 
+              				</tr>
+              			</table> 
+            </div>
+			<div id="d3View"> </div>		
 		</div> 
 		
 	<!-- Public Data PopUp --> 
@@ -114,6 +136,26 @@
 	
 		<label for="timeValue">시간 : (최신 데이터 시간)</label>
 		<input type="time" id="timeValue" data-key="timeValue"> 
+		
+		
+		<label for="envValue">환경정보:</label>
+		<fieldset data-role="controlgroup" data-type="horizontal">
+		<input type="radio" id="env-radio1" name="env" value="PM10" checked>
+			<label for="env-radio1">PM10</label>
+		<input type="radio" id="env-radio2" name="env" value="PM25">
+			<label for="env-radio2">PM25</label>
+		<input type="radio" id="env-radio3" name="env" value="SO2">
+			<label for="env-radio3">SO2</label>
+		</fieldset>
+		<fieldset data-role="controlgroup" data-type="horizontal"> 
+		<input type="radio" id="env-radio6" name="env" value="O3">
+			<label for="env-radio6">O3</label>
+		<input type="radio" id="env-radio4" name="env" value="NO2">
+			<label for="env-radio4">NO2</label>
+		<input type="radio" id="env-radio5" name="env" value="CO">
+			<label for="env-radio5">CO</label>
+		</fieldset>
+		
 		<a href="#" data-popup="setting" data-role="button" id="serviceName" data-key="serviceName" 
 			data-name="SeoulpublicOpenData" onclick="hmw.publicOpenData(this)">세팅 완료/값 불러오기</a>
 		</div> 
