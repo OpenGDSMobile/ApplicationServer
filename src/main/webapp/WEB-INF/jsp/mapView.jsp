@@ -26,6 +26,9 @@
 	<script type="text/javascript" src="js/ol3/ol.js"></script>
 	<link type="text/css" rel="stylesheet" href="css/ol3/ol.css">  
 	
+	<!-- D3.js -->
+	<script type="text/javascript" src="js/d3/d3.js"></script>
+	
 	<script type="text/javascript" src="js/hmw/MapConfig.js"></script>
 	<script type="text/javascript" src="js/hmw/MapVectorLayers.js"></script>
 	<script type="text/javascript" src="js/hmw/MapSetting.js"></script>
@@ -85,7 +88,7 @@
 		</div>
 	<!-- Public Data Select -->
 		<div data-role="popup" id="dataSelect" data-overlay-theme="a">
-					
+			<div id="d3View">qqqqq</div>		
 		</div> 
 		
 	<!-- Public Data PopUp --> 

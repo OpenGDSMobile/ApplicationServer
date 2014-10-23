@@ -76,6 +76,8 @@ var cur_date = new Date();
 		}  
 		//6473565a72696e7438326262524174    env
 		//4b56506967696e7437317348694371	road
+
+		var x_data = [];
 		switch($(obj).attr('data-name')){
 		case 'SeoulpublicOpenData':
 			if(state=="start"){  
@@ -89,8 +91,44 @@ var cur_date = new Date();
 				var keys = Object.keys(dataList);
 				console.log($('#dataSelect'));
 				$('#dataSelect').popup("open");
-				$('#dataSelect').empty();
-				$('#dataSelect').append(JSON.stringify(dataList)); 	
+				//$('#dataSelect').empty();
+				//$('#dataSelect').append(JSON.stringify(dataList));
+				json = dataList;
+				console.log(json);
+				map_selected="";
+				x_selected="PM10";
+				//taa_list  = json.TimeAverageAirQuality;
+				taa_count = json.list_total_count;
+				console.log(taa_count);
+				taa_row   = json.row; 
+				console.log(taa_row);
+				$.each(taa_row,function(idx){
+					if(map_selected=="")		y_axis.push(taa_row[idx].MSRSTE_NM);
+					else						y_axis.push(taa_row[idx].MSRDT);
+					switch(x_selected){
+						case "PM10":
+							x_data.push(taa_row[idx].PM10);
+							break;
+						case "PM25":
+							x_data.push(taa_row[idx].PM25);
+							break;
+						case "CO":
+							x_data.push(taa_row[idx].CO);
+							break;
+						case "NO2":
+							x_data.push(taa_row[idx].NO2);
+							break;
+						case "SO2":
+							x_data.push(taa_row[idx].SO2);
+							break;
+						case "O3":
+							x_data.push(taa_row[idx].O3);
+							break;
+					}
+				});
+				
+				
+				
 			} 
 			else if(state=="tableView"){
 				console.log($('#selectData').attr('value'));
