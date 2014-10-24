@@ -25,9 +25,7 @@ var cur_date = new Date();
 	};	
 	///////////////////////////////////////////////////////
 	hmw.geoServerProcess = function(obj){
-		console.log($(obj).attr('data-name'));
-		var data = {name:'aaa'};
-		console.log(data);
+		console.log($(obj).attr('data-name')); 
 		switch($(obj).attr('data-name')){
 		case 'loadVector':
 			var mapLayers = Map.map.getLayers(),
@@ -109,6 +107,26 @@ var cur_date = new Date();
 					
 					hmw.d3.barchart('d3View',xyData,colorRange,envType);	
 				} 
+
+				if($(obj).attr('data-value')=="RealtimeRoadsideStation"){
+					var envType = $(':radio[name="env"]:checked').val();
+					var colorRange =hmw.seoulOpenData.env.colorRange; 
+					var xyData=hmw.seoulOpenData.env.xydivision(dataList, envType);
+					if(envType=="PM10")
+						envType = hmw.seoulOpenData.env.PM10Range;
+					else if(envType=="PM25")
+						envType = hmw.seoulOpenData.env.PM25Range;
+					else if(envType=="CO")
+						envType = hmw.seoulOpenData.env.CORange;
+					else if(envType=="NO2")
+						envType = hmw.seoulOpenData.env.NO2Range;
+					else if(envType=="SO2")
+						envType = hmw.seoulOpenData.env.SO2Range;
+					else if(envType=="O3")
+						envType = hmw.seoulOpenData.env.O3Range;
+					
+					hmw.d3.barchart('d3View',xyData,colorRange,envType); 
+				}
 				
 			} 
 			else if(state=="tableView"){

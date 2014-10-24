@@ -1,5 +1,8 @@
 hmw.seoulOpenData = {}; 
 
+hmw.seoulOpenData.request = {
+		
+};
 hmw.seoulOpenData.env = {
 	key : "6473565a72696e7438326262524174",
 	colorRange : ["#4C4Cff","#9999FF","#4cff4c","#99ff99","#FFFF00","#FFFF99","#FF9900","#FF0000"],
@@ -28,4 +31,3 @@ hmw.seoulOpenData.env = {
 		return xyAxis;
 	}
 };
-

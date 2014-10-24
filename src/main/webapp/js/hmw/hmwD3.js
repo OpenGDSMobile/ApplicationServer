@@ -6,20 +6,17 @@ hmw.d3 = {};
  */
 hmw.d3.barchart = function(divId, xyData, color, range){ 
 	var barHeight = 17;
+	var minusWidth=15;
 	$('#'+divId).empty();
 	var div = d3.select('#'+divId).append("svg")
 				.attr("id","barChart")
-				.attr("width",$('#'+divId).width())
-				.attr("height",barHeight*25);
+				.attr("width",$('#'+divId).width()) 
+				.attr("height",barHeight*xyData[0].length);
 //	console.log(div);	console.log(xyData[0]);	console.log(color);	console.log(range);
-	var maxData = d3.max(xyData[0]); 
-	console.log(maxData);
+	var maxData = d3.max(xyData[0]);  
 	var x = d3.scale.linear()
 			.domain([0, maxData])
-			.range([0,$('#'+divId).width()]);
-	var y = d3.scale.ordinal()
-			.domain(xyData[0])
-			.rangeBands([0,200]);  /// ?????
+			.range([0,$('#'+divId).width()]); 
 	div.selectAll('rect')
 				.data(xyData[0])
 				.enter()
@@ -28,8 +25,10 @@ hmw.d3.barchart = function(divId, xyData, color, range){
 					.attr('y',function(d,i){
 						return i*barHeight;
 					})
-					.attr('width',x)
-					.attr('height',barHeight)
+					.attr('width',function(d){
+						return x(d)-minusWidth;
+					})
+					.attr('height',barHeight-2)
 					.attr('fill',function(d,i){
 						for(var z=0; z<range.length; z++) 
 							if(xyData[0][i] <=range[z]){ 
@@ -56,7 +55,7 @@ hmw.d3.barchart = function(divId, xyData, color, range){
 					.enter()
 					.append('text')
 						.attr('x',function(d){
-							return x(d);
+							return x(d)-minusWidth;
 						})
 						.attr('y',function(d,i){
 							return i*barHeight+12;

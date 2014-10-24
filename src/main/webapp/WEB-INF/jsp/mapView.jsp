@@ -46,7 +46,7 @@
 		popupSize: function(obj,width,height){
 			width = (typeof(width) !== 'undefined') ? width : $(window).width()-50;
 			height = (typeof(height) !== 'undefined') ? height : "300px"; 
-			$(obj).css("width",width);
+			$(obj).css("width",width/2);
 			$(obj).css("height",height);
 			$(obj).css("overflow-y","auto");
 			$(obj).css("overflow-x","hidden"); 
