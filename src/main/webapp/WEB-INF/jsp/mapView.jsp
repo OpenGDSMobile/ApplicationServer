@@ -28,6 +28,7 @@
 	
 	<!-- D3.js -->
 	<script type="text/javascript" src="js/d3/d3.js"></script>
+	<script type="text/javascript" src="topojson.v1.min.js"></script>
 	
 	<script type="text/javascript" src="js/hmw/MapConfig.js"></script>
 	<script type="text/javascript" src="js/hmw/MapVectorLayers.js"></script>
@@ -186,7 +187,7 @@
 				<ul data-role="listview">
 					<li data-theme="g" data-icon="delete" style="height: 2.8em;"><a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a></li>
 					<li data-theme="z" data-role="list-divider">기본 제공 데이터</li>
-						<li><a href="#" data-id="Seoul_dong" data-name="loadVector" onclick="hmw.geoServerProcess(this)">서울특별시</a></li>
+						<li><a href="#" data-id="Seoul_si" data-name="loadVector" onclick="hmw.geoServerProcess(this)">서울특별시</a></li>
 						<li><a href="#" data-id="Incheon_dong" data-name="loadVector" onclick="hmw.geoServerProcess(this)">인천광역시</a></li>
 						<li><a href="#" data-id="Gyeonggi_dong" data-name="loadVector" onclick="hmw.geoServerProcess(this)">경기도</a></li>
 						<li><a href="#" data-id="Sejong_dong" data-name="loadVector" onclick="hmw.geoServerProcess(this)">세종시</a></li>
