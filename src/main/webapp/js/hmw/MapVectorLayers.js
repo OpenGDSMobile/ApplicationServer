@@ -12,96 +12,15 @@ var	LayerSources =null;
   	 *	</context-param>
 	 */
 Layer.createLayer = function(obj,color,width){
-	obj  = $(obj).attr('data-id');
-
-	var loadFeatures = function(response){   
-		console.log(response);
-	};
-	//var url = 'http://113.198.80.60:8080/geoserver/wfs';
-	var url = 'http://113.198.80.60:8080/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&typeNames=opengds:Seoul_si&outputFormat=text/javascript';
-	$.ajax({
-		type:'GET',
-		url:url,/* 
-		data : {
-			service : 'wfs',
-			version : '1.1.0',
-			request : 'getJson',
-			typeNames : 'opengds:Seoul_si',
-			outputFormat : 'text/javascript'
-		},*/
-		dataType : 'jsonp',
-		jsonp : 'callback',
-	//	jsonpCallback : loadFeatures,
-		success:function(msg){
-			console.log("data");
-			console.log(msg);
-			//hmw.geoServertest(obj,JSON.parse(msg.data));
-		},
-		error:function(xhr, status , err){
-			console.log(status +';'+err);
-		}
-	});
-	/*
-	Layer.vectorSource = new ol.source.ServerVector({
-		format: new ol.format.GeoJSON(),
-		loader: function(extent, resolution, projection){
-			//console.log('Loading Data: '+data);
-			var url = 'http://113.198.80.60:8080/geoserver/wfs?service=WFS&' +
-			'version=1.1.0&request=GetFeature' +  
-			'&typeNames=opengds:'+obj+ 
-			'&outputFormat=text/javascript&format_options=callback:loadFeatures';// +
-		//	'&srsname=EPSG:900913&bbox=' + extent.join(',') + ',EPSG:900913'; 
-			$.ajax({ 
-				url : url,
-				dataType: 'jsonp' 
-			}); 
-		},
-		strategy: ol.loadingstrategy.createTile(new ol.tilegrid.XYZ({
-			maxZoom: 19
-		})),
-		projection: 'EPSG:900913'
-	}); 
-	loadFeatures = function(response){  
-		//console.log(JSON.stringify(response.features.length)); 
-		Layer.vectorSource.addFeatures(Layer.vectorSource.readFeatures(response));
-		if(response.features.length!=0){
-			Layer.jsonfile = response;
-		}
-		console.log(Layer.jsonfile);
-	};
-	//console.log(Layer.vectorSource); 
-	var vectorTemp = new ol.layer.Vector({
-    	title:obj,
- 	   	source: Layer.vectorSource,
- 	   	style: new ol.style.Style({
- 		   stroke: new ol.style.Stroke({
- 			   color:color,
- 			   width:width
- 		   })
- 	   })
-    });
-	
-    Map.map.addLayer(vectorTemp); 
-    */
-	/*
-	var layer = new ol.layer.Image({
-	    source: new ol.source.ImageCanvas({
-	      canvasFunction: canvasFunction,
-	      projection: 'EPSG:900913'
-	    })
-	  });
-	Map.map.addLayer(layer);
-	*/
-	/*
-	d3.json(Layer.jsonfile,function(error,us){
-		//console.log(d3.geo.mercator());
-		//var features = topojson.feature(us, us.objects.counties);
-		var features = us;
-		
+	obj  = $(obj).attr('data-id'); 
+	extent = Map.map.getView().calculateExtent(Map.map.getSize());
+	console.log(extent);
+	parseResponse = function(features){
+		console.log(features);
 		var canvasFunction = function(extent,resolution,pixelRatio,size,projection){
 			var canvasWidth = size[0];
 		    var canvasHeight = size[1];
-
+		    console.log(extent);
 		    var canvas = d3.select(document.createElement('canvas'));
 		    canvas.attr('width', canvasWidth).attr('height', canvasHeight);
 
@@ -135,9 +54,26 @@ Layer.createLayer = function(obj,color,width){
 		    d3Projection.scale(scale).center(center)
 		        .translate([canvasWidth / 2, canvasHeight / 2]);
 		    d3Path = d3Path.projection(d3Projection).context(context);
-		    d3Path(features);
-		    context.stroke();
-
+		    //d3Path(features); 
+		    $.each(features.features, function(index, value){ 
+		    	
+		    	console.log(value.properties.SIG_KOR_NM.toString());
+		    	var test = new String('은평구');
+		    	if(value.properties.SIG_KOR_NM.toString()=='강동구'){
+		    		console.log("eee");
+		    		d3Path(value); 
+			        context.fillStyle = '#8ED6FF';
+			        context.fill();
+			    	context.strokeStyle = '#ff0000';
+			    	context.stroke(); 
+		    	}
+		    	else{
+		    		console.log("eee1");
+		    		d3Path(value); 
+		    		context.stroke();
+		    	}
+		    });
+		    //d3Path(features.features[0]); 
 		    return canvas[0][0];
 		};
 		var layer = new ol.layer.Image({
@@ -147,8 +83,28 @@ Layer.createLayer = function(obj,color,width){
 		    })
 		  });
 		Map.map.addLayer(layer);
-	}); 
-	*/
+	};
+	var url = 'http://113.198.80.9/geoserver/wfs';
+	//var url = 'http://113.198.80.9/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&typeNames=opengds:seoul_si&outputFormat=text/javascript';
+	$.ajax({
+		type:'GET',
+		url:url, 
+		data : {
+			service : 'wfs',
+			version : '1.1.0',
+			request : 'getFeature',
+			typeNames : 'opengds:'+obj,
+			outputFormat : 'text/javascript'
+		},
+		dataType : 'jsonp',
+		jsonpCallback : 'parseResponse',
+		success:function(msg){ 
+			console.log("OK"); 
+		},
+		error:function(xhr, status , err){
+			console.log(status +';'+err);
+		}
+	});   
 };
 
 Layer.removeLayer = function(data){
