@@ -1,3 +1,25 @@
+$.ajax({
+		type:'POST',
+		url:url,/* 
+		data : {
+			service : 'wfs',
+			version : '1.1.0',
+			request : 'getJson',
+			typeNames : 'opengds:Seoul_si',
+			outputFormat : 'text/javascript'
+		},*/
+		dataType : 'jsonp',
+	//	jsonpCallback : loadFeatures,
+		success:function(msg){
+			console.log("data");
+			console.log(msg);
+			//hmw.geoServertest(obj,JSON.parse(msg.data));
+		},
+		error:function(xhr, status , err){
+			console.log(status +';'+err);
+		}
+	});
+
 
 	/*
 	getJSONArray = function(obj, str){
