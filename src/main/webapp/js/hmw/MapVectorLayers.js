@@ -36,29 +36,44 @@ Layer.createLayer = function(obj,color,width){
 		Layer.vectorSource.addFeatures(Layer.vectorSource.readFeatures(response));  
 	}; 
 	
-	var styleArray = [new ol.style.Style({
+	
+	var styles =  new ol.style.Style({
 		  fill: new ol.style.Fill({
-		    color: 'rgba(255, 255, 255, 0.6)'
+			    color: '#4C4Cff'
+			  }),
+			  stroke: new ol.style.Stroke({
+			    color: '#319FD3',
+			    width: 1
+			  })
+			});
+	
+	console.log(styles.fill);
+	
+	
+	var styleArray = [
+	    new ol.style.Style({
+		  fill: new ol.style.Fill({
+		    color: '#4C4Cff'
 		  }),
 		  stroke: new ol.style.Stroke({
 		    color: '#319FD3',
 		    width: 1
-		  })
-		})];
+		  }) 
+		})]; 
 	var vectorTemp = new ol.layer.Vector({
     	title:obj,
  	   	source: Layer.vectorSource,
  	   	style: function(f,r){ 
- 	   		console.log(f.get('SIG_KOR_NM'));
- 	   		return styleArray;
- 	   	}
- 	   	/*style: new ol.style.Style({
- 		   stroke: new ol.style.Stroke({
- 			   color:color,
- 			   width:width
- 		   })
- 	   })
- 	   */
+ 	   		
+ 	   		if(f.get('SIG_KOR_NM')=='은평구'){
+ 	 	   		console.log('은평구');
+ 	 	   		console.log(styleArray[0]);
+ 	   			return styleArray;
+ 	   		}
+ 	   		else{
+ 	   			return styleArray;
+ 	   		} 
+ 	   	} 
     });
     Map.map.addLayer(vectorTemp); 
 	

@@ -18,6 +18,7 @@ hmw.seoulOpenData.env = {
 	/**
 	 * SeoupOpenData Environment Data Division xData,yData 
 	 * parameter : JSON data
+	 * return : 2 dim x axis and y axis   [0]: x Axis, [1] : y Axis
 	 */
 	xydivision: function(data, envType){  
 		var xyAxis = new Array();
@@ -29,5 +30,11 @@ hmw.seoulOpenData.env = {
 			xyAxis[1].push(row[idx]["MSRSTE_NM"]);
 		});
 		return xyAxis;
+	},
+	/**
+	 * SeoupOpenData Environment Data OpenLayers Style
+	 */
+	openLayersStyle : function(data, envType){
+		
 	}
 };
