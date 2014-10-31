@@ -6,7 +6,7 @@ hmw.d3 = {};
  */
 hmw.d3.barchart = function(divId, xyData, color, range){ 
 	var barHeight = 17;
-	var minusWidth=15;
+	var minusWidth=0;
 	$('#'+divId).empty();
 	var div = d3.select('#'+divId).append("svg")
 				.attr("id","barChart")
@@ -35,7 +35,7 @@ hmw.d3.barchart = function(divId, xyData, color, range){
 								return color[z];
 							}
 						return color[color.length];
-					});
+					}); 
 	div.selectAll('g')
 				.data(xyData[1])
 				.enter()

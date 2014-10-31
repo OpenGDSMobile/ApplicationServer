@@ -3,38 +3,51 @@
  * Released under the MIT license
  */
 var hmw = {};
-	hmw.wmsMap = {};
+	hmw.wmsMapUI = {};
 var date = {};
 var cur_date = new Date(); 
 (function(){ 
 	/**
-	 * 
+	 * base Map Setting
+	 * Parameter : divName -> Map div Name, mapStyle -> osm , vworld
 	 */
-	hmw.baseMap = function(div, mapStyle){ 
+	hmw.baseMap = function(divName, mapStyle){ 
 		var mapType=null;
 		if(mapStyle =='osm'){	
 			mapType = new ol.source.OSM();		
 		}
-		else if(mapStyle=='vworld'){
-			mapType = new ol.source.XYZ(({
-  				url : "http://xdworld.vworld.kr:8080/2d/Base/201310/{z}/{x}/{y}.png"
-  			}));
+		else if(mapStyle=='vworld'){ 
+			mapType = hmw.Vworld.TMS();
 		} 
-		//OpenLayers 3 
-		Map.createBaseMap(div, mapType); 
-	};  
-
-	/**
-	 * 
+		//OpenLayers 3  
+		Map.createBaseMap(divName, mapType); 
+	};   
+	/**  // F65FC751-4918-3760-9218-318D5E3577E0   //60
+	 * Vworld WMS API User Interface 
+	 * Parameter : divName -> UI div Name, apiKey->Vworld APIKey
 	 */
-	hmw.wmsMap.vworld = function(divName, apiKey){
+	hmw.wmsMapUI.vworld = function(divName, apiKey){
+		makeData = function(apiKey, chkName){
+			var selectedData = "";
+			var vworldChk = $("input[name='vworldWMS']:checkbox");
+			vworldChk.each(function(i){ 
+				if($(this).is(":checked")){
+					selectedData+=$(this).attr("value");
+					selectedData+=","; 
+				}
+			});
+			selectedData = selectedData.slice(0,-1);
+			hmw.vworld.wmsAPI(Map.map, apiKey, selectedData);
+		};
+		apiKey = "9E21E5EE-67D4-36B9-85BB-E153321EEE65";
 		var rootDiv = $('#'+divName);
 		var html = 'Select Max 5<br><fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
 		var styles = ['LT_C_UQ111','LT_C_UQ112','LT_C_UQ113','LT_C_UQ114','LT_C_UQ121'];
-		var stylesText = ['도시지역','관리지역','농립지역','자연환경보전지역','자연환경보전지역11']; 
+		var stylesText = ['도시지역','관리지역','농립지역','자연환경보전지역','경관지구']; 
+
 		for(var i=0; i<styles.length; i++){
 			html += '<input type="checkbox" name="vworldWMS" class="custom" '+
-					'id="id-'+styles[i]+'" value="'+styles[i]+'" />'+
+					' id="id-'+styles[i]+'" value="'+styles[i]+'" />'+
 					'<label for="id-'+styles[i]+'">'+stylesText[i]+'</label>';
 			if(i!=0 && i%3==0){
 				html+='</fieldset>'+
@@ -43,16 +56,104 @@ var cur_date = new Date();
 		} 
 		html += '</fieldset>'+
 		        '<a href="#" id=wmsButton data-role="button" '+
-		        'onclick=Map.addMap.wmsLayer("'+apiKey+'","vworldWMS")>지도 추가</a>';
+		        'onclick=makeData("'+apiKey+'","vworldWMS")>지도 추가</a>';
 		rootDiv.html(html);
 		rootDiv.trigger("create");  
-	}; 
-	/*
-	hmw.wmsMap.vworld = function(wmsStyle){
-		wmsStyle = $(wmsStyle).attr('data-layer'); 
-		Map.addMap.wmsLayer(wmsStyle);
-	};
-	*/	
+	};  
+	
+	/**
+	 * Seoul Pulbic OpenData User Interface
+	 */ 
+	//TimeAverageAirQuality
+	 hmw.seoulPublicUI = {
+			 divName : '',
+			 apiKey : '',
+			 dateChk : false,
+			 timeChk : false,
+			 visualTypeRadioBtn : function(rootDiv){
+				var html = '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+				var arr = ['chart','map','chartMap'];
+				var arrText = ['차트','맵','차트&맵'];
+				for(var i=0; i<arr.length; i++){ 
+						html += '<input type="radio" name="visradio" class="custom" '+
+								' id="id-'+arr[i]+'" value="'+arr[i]+'"/>'+
+								'<label for="id-'+arr[i]+'">'+arrText[i]+'</label>';
+				} 
+				html += '</fieldset>';		rootDiv.append(html);
+			 },
+			 inputDate : function(rootDiv){
+				var html =  '<label for="dateValue">날짜 : (금일 날짜로 기본 세팅)</label>'+
+							'<input type="date" id="dateValue"/>';
+				rootDiv.append(html);
+				this.dateChk = true; 
+			 },
+			 inputTime : function(rootDiv){
+				var html =  '<label for="timeValue">시간 : (최신 데이터 시간)</label>'+
+							 '<input type="time" id="timeValue">';
+				rootDiv.append(html);
+				this.timeChk = true;
+			 },
+			 inputValueSetting : function(){ 
+				if(this.dateChk) $("#dateValue").attr('value',date.getYYYYMMDD("-"));
+				if(this.timeChk) $("#timeValue").attr('value',date.getHour()+":00");
+			 },
+			 processBtn : function(rootDiv,serviceName){
+					var html = '<a href="#" data-role="button" data-serivce="'+serviceName+'" '+ 
+					 			'onclick="hmw.seoulPublicUI.makeData($(this))">세팅 완료/값 불러오기</a>';
+					rootDiv.append(html);
+			 },  			  
+			 makeData : function(obj){    
+				var visType="", envType="";
+				var visRadio = $("input[name='visradio']:radio");
+				var envRadio = $("input[name='envradio']:radio");
+				visRadio.each(function(i){ 
+					if($(this).is(":checked")){
+						visType=$(this).val(); 
+					}
+				});
+				envRadio.each(function(i){ 
+					if($(this).is(":checked")){
+						envType=$(this).val(); 
+					}
+				}); 
+				$('#'+this.divName).popup("close");
+				hmw.seoulOpenData.env.dataLoad(
+						obj.attr("data-serivce"),
+						this.apiKey,
+						$("#dateValue").val(),
+						$("#timeValue").val(), visType, envType); 
+			 },
+			 /// Services...
+			 environment : function(divName, apiKey){ 
+				$('#'+divName).empty();
+				this.divName = divName;
+				this.dateChk = false, this.timeChk = false;
+				this.apiKey = '6473565a72696e7438326262524174'; 
+				var rootDiv = $('#'+divName);
+				this.visualTypeRadioBtn(rootDiv);
+				this.inputDate(rootDiv);
+				this.inputTime(rootDiv);
+				
+				var html = '<label for="envValue">환경정보:</label>'+
+						   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+				var envType = ['PM10','PM25','SO2','O3','NO2','CO'];
+				for(var i=0; i<envType.length; i++){
+					html += '<input type="radio" name="envradio" class="custom" '+
+					' id="id-'+envType[i]+'" value="'+envType[i]+'"/>'+
+					'<label for="id-'+envType[i]+'">'+envType[i]+'</label>';
+					if(i!=0 && (i+1)%3==0){
+						html+='</fieldset>'+
+							  '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+					}
+				}
+				html += '</fieldset>';		
+				rootDiv.append(html);
+				this.processBtn(rootDiv, "TimeAverageAirQuality");
+				rootDiv.trigger("create");
+				this.inputValueSetting();
+			 }
+	 };
+	
 	///////////////////////////////////////////////////////
 	hmw.geoServerProcess = function(obj){
 		console.log($(obj).attr('data-name')); 
@@ -178,28 +279,7 @@ var cur_date = new Date();
 			else						str +='",';
 		}  
 		return JSON.parse(str); 
-	};//JSON {key:value} 
-	/*
-	hmw.geoServertest = function(obj,GeoJson){
-		console.log($(obj).attr('data-id'));
-		var vectorTemp = new ol.layer.Vector({
-	    	title:$(obj).attr('data-id'),
-	 	   	source: new ol.source.GeoJSON({
-	 	   		projection: 'EPSG:4326',
-	 	   		//url : "loadVector.do",
-	 	   		url : GeoJson
-	 	   		//url : "geoserver-GetFeature1.json"
-	 	   	}), 
-	 	   	style: new ol.style.Style({
-	 		   stroke: new ol.style.Stroke({
-	 			   color:"rgba(255,255,0,1.0)",
-	 			   width:1
-	 		   })
-	 	   })
-	    });
-	    Map.map.addLayer(vectorTemp);
-	};
-	*/
+	};//JSON {key:value}  
 	ajaxNetwork = function(obj, data){
 		$.ajax({
 			type:'POST',
@@ -220,7 +300,7 @@ var cur_date = new Date();
 	
 /**
  * getDate Module About Public Date 
- */	 
+ */	   
 	date.getYear = function(){	return cur_date.getFullYear();	};
 	date.getDate = function(){	return cur_date.getDate();		};
 	date.getMonth= function(){	return cur_date.getMonth();		};
@@ -272,6 +352,5 @@ var cur_date = new Date();
 				zero += '0';
 		}
 	  return zero + n;
-	};	
-	
+	};	 
 })();

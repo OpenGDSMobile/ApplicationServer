@@ -37,6 +37,7 @@
 	<script type="text/javascript" src="js/hmw/EventScript.js"></script>
 	 
 	<script type="text/javascript" src="js/hmw/hmw.js"></script>
+	<script type="text/javascript" src="js/hmw/hmwVworld.js"></script>
 	<script type="text/javascript" src="js/hmw/hmwSeoulOpenData.js"></script>
 	<script type="text/javascript" src="js/hmw/hmwD3.js"></script>
 	 
@@ -60,8 +61,8 @@
 		$('#wmsButton').attr('data-layer',$(obj).attr('value')); 
 	};
 	$(document).ready(function(){ 
- 		$("#dateValue").attr('value',date.getYYYYMMDD("-"));
-		$("#timeValue").attr('value',date.getHour()+":00");
+ 		//$("#dateValue").attr('value',date.getYYYYMMDD("-"));
+		//$("#timeValue").attr('value',date.getHour()+":00");
 		$("#d3View").attr('width',$(window).width()-100);
 		beforeProcess.popupSize("#dataSelect");
 		beforeProcess.popupSize("#vworldList","300px"); 
@@ -71,14 +72,17 @@
 </head>
 <body>  
 <div data-role="page" id="mapview">
-	<!-- Vworld WMS --><!--  data-dismissible="false" -->
-		<div data-role="popup" id="vworldList"  data-overlay-theme="a" style="padding: 15px">
-			<fieldset id="vworldWMSGroup111" data-role="controlgroup" data-type="horizontal" class="egov-align-center">
-				<input type="checkbox" class="custom" id="1" value="1" name="1">
-				<label for="1">eee</label>
-				<input type="checkbox" class="custom" id="2" value="1" name="1">
-				<label for="2">eqqqee</label>
-			</fieldset>
+<!-- Vworld WMS -->
+		<div data-role="popup" 
+		id="vworldList"  
+		data-overlay-theme="a" 
+		style="padding: 15px">
+		</div> 
+<!-- Public Data PopUp --> 
+		<div id="setting" 
+		data-role="popup"  
+		data-overlay-theme="a" 
+		style="width:300px">		
 		</div> 
 	<!-- Data Table 아직... --> 
 		<div data-role="panel" data-display="overlay" data-position="right" id="publicDataView">
@@ -109,62 +113,7 @@
 			<div id="d3View"> </div>		
 		</div> 
 		
-	<!-- Public Data PopUp --> 
-		<div id="setting" data-role="popup" data-dismissible="false" data-overlay-theme="a" style="width:300px">
-		<a href="#" data-rel="back" data-role="button" data-them="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-		<h1 class="egov-align-center">세팅</h1>
-		
-		<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">
-			<input type="checkbox" name="keyValue" id="chkkeyValue" class="custom" checked/>
-			<label for="chkkeyValue">키값</label>
-			<input type="checkbox" name="dateValue" id="chkdateValue" class="custom" checked/>
-			<label for="chkdateValue">날짜</label>
-			<input type="checkbox" name="timeValue" id="chktimeValue" class="custom" checked/>
-			<label for="chktimeValue">시간</label>
-		</fieldset> 
-		
-		<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">
-			<input type="radio" name="visType" id="chart" class="custom"/>
-			<label for="chart">Chart</label>
-			<input type="radio" name="visType" id="map" class="custom" checked/>
-			<label for="map">Map</label>
-			<input type="radio" name="visType" id="chartAndMap" class="custom"/>
-			<label for="chartAndMap">Chart & Map</label>
-		</fieldset> 
-		
-		
-		<!-- key values !!!!!!!!!!!!!!-->
-		<input type="hidden" id="keyValue" data-key="keyValue" value="696e74727564657232303934">			
-		<!-- 4a73434758696e7438316a5146744f - road , 696e74727564657232303934 - env -->
-		
-		<label for="dateValue">날짜 : (금일 날짜로 기본 세팅)</label>
-		<input type="date" id="dateValue" data-key="dateValue"/>
-	
-		<label for="timeValue">시간 : (최신 데이터 시간)</label>
-		<input type="time" id="timeValue" data-key="timeValue"> 
-		
-		
-		<label for="envValue">환경정보:</label>
-		<fieldset data-role="controlgroup" data-type="horizontal">
-		<input type="radio" id="env-radio1" name="env" value="PM10" checked>
-			<label for="env-radio1">PM10</label>
-		<input type="radio" id="env-radio2" name="env" value="PM25">
-			<label for="env-radio2">PM25</label>
-		<input type="radio" id="env-radio3" name="env" value="SO2">
-			<label for="env-radio3">SO2</label>
-		</fieldset>
-		<fieldset data-role="controlgroup" data-type="horizontal"> 
-		<input type="radio" id="env-radio6" name="env" value="O3">
-			<label for="env-radio6">O3</label>
-		<input type="radio" id="env-radio4" name="env" value="NO2">
-			<label for="env-radio4">NO2</label>
-		<input type="radio" id="env-radio5" name="env" value="CO">
-			<label for="env-radio5">CO</label>
-		</fieldset>
-		
-		<a href="#" data-popup="setting" data-role="button" id="serviceName" data-key="serviceName" 
-			data-name="SeoulpublicOpenData" onclick="hmw.publicOpenData(this)">세팅 완료/값 불러오기</a>
-		</div> 
+
 		
 	<!-- Public Data PopUp --> 
 		<div data-role="popup" id="select">
@@ -181,11 +130,11 @@
 					  <a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a>
 					</li>
 					<li data-theme="z" data-role="list-divider">배경 지도</li>
-					<li><a href="#" data-id="osm"  onclick="hmw.baseMap('osm')">OpenStreetMap</a></li>
-					<li><a href="#"  onclick="hmw.baseMap('vworld')">V-World</a></li>
+					<li><a href="#"  onclick="hmw.baseMap('map','osm')">OpenStreetMap</a></li>
+					<li><a href="#"  onclick="hmw.baseMap('map','vworld')">V-World</a></li>
 					<li data-theme="z" data-role="list-divider">WMS</li> 
 					<li><a href="#vworldList"  data-rel="popup" data-position-to="window" 
-					     onclick="hmw.wmsMap.vworld('vworldList','E9CACC10-B443-30E1-9E2E-9E18F49049CA')" >V-World</a></li>
+					     onclick="hmw.wmsMapUI.vworld('vworldList','E9CACC10-B443-30E1-9E2E-9E18F49049CA')" >V-World</a></li>
 					<!-- <li><a href="#vworldList"  data-rel="popup" data-position-to="window" >V-World</a></li>-->
 				</ul>
 		</div>  
@@ -210,7 +159,8 @@
 				<ul data-role="listview">
 					<li data-theme="g" data-icon="delete" style="height: 2.8em;"><a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a></li>
 					<li data-theme="z" data-role="list-divider">서울공공오픈데이터</li>
-					<li><a href="#setting" data-rel="popup" data-position-to="window" data-value="TimeAverageAirQuality" onclick="beforeProcess.popupOpen(this)">실시간 서울 대기환경</a></li>
+					<!-- <li><a href="#setting" data-rel="popup" data-position-to="window" data-value="TimeAverageAirQuality" onclick="beforeProcess.popupOpen(this)">실시간 서울 대기환경</a></li> -->
+					<li><a href="#setting" data-rel="popup" data-position-to="window" onclick="hmw.seoulPublicUI.environment('setting','6473565a72696e7438326262524174')">실시간 서울 대기환경</a></li>
 					<li><a href="#setting" data-rel="popup" data-position-to="window" data-value="RealtimeRoadsideStation"  onclick="beforeProcess.popupOpen(this)">도로변 측정소별 실시간 대기환경</a></li>
 				</ul>
 		</div>  

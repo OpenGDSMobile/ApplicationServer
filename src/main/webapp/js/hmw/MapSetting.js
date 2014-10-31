@@ -9,8 +9,8 @@ var Map = {};
 	Map.windowOrientation = undefined;
 	Map.geolocation = null;
 /**
- * Create Base Map 
- * parameter : Map div, map style(new ol.source.*) 
+ * Create Base Map based on OL3 
+ * parameter : div-> Map div Name , mapStyle -> map style(new ol.source.*) 
  */
 Map.createBaseMap = function(div,mapStyle){ 
 	if(Map.map==null){
@@ -39,31 +39,6 @@ Map.createBaseMap = function(div,mapStyle){
 		}));
 	} 
 };
-
-Map.addMap.wmsLayer = function(apiKey, chkBox){
-	console.log(apiKey);
-	console.log(chkBox);
-	/*
-	var wmslayer = new ol.layer.Tile({
-			source: new ol.source.TileWMS(({
-				url: "http://map.vworld.kr/js/wms.do",
-				params: {
-					domain:'http://localhost',
-  					apiKey:'9E21E5EE-67D4-36B9-85BB-E153321EEE65',
-			//		apiKey:'F65FC751-4918-3760-9218-318D5E3577E0',	//113
-  					LAYERS:mapStyle,
-  					STYLES:mapStyle,
-  					FORMAT:'image/png',
-  					CRS:'EPSG:900913',
-  					EXCEPTIONS:'text/xml',
-  					TRANSPARENT:true
-  					}
-  			}))
-	});
-	Map.map.addLayer(wmslayer);
-	*/
-};
-
 
 Map.adjustedHeading = function(heading) {
 	if (Map.windowOrientation != undefined) {
