@@ -73,17 +73,12 @@
 <div data-role="page" id="mapview">
 	<!-- Vworld WMS --><!--  data-dismissible="false" -->
 		<div data-role="popup" id="vworldList"  data-overlay-theme="a" style="padding: 15px">
-		<!--  <a href="#" data-rel="back" data-role="button" data-them="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>-->
-				키 값 :<input type="text" id="vworldKey" value="E9CACC10-B443-30E1-9E2E-9E18F49049CA">
-				<input id="radio-1" type="radio" name="vworldRadio" value="LT_C_UQ111" onclick="styleChange(this)">
-				<label for="radio-1">도시지역</label>
-				<input id="radio-2" type="radio" name="vworldRadio" value="LT_C_UQ112" onclick="styleChange(this)">
-				<label for="radio-2">관리지역</label>
-				<input id="radio-3" type="radio" name="vworldRadio" value="LT_C_UQ113" onclick="styleChange(this)">
-				<label for="radio-3">농립지역</label>
-				<input id="radio-4" type="radio" name="vworldRadio" value="LT_C_UQ114" onclick="styleChange(this)">
-				<label for="radio-4">자연환경보전지역</label>
-			<a href="#" id=wmsButton data-layer="" data-popup="setting" data-role="button" onclick="hmw.wmsMap.vworld(this)">지도 추가</a>
+			<fieldset id="vworldWMSGroup111" data-role="controlgroup" data-type="horizontal" class="egov-align-center">
+				<input type="checkbox" class="custom" id="1" value="1" name="1">
+				<label for="1">eee</label>
+				<input type="checkbox" class="custom" id="2" value="1" name="1">
+				<label for="2">eqqqee</label>
+			</fieldset>
 		</div> 
 	<!-- Data Table 아직... --> 
 		<div data-role="panel" data-display="overlay" data-position="right" id="publicDataView">
@@ -128,8 +123,18 @@
 			<label for="chktimeValue">시간</label>
 		</fieldset> 
 		
-		<label for="keyValue">Key 값 :</label>
-		<input type="text" id="keyValue" data-key="keyValue" value="696e74727564657232303934">			
+		<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">
+			<input type="radio" name="visType" id="chart" class="custom"/>
+			<label for="chart">Chart</label>
+			<input type="radio" name="visType" id="map" class="custom" checked/>
+			<label for="map">Map</label>
+			<input type="radio" name="visType" id="chartAndMap" class="custom"/>
+			<label for="chartAndMap">Chart & Map</label>
+		</fieldset> 
+		
+		
+		<!-- key values !!!!!!!!!!!!!!-->
+		<input type="hidden" id="keyValue" data-key="keyValue" value="696e74727564657232303934">			
 		<!-- 4a73434758696e7438316a5146744f - road , 696e74727564657232303934 - env -->
 		
 		<label for="dateValue">날짜 : (금일 날짜로 기본 세팅)</label>
@@ -179,7 +184,9 @@
 					<li><a href="#" data-id="osm"  onclick="hmw.baseMap('osm')">OpenStreetMap</a></li>
 					<li><a href="#"  onclick="hmw.baseMap('vworld')">V-World</a></li>
 					<li data-theme="z" data-role="list-divider">WMS</li> 
-					<li><a href="#vworldList"  data-rel="popup" data-position-to="window" >V-World</a></li>
+					<li><a href="#vworldList"  data-rel="popup" data-position-to="window" 
+					     onclick="hmw.wmsMap.vworld('vworldList','E9CACC10-B443-30E1-9E2E-9E18F49049CA')" >V-World</a></li>
+					<!-- <li><a href="#vworldList"  data-rel="popup" data-position-to="window" >V-World</a></li>-->
 				</ul>
 		</div>  
 	<!-- List Panel -->
@@ -214,6 +221,8 @@
 		<!-- <a href="logout.do" data-role="button" data-theme="g" >로그아웃</a> -->
 		<a href="#publicDataView" data-role="button" data-theme="g" >공공오픈데이터</a>
 	</div>	
+	
+	<!-- Map Div -->
 	<div data-role="content" style="padding:0; margin:0;">
 		<div id="map" style="padding:0; margin:0;">
 		</div>		

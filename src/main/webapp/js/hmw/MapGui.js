@@ -22,12 +22,10 @@ Gui.updateLayout = function(){
 
 //Default Projection : EPSG:3857
 Gui.initViewer = function(){
-	Gui.updateLayout();
-	
+	Gui.updateLayout(); 
 	$(window).on('resize',function(){
 		Gui.updateLayout();
-	});
-	
+	}); 
 	$(window).on('orientationchange', function(e) {
 	    Map.setWindowOrientation(window.orientation);
 	});   
@@ -39,8 +37,13 @@ Gui.initViewer = function(){
 	});
 	ol.proj.addProjection(projection); 
 	
-	hmw.baseMap('osm');
-	//Map.createMap();
+	
+	/**
+	 * parameter
+	 */
+	hmw.baseMap('map','osm');
+
+	
 	Map.centerOnLocation();  
 	
 	/**

@@ -1,14 +1,18 @@
 var styleCache = {};
 var Map = {};
-	Map.map = null; 
+	Map.map = null;
+	Map.addMap = {};
 	Map.minResolution = null;
 	Map.layers = {};
 	
 	Map.deviceOrientation = null;
 	Map.windowOrientation = undefined;
 	Map.geolocation = null;
-
-Map.createMap = function(mapStyle){ 
+/**
+ * Create Base Map 
+ * parameter : Map div, map style(new ol.source.*) 
+ */
+Map.createBaseMap = function(div,mapStyle){ 
 	if(Map.map==null){
 		Map.layers.baselayer = new ol.layer.Tile({
 								title: 'basemap',
@@ -16,9 +20,9 @@ Map.createMap = function(mapStyle){
 								});
 		Map.map = new ol.Map({
 			layers:[Map.layers.baselayer], 
-			target: 'map',
+			target: div,
 			view : new ol.View(Config.map.viewOptions) 
-		}); 
+		});  
 		Map.map.getView().on('change:rotation',function(){
 			$.event.trigger({type:'maprotation',rotation:Map.map.getView().getRotation()});
 		});
@@ -26,7 +30,7 @@ Map.createMap = function(mapStyle){
 			if(Map.map.getView().getResolution() < Map.minResolution){
 				Map.map.getView().setResolution(Map.minResolution);
 			}
-		});
+		}); 
 	}else{	  
 		Map.map.removeLayer(Map.layers.baselayer);
 		Map.map.addLayer(Map.layers.baselayer=new ol.layer.Tile({
@@ -36,7 +40,10 @@ Map.createMap = function(mapStyle){
 	} 
 };
 
-Map.createMap.wmsLayer = function(mapStyle){  
+Map.addMap.wmsLayer = function(apiKey, chkBox){
+	console.log(apiKey);
+	console.log(chkBox);
+	/*
 	var wmslayer = new ol.layer.Tile({
 			source: new ol.source.TileWMS(({
 				url: "http://map.vworld.kr/js/wms.do",
@@ -54,7 +61,7 @@ Map.createMap.wmsLayer = function(mapStyle){
   			}))
 	});
 	Map.map.addLayer(wmslayer);
-	
+	*/
 };
 
 

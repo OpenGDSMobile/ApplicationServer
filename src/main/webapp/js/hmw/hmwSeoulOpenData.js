@@ -1,4 +1,4 @@
-hmw.seoulOpenData = {}; 
+hmw.seoulOpenData = { }; 
 
 hmw.seoulOpenData.request = {
 		

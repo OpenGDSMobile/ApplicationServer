@@ -7,22 +7,52 @@ var hmw = {};
 var date = {};
 var cur_date = new Date(); 
 (function(){ 
-	hmw.baseMap = function(mapStyle){ 
+	/**
+	 * 
+	 */
+	hmw.baseMap = function(div, mapStyle){ 
 		var mapType=null;
-		if(mapStyle =='osm'){
-			mapType = new ol.source.OSM();
+		if(mapStyle =='osm'){	
+			mapType = new ol.source.OSM();		
 		}
 		else if(mapStyle=='vworld'){
 			mapType = new ol.source.XYZ(({
   				url : "http://xdworld.vworld.kr:8080/2d/Base/201310/{z}/{x}/{y}.png"
   			}));
 		} 
-		Map.createMap(mapType); 
+		//OpenLayers 3 
+		Map.createBaseMap(div, mapType); 
+	};  
+
+	/**
+	 * 
+	 */
+	hmw.wmsMap.vworld = function(divName, apiKey){
+		var rootDiv = $('#'+divName);
+		var html = 'Select Max 5<br><fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+		var styles = ['LT_C_UQ111','LT_C_UQ112','LT_C_UQ113','LT_C_UQ114','LT_C_UQ121'];
+		var stylesText = ['도시지역','관리지역','농립지역','자연환경보전지역','자연환경보전지역11']; 
+		for(var i=0; i<styles.length; i++){
+			html += '<input type="checkbox" name="vworldWMS" class="custom" '+
+					'id="id-'+styles[i]+'" value="'+styles[i]+'" />'+
+					'<label for="id-'+styles[i]+'">'+stylesText[i]+'</label>';
+			if(i!=0 && i%3==0){
+				html+='</fieldset>'+
+					  '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+			}
+		} 
+		html += '</fieldset>'+
+		        '<a href="#" id=wmsButton data-role="button" '+
+		        'onclick=Map.addMap.wmsLayer("'+apiKey+'","vworldWMS")>지도 추가</a>';
+		rootDiv.html(html);
+		rootDiv.trigger("create");  
 	}; 
+	/*
 	hmw.wmsMap.vworld = function(wmsStyle){
 		wmsStyle = $(wmsStyle).attr('data-layer'); 
-		Map.createMap.wmsLayer(wmsStyle);
-	};	
+		Map.addMap.wmsLayer(wmsStyle);
+	};
+	*/	
 	///////////////////////////////////////////////////////
 	hmw.geoServerProcess = function(obj){
 		console.log($(obj).attr('data-name')); 

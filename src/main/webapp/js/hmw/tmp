@@ -1,4 +1,19 @@
 
+ 
+				<input id="radio-1" type="radio" name="vworldRadio" value="LT_C_UQ111" onclick="styleChange(this)">
+				<label for="radio-1">도시지역</label>
+				<input id="radio-2" type="radio" name="vworldRadio" value="LT_C_UQ112" onclick="styleChange(this)">
+				<label for="radio-2">관리지역</label>
+				<input id="radio-3" type="radio" name="vworldRadio" value="LT_C_UQ113" onclick="styleChange(this)">
+				<label for="radio-3">농립지역</label>
+				<input id="radio-4" type="radio" name="vworldRadio" value="LT_C_UQ114" onclick="styleChange(this)">
+				<label for="radio-4">자연환경보전지역</label>
+			<a href="#" id=wmsButton data-layer="" data-popup="setting" data-role="button" onclick="hmw.wmsMap.vworld(this)">지도 추가</a>
+ 
+		 
+		 
+		 
+		 
 	extent = Map.map.getView().calculateExtent(Map.map.getSize());
 	console.log(extent);
 	parseResponse = function(features){
