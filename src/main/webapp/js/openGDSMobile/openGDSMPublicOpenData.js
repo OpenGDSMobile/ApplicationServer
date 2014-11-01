@@ -1,0 +1,1 @@
+openGDSM.publicOpenData = {}; 
