@@ -141,8 +141,7 @@ var cur_date = new Date();
 						$("#dateValue").val(),
 						$("#timeValue").val(), visType, envType); 
 			 },
-			 getLayers : function(){
-				 console.log(this.mapLayers.length);
+			 getLayers : function(){ 
 				 data = {ws:'opengds'};
 				 if(this.mapLayers){
 					 $.ajax({
