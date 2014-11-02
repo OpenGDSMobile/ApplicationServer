@@ -162,6 +162,11 @@ var cur_date = new Date();
 			 mapSelect : function(obj){  
 				 if(obj.val()=='map'){
 					 console.log(this.mapLayers);
+					 console.log(this.mapLayers);
+				 }
+				 //Only Chart
+				 else{
+					 
 				 }
 			 },
 			 /// TimeAverageAirQuality Service...
