@@ -118,6 +118,13 @@
 		</dependency>  
 		
 		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901-1.jdbc4</version>
+		</dependency>
+		
+		<!-- geoserver manager -->
+		<dependency>
 			<groupId>it.geosolutions</groupId>
    			<artifactId>geoserver-manager</artifactId>
 			<version>1.6.0</version>
