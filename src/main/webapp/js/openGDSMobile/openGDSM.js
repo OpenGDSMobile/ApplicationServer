@@ -98,6 +98,7 @@ var cur_date = new Date();
 								'<label for="id-'+arr[i]+'">'+arrText[i]+'</label>';
 				} 
 				html += '</fieldset>';		rootDiv.append(html);
+				rootDiv.append('<div id="wfsMap"></div>');
 			 },
 			 inputDate : function(rootDiv){
 				var html =  '<label for="dateValue">날짜 : </label>'+
@@ -134,12 +135,13 @@ var cur_date = new Date();
 						envType=$(this).val(); 
 					}
 				}); 
-				$('#'+this.divName).popup("close");
+				$('#'+this.divName).popup("close"); 
 				openGDSM.seoulOpenData.env.dataLoad(
 						obj.attr("data-serivce"),
-						this.apiKey,
+						this.apiKey, visType, envType, 
+						$("select[name=geoServerMap]").val(), 
 						$("#dateValue").val(),
-						$("#timeValue").val(), visType, envType); 
+						$("#timeValue").val()); 
 			 },
 			 getLayers : function(){ 
 				 data = {ws:'opengds'};
@@ -159,14 +161,27 @@ var cur_date = new Date();
 					}); 
 				 } 
 			 },
-			 mapSelect : function(obj){  
-				 if(obj.val()=='map'){
-					 console.log(this.mapLayers);
-					 console.log(this.mapLayers);
+			 mapSelect : function(obj){
+				 var mapSelect = $('#wfsMap'); 
+				 if(mapSelect.is(':empty')){
+					 if(obj.val()=='map' || obj.val()=='mapChart'){
+						 var html = '<div data-role="fieldcontain">'+
+						 			'<select name="geoServerMap" id="geoserverSelectBox">';
+						 for(var i=0; i<this.mapLayers.length; i++){
+							 html += '<option value="'+this.mapLayers[i]+'"';
+							 if(i==0) html+=' selected';							 
+							 html += '>'+this.mapLayers[i]+'</option>';
+						 }
+						 html +='</select>';
+						 mapSelect.append(html);
+						 mapSelect.trigger("create");
+					 }
 				 }
 				 //Only Chart
 				 else{
-					 
+					if(obj.val()=='chart'){
+						mapSelect.empty();
+					} 
 				 }
 			 },
 			 /// TimeAverageAirQuality Service...

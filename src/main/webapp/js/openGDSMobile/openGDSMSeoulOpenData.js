@@ -1,9 +1,12 @@
 openGDSM.seoulOpenData = { };  
+var styleCache = {};
+
 openGDSM.seoulOpenData.env = {
 	key : "6473565a72696e7438326262524174",
 	serviceName : '',
 	envType : '',
 	visType : '',
+	mapLayer : '',
 	colorRange : ["#4C4Cff","#9999FF","#4cff4c","#99ff99","#FFFF00","#FFFF99","#FF9900","#FF0000"],
 	PM10Range : [15,30,55,80,100,120,200],
 	PM25Range : [15,30,55,80,100,120,200],
@@ -11,17 +14,19 @@ openGDSM.seoulOpenData.env = {
 	NO2Range : [0.015,0.03,0.05,0.06,0.1045,0.15,0.2],
 	SO2Range : [0.01,0.02,0.035,0.05,0.075,0.1,0.15],
 	O3Range : [0.02,0.04,0.06,0.08,0.10,0.12,0.3], 
-	dataLoad : function(serviceName,apiKey,dateValue,timeValue, visType, envType){
-		this.serviceName = serviceName;
+	dataLoad : function(serviceName,apiKey, visType, envType, mapLayer, dateValue, timeValue){
+		mapLayer = (typeof(mapLayer) !== 'undefined') ? mapLayer : "";
 		dateValue = (typeof(dateValue) !== 'undefined') ? dateValue : "";
 		timeValue = (typeof(timeValue) !== 'undefined') ? timeValue : "";
-		var data = '{"serviceName":"'+serviceName+'",'+
-				   ' "keyValue":"'+apiKey+'",'+					
-				   '"dateValue":'+'"'+dateValue+'",'+
-				   '"timeValue":'+'"'+timeValue+'"}';
-		data=JSON.parse(data);
+		this.serviceName = serviceName;
 		this.envType = envType;
 		this.visType = visType;
+		this.mapLayer = mapLayer;
+		var data = '{"serviceName":"'+serviceName+'",'+
+		   			' "keyValue":"'+apiKey+'",'+					
+		   			'"dateValue":'+'"'+dateValue+'",'+
+		   			'"timeValue":'+'"'+timeValue+'"}';
+			data=JSON.parse(data);
 		$.ajax({
 			type:'POST',
 			url:'EnvironmentSeoulData.do',
@@ -57,15 +62,17 @@ openGDSM.seoulOpenData.env = {
 			envRange = openGDSM.seoulOpenData.env.SO2Range;
 		else if(this.envType=="O3")
 			envRange = openGDSM.seoulOpenData.env.O3Range;  
-		openGDSM.d3.barchart('d3View',xyData,this.colorRange,envRange); 
-		//향후 클라이언트에서 나누는것이 아닌 서버에서 모든 작업 후...
+		openGDSM.d3.barchart('d3View',xyData,this.colorRange,envRange);  
+		
+		
 	},
 	/**
 	 * SeoupOpenData Environment Data OpenLayers Style
 	 */ 
-	mapVisual: function(data){ 
-		
-		var envRange=[];  
+	mapVisual: function(data){  
+		var envRange=[];
+		var envMap=null;
+		var curMaps=null;
 		var xyData=this.xydivision(data[this.serviceName], this.envType, 'MSRSTE_NM');
 		if(this.envType=="PM10")
 			envRange = openGDSM.seoulOpenData.env.PM10Range;
@@ -79,9 +86,42 @@ openGDSM.seoulOpenData.env = {
 			envRange = openGDSM.seoulOpenData.env.SO2Range;
 		else if(this.envType=="O3")
 			envRange = openGDSM.seoulOpenData.env.O3Range; 
+		openGDSMGeoserver.wfs(Map.map, 'http://113.198.80.9/','opengds',this.mapLayer);
 		
-		
-		
+		curMaps = Map.map.getLayers().getArray();
+		for(var i=0; i<curMaps.length; i++){
+			if( curMaps[i].get('title') == this.mapLayer){
+				envMap = curMaps[i];
+			}
+		} 
+		envMap.setStyle(function(f,r){  
+			var text = r < 5000 ? f.get('SIG_KOR_NM') : ''; 
+			if(!styleCache[text]){ 
+				var color = '';
+				for(var i=0; i<xyData[1].length; i++){
+					if(text==xyData[1][i]){
+						for(var j=0; j<envRange.length; j++){
+							if( xyData[0][i] <= envRange[j] ){ 
+								color = openGDSM.seoulOpenData.env.colorRange[j];
+								break;
+							}
+						}
+					}
+				}
+				console.log(text+' '+color);
+				styleCache[text] = [new ol.style.Style({
+					fill : new ol.style.Fill({
+						color : color
+					}),
+					stroke : new ol.style.Stroke({
+						color : '#000000',
+						width : 1
+					})
+				})];
+			}
+			return styleCache[text];  
+		});
+		envMap.setOpacity(0.6);
 	},
 	chartMapVisual: function(data){
 		console.log('map Chart');
