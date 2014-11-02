@@ -22,7 +22,7 @@ public class PublicOpenDataController {
 	SeoulPublicDataService pds;
 	
 	@RequestMapping(headers="Content-Type=application/json", 
-			value="/SeoulpublicOpenData.do",method=RequestMethod.POST)
+			value="/EnvironmentSeoulData.do",method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> seoulPublic(@RequestBody String JSONData){ 
 		Map<String, Object> message = new HashMap<String, Object>();
 		
@@ -39,6 +39,5 @@ public class PublicOpenDataController {
 			message.put("data", null);
 			return message;
 		} 
-	}  
-	
+	}   
 }

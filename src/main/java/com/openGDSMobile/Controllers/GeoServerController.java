@@ -18,8 +18,7 @@ public class GeoServerController {
 	@Autowired
 	GeoManagerService geomanager; 
 	
-	@RequestMapping(headers="Content-Type=application/json", value="/createWorkspace.do",
-					method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value="/createWorkspace.do")
 	public @ResponseBody Map<String, Object> workspaceCreate(@RequestBody String JSONData){ 
 		Map<String, Object> message = new HashMap<String, Object>();
 		try { 
@@ -36,10 +35,20 @@ public class GeoServerController {
 	}  
 	
 	@RequestMapping(value="/getLayerNames.do")
-	public @ResponseBody List<String> getLayerNames(@RequestBody String data){
-		
-		
-		return null;
+	public @ResponseBody Map<String, Object> getLayerNames(@RequestBody String data){ 
+		Map<String, Object> message = new HashMap<String, Object>(); 
+		try { 
+			message.put("result", "OK");
+			message.put("message", null); 
+			message.put("data", geomanager.getLayerNames("opengds")); 
+			return message;			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			message.put("result", "ERROR");
+			message.put("message", e.getMessage());
+			message.put("data", null);
+			return message;
+		}  
 	}
 	
 	

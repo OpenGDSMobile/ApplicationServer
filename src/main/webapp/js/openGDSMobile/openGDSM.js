@@ -4,12 +4,13 @@
  */
 var openGDSM = {};
 	openGDSM.wmsMapUI = {};
+	openGDSM.wfsMap ={};
 var date = {};
 var cur_date = new Date(); 
 (function(){ 
 	/**
 	 * base Map Setting
-	 * Parameter : divName -> Map div Name, mapStyle -> osm , vworld
+	 * Parameter : divName -> Map div Name,     mapStyle -> osm , vworld
 	 */
 	openGDSM.baseMap = function(divName, mapStyle){ 
 		var mapType=null;
@@ -25,7 +26,7 @@ var cur_date = new Date();
 	/**  // F65FC751-4918-3760-9218-318D5E3577E0   //60
 	 * Vworld WMS API User Interface 
 	 * Parameter : divName -> UI div Name, apiKey->Vworld APIKey
-	 */
+	 */ 
 	openGDSM.wmsMapUI.vworld = function(divName, apiKey){
 		makeData = function(apiKey, chkName){
 			var selectedData = "";
@@ -37,8 +38,8 @@ var cur_date = new Date();
 				}
 			});
 			selectedData = selectedData.slice(0,-1);
-			openGDSM.vworld.wmsAPI(Map.map, apiKey, selectedData);
-		};
+			openGDSM.vWorld.wmsAPI(Map.map, apiKey, selectedData);
+		}; 
 		apiKey = "9E21E5EE-67D4-36B9-85BB-E153321EEE65";
 		var rootDiv = $('#'+divName);
 		var html = 'Select Max 5<br><fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
@@ -60,7 +61,22 @@ var cur_date = new Date();
 		rootDiv.html(html);
 		rootDiv.trigger("create");  
 	};  
-	
+	/**
+	 * geoServer WFS value Setting
+	 * parameter : url, workspace, layername, color, width
+	 */
+	//openGDSM.wfsMap.geoserver = function(url,workspace,layerName,color,width){
+	openGDSM.wfsMap.geoserver = function(layerName){
+		var url = "http://113.198.80.9/",
+			workspace = 'opengds',
+			layerName = 'Seoul_si',
+			r = Math.floor(Math.random()*256),
+			g = Math.floor(Math.random()*256),
+			b = Math.floor(Math.random()*256),
+			color ='rgba('+r+','+g+','+b+',0.7)',
+			width = 1;
+		openGDSMGeoserver.wfs(Map.map, url, workspace, layerName, color, width);		
+	}; 
 	/**
 	 * Seoul Pulbic OpenData User Interface
 	 */ 
@@ -68,6 +84,7 @@ var cur_date = new Date();
 	 openGDSM.seoulPublicUI = {
 			 divName : '',
 			 apiKey : '',
+			 mapLayers : [],
 			 dateChk : false,
 			 timeChk : false,
 			 visualTypeRadioBtn : function(rootDiv){
@@ -76,19 +93,20 @@ var cur_date = new Date();
 				var arrText = ['차트','맵','차트&맵'];
 				for(var i=0; i<arr.length; i++){ 
 						html += '<input type="radio" name="visradio" class="custom" '+
-								' id="id-'+arr[i]+'" value="'+arr[i]+'"/>'+
+								' id="id-'+arr[i]+'" value="'+arr[i]+
+								'" onclick="openGDSM.seoulPublicUI.mapSelect($(this))"/>'+
 								'<label for="id-'+arr[i]+'">'+arrText[i]+'</label>';
 				} 
 				html += '</fieldset>';		rootDiv.append(html);
 			 },
 			 inputDate : function(rootDiv){
-				var html =  '<label for="dateValue">날짜 : (금일 날짜로 기본 세팅)</label>'+
+				var html =  '<label for="dateValue">날짜 : </label>'+
 							'<input type="date" id="dateValue"/>';
 				rootDiv.append(html);
 				this.dateChk = true; 
 			 },
 			 inputTime : function(rootDiv){
-				var html =  '<label for="timeValue">시간 : (최신 데이터 시간)</label>'+
+				var html =  '<label for="timeValue">시간 : </label>'+
 							 '<input type="time" id="timeValue">';
 				rootDiv.append(html);
 				this.timeChk = true;
@@ -99,9 +117,9 @@ var cur_date = new Date();
 			 },
 			 processBtn : function(rootDiv,serviceName){
 					var html = '<a href="#" data-role="button" data-serivce="'+serviceName+'" '+ 
-					 			'onclick="openGDSM.seoulPublicUI.makeData($(this))">세팅 완료/값 불러오기</a>';
+					 			'onclick="openGDSM.seoulPublicUI.makeData($(this))">Visualization</a>';
 					rootDiv.append(html);
-			 },  			  
+			 },   
 			 makeData : function(obj){    
 				var visType="", envType="";
 				var visRadio = $("input[name='visradio']:radio");
@@ -123,8 +141,33 @@ var cur_date = new Date();
 						$("#dateValue").val(),
 						$("#timeValue").val(), visType, envType); 
 			 },
-			 /// Services...
-			 environment : function(divName, apiKey){ 
+			 getLayers : function(){
+				 console.log(this.mapLayers.length);
+				 data = {ws:'opengds'};
+				 if(this.mapLayers){
+					 $.ajax({
+							type:'POST',
+							url:'getLayerNames.do',
+							data: JSON.stringify(data), 
+							contentType : "application/json;charset=UTF-8",
+							dataType : 'json',
+							success:function(msg){
+								openGDSM.seoulPublicUI.mapLayers = msg.data;
+							},
+							error:function(){
+								console.log("err");
+							}
+					}); 
+				 } 
+			 },
+			 mapSelect : function(obj){  
+				 if(obj.val()=='map'){
+					 console.log(this.mapLayers);
+				 }
+			 },
+			 /// TimeAverageAirQuality Service...
+			 areaEnv : function(divName, apiKey){ 
+				this.getLayers();
 				$('#'+divName).empty();
 				this.divName = divName;
 				this.dateChk = false, this.timeChk = false;
@@ -151,8 +194,42 @@ var cur_date = new Date();
 				this.processBtn(rootDiv, "TimeAverageAirQuality");
 				rootDiv.trigger("create");
 				this.inputValueSetting();
+			 },
+			 //RealtimeRoadsideStation Service
+			 roadEnv : function(divName, apiKey){
+					this.getLayers();
+					$('#'+divName).empty(); 
+					this.divName = divName;
+					this.dateChk = false, this.timeChk = false;
+					this.apiKey = '4b56506967696e7437317348694371';
+				 	var rootDiv = $('#'+this.divName); 
+					this.visualTypeRadioBtn(rootDiv);  
+							
+					var html = '<label for="envValue">환경정보:</label>'+
+							   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+					var envType = ['PM10','PM25','SO2','O3','NO2','CO'];
+					for(var i=0; i<envType.length; i++){
+						html += '<input type="radio" name="envradio" class="custom" '+
+						' id="id-'+envType[i]+'" value="'+envType[i]+'"/>'+
+						'<label for="id-'+envType[i]+'">'+envType[i]+'</label>';
+						if(i!=0 && (i+1)%3==0){
+							html+='</fieldset>'+
+								  '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+						}
+					} 
+					html += '</fieldset>';		
+					rootDiv.append(html);
+					this.processBtn(rootDiv, "RealtimeRoadsideStation");
+					rootDiv.trigger("create");
+					this.inputValueSetting(); 
 			 }
 	 }; 
+	 
+	 
+	 
+	 
+	 
+	 
 	 
 	 
 	 
@@ -299,6 +376,8 @@ var cur_date = new Date();
 		}); 
 	};
 
+	
+	
 	
 /**
  * getDate Module About Public Date 

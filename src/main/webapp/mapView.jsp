@@ -18,6 +18,10 @@
 	<script type="text/javascript" src="js/egovframework/mbl/cmm/EgovMobile-1.3.2.js"></script>
 	<link rel="stylesheet" href="css/egovframework/mbl/cmm/EgovMobile-1.3.2.css">
 	 
+	
+	<!-- Proj4js -->
+	<script type="text/javascript" src="js/proj4js/2.2.2/proj4.js"></script>
+	 
 	<!-- OpenLayers 3 -->
 	<script type="text/javascript" src="js/ol3/ol.js"></script>
 	<link type="text/css" rel="stylesheet" href="css/ol3/ol.css">  
@@ -35,7 +39,6 @@
 	<script type="text/javascript" src="js/openGDSMobile/openGDSMSeoulOpenData.js"></script>
 	<script type="text/javascript" src="js/openGDSMobile/openGDSMD3.js"></script>
 	<script type="text/javascript" src="js/openGDSMobile/openGDSMGeoserver.js"></script>
-	
 	 
 	
 	<title>Map Select</title>
@@ -56,7 +59,9 @@
 	styleChange = function(obj){
 		$('#wmsButton').attr('data-layer',$(obj).attr('value')); 
 	};
-	$(document).ready(function(){  
+	$(document).ready(function(){ 
+ 		//$("#dateValue").attr('value',date.getYYYYMMDD("-"));
+		//$("#timeValue").attr('value',date.getHour()+":00");
 		$("#d3View").attr('width',$(window).width()-100);
 		beforeProcess.popupSize("#dataSelect");
 		beforeProcess.popupSize("#vworldList","300px"); 
@@ -105,7 +110,9 @@
               			</table> 
             </div>
 			<div id="d3View"> </div>		
-		</div>  
+		</div> 
+		
+
 		
 	<!-- Public Data PopUp --> 
 		<div data-role="popup" id="select">
@@ -126,7 +133,7 @@
 					<li><a href="#"  onclick="openGDSM.baseMap('map','vworld')">V-World</a></li>
 					<li data-theme="z" data-role="list-divider">WMS</li> 
 					<li><a href="#vworldList"  data-rel="popup" data-position-to="window" 
-					     onclick='openGDSM.wmsMapUI.vworld("vworldList","9E21E5EE-67D4-36B9-85BB-E153321EEE65")'>V-World</a></li>
+					     onclick="openGDSM.wmsMapUI.vworld('vworldList','E9CACC10-B443-30E1-9E2E-9E18F49049CA')" >V-World</a></li>
 					<!-- <li><a href="#vworldList"  data-rel="popup" data-position-to="window" >V-World</a></li>-->
 				</ul>
 		</div>  
@@ -136,15 +143,12 @@
 					<li data-theme="g" data-icon="delete" style="height: 2.8em;"><a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a></li>
 					<li data-theme="z" data-role="list-divider">기본 제공 데이터</li>
 						<li><a href="#" data-id="Seoul_si" data-name="loadVector" onclick="openGDSM.wfsMap.geoserver('Seoul_si')">서울특별시</a></li>
-						
-						<!-- 
 						<li><a href="#" data-id="Incheon_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">인천광역시</a></li>
 						<li><a href="#" data-id="Gyeonggi_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">경기도</a></li>
 						<li><a href="#" data-id="Sejong_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">세종시</a></li>
 						<li><a href="#" data-id="Chungcheongnam_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">충청남도</a></li>
 						<li><a href="#" data-id="Jellanam_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">전라남도</a></li>
 						<li><a href="#" data-id="Busan_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">부산</a></li>
-						 -->
 				<!--<li data-theme="z" data-role="list-divider">사용자 업로드 데이터</li>
 				 	<li><a href="#" data-key="workspaceName" data-value="user" data-name="createWorkspace" onclick="openGDSM.geoServerProcess(this)">test</a></li> -->  
 				</ul>
@@ -154,9 +158,9 @@
 				<ul data-role="listview">
 					<li data-theme="g" data-icon="delete" style="height: 2.8em;"><a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a></li>
 					<li data-theme="z" data-role="list-divider">서울공공오픈데이터</li>
-					<!-- <li><a href="#setting" data-rel="popup" data-position-to="window" data-value="TimeAverageAirQuality" onclick="beforeProcess.popupOpen(this)">실시간 서울 대기환경</a></li> -->
-					<li><a href="#setting" data-rel="popup" data-position-to="window" onclick="openGDSM.seoulPublicUI.environment('setting','6473565a72696e7438326262524174')">실시간 서울 대기환경</a></li>
-					<li><a href="#setting" data-rel="popup" data-position-to="window" data-value="RealtimeRoadsideStation"  onclick="beforeProcess.popupOpen(this)">도로변 측정소별 실시간 대기환경</a></li>
+					<li><a href="#setting" data-rel="popup" data-position-to="window" onclick="openGDSM.seoulPublicUI.areaEnv('setting','6473565a72696e7438326262524174')">실시간 서울 대기환경</a></li>
+					<li><a href="#setting" data-rel="popup" data-position-to="window" onclick="openGDSM.seoulPublicUI.roadEnv('setting','4b56506967696e7437317348694371')">
+					도로변 측정소별 실시간 대기환경</a></li>
 				</ul>
 		</div>  
 	
