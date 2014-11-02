@@ -3,7 +3,7 @@
   <display-name>HMW_</display-name>
   <welcome-file-list>
   	<welcome-file>index.jsp</welcome-file>
-    <welcome-file>main.jsp</welcome-file>
+    <welcome-file>mapView.jsp</welcome-file>
   </welcome-file-list>
   <context-param>
     <param-name>contextConfigLocation</param-name>
