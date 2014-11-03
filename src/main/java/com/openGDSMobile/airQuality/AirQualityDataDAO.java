@@ -1,4 +1,4 @@
-package com.hmw.airQuality;
+package com.openGDSMobile.airQuality;
 
 public interface AirQualityDataDAO {
 

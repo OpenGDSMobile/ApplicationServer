@@ -1,4 +1,4 @@
-package com.hmw.airQuality;
+package com.openGDSMobile.airQuality;
 
 import java.io.File;
 import java.io.FileNotFoundException;
