@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,10 +34,28 @@ public class AirQualityDataDAOImp implements AirQualityDataDAO {
 			File aqmFolder = new File(aqmHome);
 			if (aqmFolder.exists() && aqmFolder.isDirectory()) {
 			   System.out.println("aqm directory exists");
+			   
+			   String resultHome = "/var/www/html/aqm/resultImages";
+				String tempHome = "/var/www/html/aqm/images";
+				
+				File resultHomeFolder = new File(resultHome);
+				File tempHomeFolder   = new File(tempHome);
+				
+				resultHomeFolder.mkdir();
+				tempHomeFolder.mkdir();
 			}
 			else{
 				System.out.println("aqm directory not exists");
 				aqmFolder.mkdir();
+				
+				String resultHome = "/var/www/html/aqm/resultImages";
+				String tempHome = "/var/www/html/aqm/images";
+				
+				File resultHomeFolder = new File(resultHome);
+				File tempHomeFolder   = new File(tempHome);
+				
+				resultHomeFolder.mkdir();
+				tempHomeFolder.mkdir();
 			}
 			
 			for(int mk=0; mk<airEnvironmentVariables.length; mk++)
@@ -82,12 +101,20 @@ public class AirQualityDataDAOImp implements AirQualityDataDAO {
 		        String e_grid = "gdal_grid -zfield \"Elevation\" -a_srs EPSG:4326 -txe 126.764 127.184  -tye 37.4285 37.7014 -of GTiff -l " + target + " " + aqmHome + "/" + target + ".vrt" + " " + aqmHome + "/images/" + target + "_init.tif";
 		        Process p = rt.exec(new String[]{"bash","-c", e_grid});
 		        p.waitFor();
+		       
 		        
-		        String e_relief = "gdaldem color-relief " + aqmHome + "/images/" + target + "_init.tif " + aqmHome + "/color/" + target +"_color_code.txt " + aqmHome + "/images/" + target + "_relief.tif";
+		        URL colorTableLocation = this.getClass().getResource("/colorTables/" + target + "_color_code.txt"); 
+		        String colorTableFullPath = colorTableLocation.getPath();
+		        
+		        String e_relief = "gdaldem color-relief " + aqmHome + "/images/" + target + "_init.tif " + colorTableFullPath + " " + aqmHome + "/images/" + target + "_relief.tif";
 		        p = rt.exec(new String[]{"bash","-c", e_relief});
 		        p.waitFor();
 		        
-		        String e_warp = "gdalwarp -cutline " + aqmHome + "/shp/wgs.shp -overwrite -tr 10 10 -dstnodata -99999 -s_srs EPSG:4326 -t_srs EPSG:3857 " + aqmHome + "/images/" + target + "_relief.tif " + aqmHome + "/images/" + target + ".tif";   
+		        URL shpLocation = this.getClass().getResource("/shpResource/wgs.shp"); 
+		        String seoulBoundShpFullPath = shpLocation.getPath();
+		        
+		        String e_warp = "gdalwarp -cutline " + seoulBoundShpFullPath + " -overwrite -tr 10 10 -dstnodata -99999 -s_srs EPSG:4326 -t_srs EPSG:3857 " + aqmHome + "/images/" + target + "_relief.tif " + aqmHome + "/images/" + target + ".tif";
+		        //String e_warp = "gdalwarp -cutline " + aqmHome + "/shp/wgs.shp -overwrite -tr 10 10 -dstnodata -99999 -s_srs EPSG:4326 -t_srs EPSG:3857 " + aqmHome + "/images/" + target + "_relief.tif " + aqmHome + "/images/" + target + ".tif";
 		        p = rt.exec(new String[]{"bash","-c", e_warp});
 		        p.waitFor();
 		        
@@ -95,9 +122,6 @@ public class AirQualityDataDAOImp implements AirQualityDataDAO {
 		        p = rt.exec(new String[]{"bash","-c", e_translate});
 		        p.waitFor();
 			}
-			
-			
-	        
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
