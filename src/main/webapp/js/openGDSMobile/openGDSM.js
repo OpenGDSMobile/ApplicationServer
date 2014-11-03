@@ -4,7 +4,7 @@
  */
 var openGDSM = {};
 	openGDSM.wmsMapUI = {};
-	openGDSM.wfsMap ={};
+	openGDSM.wfsMap ={}; 
 var date = {};
 var cur_date = new Date(); 
 (function(){ 
@@ -87,14 +87,16 @@ var cur_date = new Date();
 			 mapLayers : [],
 			 dateChk : false,
 			 timeChk : false,
-			 visualTypeRadioBtn : function(rootDiv){
+			 visualTypeRadioBtn : function(rootDiv, mapSW){ 
+				mapSW = (typeof(mapSW) !== 'undefined') ? mapSW : true;
 				var html = '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
 				var arr = ['chart','map','chartMap'];
 				var arrText = ['차트','맵','차트&맵'];
 				for(var i=0; i<arr.length; i++){ 
 						html += '<input type="radio" name="visradio" class="custom" '+
-								' id="id-'+arr[i]+'" value="'+arr[i]+
-								'" onclick="openGDSM.seoulPublicUI.mapSelect($(this))"/>'+
+								' id="id-'+arr[i]+'" value="'+arr[i]+'" ';//+
+						if(i==0) html+= 'checked';
+						html += ' onclick="openGDSM.seoulPublicUI.mapSelect($(this))"/>'+
 								'<label for="id-'+arr[i]+'">'+arrText[i]+'</label>';
 				} 
 				html += '</fieldset>';		rootDiv.append(html);
@@ -186,7 +188,7 @@ var cur_date = new Date();
 			 },
 			 /// TimeAverageAirQuality Service...
 			 areaEnv : function(divName, apiKey){ 
-				this.getLayers();
+			//	this.getLayers();
 				$('#'+divName).empty();
 				this.divName = divName;
 				this.dateChk = false, this.timeChk = false;
@@ -222,7 +224,7 @@ var cur_date = new Date();
 					this.dateChk = false, this.timeChk = false;
 					this.apiKey = '4b56506967696e7437317348694371';
 				 	var rootDiv = $('#'+this.divName); 
-					this.visualTypeRadioBtn(rootDiv);  
+					this.visualTypeRadioBtn(rootDiv,false);  
 							
 					var html = '<label for="envValue">환경정보:</label>'+
 							   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
@@ -246,7 +248,16 @@ var cur_date = new Date();
 	 
 	 
 	 
-	 
+	 openGDSM.PublicDataPortalUI = {
+			 areaEnv : function(divName, apiKey){  
+				apiKey = encodeURIComponent(apiKey);
+				$('#'+divName).empty(); 
+				this.divName = divName;
+			 	var rootDiv = $('#'+this.divName); 
+
+				 
+			 }			 
+	 };
 	 
 	 
 	 

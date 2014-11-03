@@ -74,6 +74,7 @@ openGDSM.seoulOpenData.env = {
 		var envMap=null;
 		var curMaps=null;
 		var xyData=this.xydivision(data[this.serviceName], this.envType, 'MSRSTE_NM');
+
 		if(this.envType=="PM10")
 			envRange = openGDSM.seoulOpenData.env.PM10Range;
 		else if(this.envType=="PM25")
@@ -94,13 +95,14 @@ openGDSM.seoulOpenData.env = {
 			if( curMaps[i].get('title') == this.mapLayer){
 				envMap = curMaps[i];
 			}
-		} 
+		}  
+		styleCache = {};
 		envMap.setStyle(function(f,r){  
 			var text = r < 5000 ? f.get('SIG_KOR_NM') : ''; 
 			if(!styleCache[text]){ 
 				var color = '';
 				for(var i=0; i<xyData[1].length; i++){
-					if(text==xyData[1][i]){
+					if(text==xyData[1][i]){ 
 						for(var j=0; j<envRange.length; j++){
 							if( xyData[0][i] <= envRange[j] ){ 
 								color = openGDSM.seoulOpenData.env.colorRange[j];

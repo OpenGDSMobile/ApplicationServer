@@ -59,9 +59,8 @@
 	styleChange = function(obj){
 		$('#wmsButton').attr('data-layer',$(obj).attr('value')); 
 	};
-	$(document).ready(function(){ 
- 		//$("#dateValue").attr('value',date.getYYYYMMDD("-"));
-		//$("#timeValue").attr('value',date.getHour()+":00");
+	$(document).ready(function(){  
+		openGDSM.seoulPublicUI.getLayers();
 		$("#d3View").attr('width',$(window).width()-100);
 		beforeProcess.popupSize("#dataSelect");
 		beforeProcess.popupSize("#vworldList","300px"); 
@@ -162,9 +161,16 @@
 					<li><a href="#setting" data-rel="popup" data-position-to="window" onclick="openGDSM.seoulPublicUI.areaEnv('setting','6473565a72696e7438326262524174')">실시간 서울 대기환경</a></li>
 					<li><a href="#setting" data-rel="popup" data-position-to="window" onclick="openGDSM.seoulPublicUI.roadEnv('setting','4b56506967696e7437317348694371')">
 					도로변 측정소별 실시간 대기환경</a></li>
+					<li data-theme="z" data-role="list-divider">공공데이터포털</li>
+					<li><a href="#setting" data-rel="popup" data-position-to="window" 
+						onclick="openGDSM.PublicDataPortalUI.areaEnv('setting','kCxEhXiTf1qmDBlQFOOmw+emcPSxQXn5V5/x8EthoHdbSojIdQvwX+HtWFyuJaIco0nUJtu12e/9acb7HeRRRA==')">실시간 대기환경(에어코리아)</a></li>
 				</ul>
 		</div>  
-	
+	<!-- 
+	kCxEhXiTf1qmDBlQFOOmw%2BemcPSxQXn5V5%2Fx8EthoHdbSojIdQvwX%2BHtWFyuJaIco0nUJtu12e%2F9acb7HeRRRA%3D%3D
+	http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?sidoName=%EB%B6%80%EC%82%B0&pageNo=1&numOfRows=100&ServiceKey=kCxEhXiTf1qmDBlQFOOmw%2BemcPSxQXn5V5%2Fx8EthoHdbSojIdQvwX%2BHtWFyuJaIco0nUJtu12e%2F9acb7HeRRRA%3D%3D
+	http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getMsrstnList?addr=%EB%B6%80%EC%82%B0&pageNo=1&numOfRows=100&ServiceKey=kCxEhXiTf1qmDBlQFOOmw%2BemcPSxQXn5V5%2Fx8EthoHdbSojIdQvwX%2BHtWFyuJaIco0nUJtu12e%2F9acb7HeRRRA%3D%3D
+	 -->
 	<div data-role="header" class="ui-body-g center" data-position="inline" > 
  	 	<a href="#select" data-role="button" data-rel="popup"  data-transition="slidedown" data-theme="g">메뉴</a> 
 		<h4>지도 시각화</h4>
