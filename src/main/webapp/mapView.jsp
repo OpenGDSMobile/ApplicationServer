@@ -142,13 +142,14 @@
 				<ul data-role="listview">
 					<li data-theme="g" data-icon="delete" style="height: 2.8em;"><a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a></li>
 					<li data-theme="z" data-role="list-divider">기본 제공 데이터</li>
-						<li><a href="#" data-id="Seoul_si" data-name="loadVector" onclick="openGDSM.wfsMap.geoserver('Seoul_si')">서울특별시</a></li>
-						<li><a href="#" data-id="Incheon_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">인천광역시</a></li>
-						<li><a href="#" data-id="Gyeonggi_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">경기도</a></li>
-						<li><a href="#" data-id="Sejong_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">세종시</a></li>
-						<li><a href="#" data-id="Chungcheongnam_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">충청남도</a></li>
-						<li><a href="#" data-id="Jellanam_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">전라남도</a></li>
-						<li><a href="#" data-id="Busan_dong" data-name="loadVector" onclick="openGDSM.geoServerProcess(this)">부산</a></li>
+						<li><a href="#" onclick="openGDSM.wfsMap.geoserver('City')">전국(구단위)</a></li>
+						<li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_si')">서울특별시</a></li>
+						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">인천광역시</a></li>
+						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">경기도</a></li>
+						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">세종시</a></li>
+						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">충청남도</a></li>
+						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">전라남도</a></li>
+						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">부산</a></li>
 				<!--<li data-theme="z" data-role="list-divider">사용자 업로드 데이터</li>
 				 	<li><a href="#" data-key="workspaceName" data-value="user" data-name="createWorkspace" onclick="openGDSM.geoServerProcess(this)">test</a></li> -->  
 				</ul>

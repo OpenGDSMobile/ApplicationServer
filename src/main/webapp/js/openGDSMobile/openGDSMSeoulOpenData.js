@@ -86,6 +86,7 @@ openGDSM.seoulOpenData.env = {
 			envRange = openGDSM.seoulOpenData.env.SO2Range;
 		else if(this.envType=="O3")
 			envRange = openGDSM.seoulOpenData.env.O3Range; 
+		//WFS addLayer
 		openGDSMGeoserver.wfs(Map.map, 'http://113.198.80.9/','opengds',this.mapLayer);
 		
 		curMaps = Map.map.getLayers().getArray();
@@ -107,8 +108,7 @@ openGDSM.seoulOpenData.env = {
 							}
 						}
 					}
-				}
-				console.log(text+' '+color);
+				} 
 				styleCache[text] = [new ol.style.Style({
 					fill : new ol.style.Fill({
 						color : color
