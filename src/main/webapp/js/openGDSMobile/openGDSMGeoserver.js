@@ -1,10 +1,37 @@
-var openGDSMGeoserver = {};
+/**
+ * Geoserver Setting // web.xml
+ * <context-param>
+ * <param-name>ENABLE_JSONP</param-name>
+ * <param-value>true</param-value>
+ * </context-param>
+ */
+var openGDSMGeoserver = {
+		mapLayers : []
+};
 
+openGDSMGeoserver.getLayers = function(){ 
+		 data = {ws:'opengds'};
+		 if(this.mapLayers){
+			 $.ajax({
+					type:'POST',
+					url:'getLayerNames.do',
+					data: JSON.stringify(data), 
+					contentType : "application/json;charset=UTF-8",
+					dataType : 'json',
+					success:function(msg){
+						openGDSMGeoserver.mapLayers = msg.data;
+					},
+					error:function(){
+						console.log("err");
+					}
+			}); 
+		 } 
+};
 openGDSMGeoserver.wfs = function(olmap,url,workspace,layername,color,width,epsg){
 	color = (typeof(color) !== 'undefined') ? color : "rgba(0,0,0,0)";
 	width = (typeof(width) !== 'undefined') ? width : "1";
 	epsg = (typeof(espg) !== 'undefined') ? epsg : "EPSG:900913";
-	
+	$.mobile.loading('show');
 	vectorSource = new ol.source.ServerVector({
 				format: new ol.format.GeoJSON(),
 				loader: function(extent, resolution, projection){
@@ -48,4 +75,22 @@ openGDSMGeoserver.wfs = function(olmap,url,workspace,layername,color,width,epsg)
 	   	style: styles
 	  });
 	olmap.addLayer(vectorTemp); 
+
+}; 
+
+
+
+
+
+Layer.displayFeatureInfo = function(pixel){
+	var feature = Map.map.forEachFeatureAtPixel(pixel, function(feature, layer){
+		return feature;
+	});
+	
+	if(feature){
+		console.log(feature.get('EMD_KOR_NM'));
+	}		
+	else{
+		
+	}	
 }; 

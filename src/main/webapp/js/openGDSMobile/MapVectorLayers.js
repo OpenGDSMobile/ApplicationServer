@@ -4,12 +4,6 @@ var	LayerSources =null;
 	Layer.jsonfile = null;
 //192.168.0.9
 //113.198.80.60:8080
-	/**
-	 * <context-param>
-     *	<param-name>ENABLE_JSONP</param-name>
-     *	<param-value>true</param-value>
-  	 *	</context-param>
-	 */
 Layer.createLayer = function(obj,color,width){
 	obj  = $(obj).attr('data-id'); 
 	Layer.vectorSource = new ol.source.ServerVector({
@@ -66,7 +60,7 @@ Layer.createLayer = function(obj,color,width){
 Layer.removeLayer = function(data){
 	Map.map.removeLayer(data);
 };
-
+/*
 Layer.displayFeatureInfo = function(pixel){
 	var feature = Map.map.forEachFeatureAtPixel(pixel, function(feature, layer){
 		return feature;
@@ -79,3 +73,4 @@ Layer.displayFeatureInfo = function(pixel){
 		
 	}	
 }; 
+*/

@@ -59,8 +59,10 @@
 	styleChange = function(obj){
 		$('#wmsButton').attr('data-layer',$(obj).attr('value')); 
 	};
-	$(document).ready(function(){  
-		openGDSM.seoulPublicUI.getLayers();
+	$(document).ready(function(){
+		openGDSM.init();
+		openGDSMGeoserver.getLayers();
+		
 		$("#d3View").attr('width',$(window).width()-100);
 		beforeProcess.popupSize("#dataSelect");
 		beforeProcess.popupSize("#vworldList","300px"); 
@@ -136,23 +138,26 @@
 					<!-- <li><a href="#vworldList"  data-rel="popup" data-position-to="window" >V-World</a></li>-->
 				</ul>
 		</div>  
-	<!-- List Panel -->
-		<div data-role="panel" data-display="overlay" id="layerList" style="padding:0;">
-				<ul data-role="listview">
-					<li data-theme="g" data-icon="delete" style="height: 2.8em;"><a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a></li>
-					<li data-theme="z" data-role="list-divider">기본 제공 데이터</li>
-						<li><a href="#" onclick="openGDSM.wfsMap.geoserver('City')">전국(구단위)</a></li>
-						<li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_si')">서울특별시</a></li>
-						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">인천광역시</a></li>
-						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">경기도</a></li>
-						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">세종시</a></li>
-						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">충청남도</a></li>
-						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">전라남도</a></li>
-						<li><a href="#" onclick="openGDSM.geoServerProcess(this)">부산</a></li>
-				<!--<li data-theme="z" data-role="list-divider">사용자 업로드 데이터</li>
-				 	<li><a href="#" data-key="workspaceName" data-value="user" data-name="createWorkspace" onclick="openGDSM.geoServerProcess(this)">test</a></li> -->  
-				</ul>
-		</div>  
+	<!-- List Panel --> 
+                <div data-role="panel" data-display="overlay" id="layerList" style="padding:0;">
+                                <ul data-role="listview">
+                                        <li data-theme="g" data-icon="delete" style="height: 2.8em;"><a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a></li>
+                                        <li data-theme="z" data-role="list-divider">기본 제공 데이터</li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('City')">전국(구단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('City_EMD')">전국(dong)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_si')">서울특별시(gu)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_dong')">서울특별시(dong)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Incheon_dong')">인천광역시(dong)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Sejong_dong')">세종시(dong)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Daejeon_dong')">daejeon(dong)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Daegu_dong')">daegu(dong)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Ulsan_dong')">ulsan(dong)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Gwangju_dong')">gwangju(dong)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Busan_dong')">부산(dong)</a></li>
+                                <!--<li data-theme="z" data-role="list-divider">사용자 업로드 데이터</li>
+                                        <li><a href="#" data-key="workspaceName" data-value="user" data-name="createWorkspace" onclick="openGDSM.geoServerProcess(this)">test</a></li> -->  
+                                </ul>
+                </div>  	
 	<!-- List Panel -->
 		<div data-role="panel" data-display="overlay" id="opendataList" style="padding:0;">
 				<ul data-role="listview">
