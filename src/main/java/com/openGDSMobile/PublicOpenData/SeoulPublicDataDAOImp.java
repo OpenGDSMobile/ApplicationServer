@@ -8,16 +8,17 @@ import org.codehaus.jackson.annotate.JsonMethod;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.springframework.stereotype.Repository;
+import org.jdom2.Document;
+import org.springframework.stereotype.Repository; 
 
 
-@Repository("publicdao") 
-public class PublicDataDAOImp implements PublicDataDAO {
+@Repository("seoulPublicDAO") 
+public class SeoulPublicDataDAOImp implements PublicDataDAO {
 
 	JsonFactory jsonfactory;
 	ObjectMapper mapper;
 	 
-	PublicDataDAOImp(){
+	SeoulPublicDataDAOImp(){
 		mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 		mapper.setVisibility(JsonMethod.FIELD,Visibility.ANY);
@@ -26,16 +27,21 @@ public class PublicDataDAOImp implements PublicDataDAO {
 	}
 	
 	@Override
-	public JsonParser getSeoulPublicData(String path) {
+	public JsonParser getJSONPublicData(String path) {
 		try {
 			URL url = new URL(path);
-			JsonParser jsonParser = jsonfactory.createJsonParser(url);
-			return jsonParser; 
+			return jsonfactory.createJsonParser(url);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		} 
+	}
+
+	@Override
+	public Document getXMLPublicData(String path) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

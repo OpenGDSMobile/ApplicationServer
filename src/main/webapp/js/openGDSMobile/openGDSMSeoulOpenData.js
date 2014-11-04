@@ -34,6 +34,7 @@ openGDSM.seoulOpenData.env = {
 			contentType : "application/json;charset=UTF-8",
 			dataType : 'json',
 			success:function(msg){  
+				console.log(msg.data);
 				if(visType=='chart')
 					openGDSM.seoulOpenData.env.chartVisual(JSON.parse(msg.data));
 				else if(visType=='map')

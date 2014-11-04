@@ -37,6 +37,7 @@
 	<script type="text/javascript" src="js/openGDSMobile/openGDSM.js"></script>
 	<script type="text/javascript" src="js/openGDSMobile/openGDSMVworld.js"></script>
 	<script type="text/javascript" src="js/openGDSMobile/openGDSMSeoulOpenData.js"></script>
+	<script type="text/javascript" src="js/openGDSMobile/openGDSMPublicOpenData.js"></script>
 	<script type="text/javascript" src="js/openGDSMobile/openGDSMD3.js"></script>
 	<script type="text/javascript" src="js/openGDSMobile/openGDSMGeoserver.js"></script>
 	 
@@ -143,17 +144,17 @@
                                 <ul data-role="listview">
                                         <li data-theme="g" data-icon="delete" style="height: 2.8em;"><a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a></li>
                                         <li data-theme="z" data-role="list-divider">기본 제공 데이터</li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('City')">전국(구단위)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('City_EMD')">전국(dong)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_si')">서울특별시(gu)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_dong')">서울특별시(dong)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Incheon_dong')">인천광역시(dong)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Sejong_dong')">세종시(dong)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Daejeon_dong')">daejeon(dong)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Daegu_dong')">daegu(dong)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Ulsan_dong')">ulsan(dong)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Gwangju_dong')">gwangju(dong)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Busan_dong')">부산(dong)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('City')">전국(구 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('City_EMD')">전국(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_si')">서울특별시(구 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_dong')">서울특별시(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Incheon_dong')">인천광역시(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Sejong_dong')">세종시(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Daejeon_dong')">대전광역시(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Daegu_dong')">대구광역시(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Ulsan_dong')">울산광역시(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Gwangju_dong')">광주광역시(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Busan_dong')">부산광역시(돟 단위)</a></li>
                                 <!--<li data-theme="z" data-role="list-divider">사용자 업로드 데이터</li>
                                         <li><a href="#" data-key="workspaceName" data-value="user" data-name="createWorkspace" onclick="openGDSM.geoServerProcess(this)">test</a></li> -->  
                                 </ul>
@@ -163,12 +164,12 @@
 				<ul data-role="listview">
 					<li data-theme="g" data-icon="delete" style="height: 2.8em;"><a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a></li>
 					<li data-theme="z" data-role="list-divider">서울공공오픈데이터</li>
-					<li><a href="#setting" data-rel="popup" data-position-to="window" onclick="openGDSM.seoulPublicUI.areaEnv('setting','6473565a72696e7438326262524174')">실시간 서울 대기환경</a></li>
-					<li><a href="#setting" data-rel="popup" data-position-to="window" onclick="openGDSM.seoulPublicUI.roadEnv('setting','4b56506967696e7437317348694371')">
+					<li><a href="#setting" data-rel="popup" data-position-to="window" onclick="openGDSM.seoulPublic.areaEnv('setting','6473565a72696e7438326262524174')">실시간 서울 대기환경</a></li>
+					<li><a href="#setting" data-rel="popup" data-position-to="window" onclick="openGDSM.seoulPublic.roadEnv('setting','4b56506967696e7437317348694371')">
 					도로변 측정소별 실시간 대기환경</a></li>
 					<li data-theme="z" data-role="list-divider">공공데이터포털</li>
 					<li><a href="#setting" data-rel="popup" data-position-to="window" 
-						onclick="openGDSM.PublicDataPortalUI.areaEnv('setting','kCxEhXiTf1qmDBlQFOOmw+emcPSxQXn5V5/x8EthoHdbSojIdQvwX+HtWFyuJaIco0nUJtu12e/9acb7HeRRRA==')">실시간 대기환경(에어코리아)</a></li>
+						onclick="openGDSM.PublicDataPortal.areaEnv('setting','kCxEhXiTf1qmDBlQFOOmw+emcPSxQXn5V5/x8EthoHdbSojIdQvwX+HtWFyuJaIco0nUJtu12e/9acb7HeRRRA==')">실시간 대기환경(에어코리아)</a></li>
 				</ul>
 		</div>  
 	<!-- 

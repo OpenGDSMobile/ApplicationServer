@@ -11,20 +11,18 @@ import org.springframework.stereotype.Service;
  
 
 
-@Service
-public class SeoulPublicDataServiceImp implements SeoulPublicDataService{ 
+@Service("Seoul")
+public class SeoulPublicDataServiceImp implements PublicDataService{ 
 
 	@Autowired
-	@Qualifier("publicdao")
-	PublicDataDAO publicDataobj; 
-	//6473565a72696e7438326262524174 - env Key value
-	//4a73434758696e7438316a5146744f - road Key value
+	@Qualifier("seoulPublicDAO")
+	PublicDataDAO publicDataobj;  
 	String[] keysData = {"serviceName","keyValue","dateValue","timeValue"};
 	String[] keysValue; 
 	String amount = "";
 	String seoulBaseURL="";
 	@Override
-	public String requestSeoulPublicData(Map<String,Object> data) {
+	public String requestPublicData(Map<String,Object> data) {
 		String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
 		keysValue=new String[]{"","","",""};
 		Set<String> keys = data.keySet();
@@ -44,7 +42,7 @@ public class SeoulPublicDataServiceImp implements SeoulPublicDataService{
 				keysValue[0]+"/"+amount+"/"+keysValue[2]+keysValue[3]; 
 		
 		System.out.println(seoulBaseURL);
-		JsonParser jp =publicDataobj.getSeoulPublicData(seoulBaseURL); 
+		JsonParser jp =publicDataobj.getJSONPublicData(seoulBaseURL); 
 		try {
 			String result = String.valueOf(jp.readValueAsTree()); 
 			return result; 

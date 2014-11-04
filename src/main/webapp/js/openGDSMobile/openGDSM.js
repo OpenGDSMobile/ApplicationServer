@@ -87,16 +87,11 @@ var cur_date = new Date();
 			width = 1; 
 		openGDSMGeoserver.wfs(Map.map, url, workspace, layerName, color, width);  
 	}; 
+
 	/**
-	 * Seoul Pulbic OpenData User Interface
+	 * Pulbic OpenData User Interface
 	 */ 
-	//TimeAverageAirQuality 
-	
-	 openGDSM.seoulPublicUI = {
-			 divName : '',
-			 apiKey : '', 
-			 dateChk : false,
-			 timeChk : false,
+	openGDSM.PublicDataUI = {  
 			 visualTypeRadioBtn : function(rootDiv, mapSW){ 
 				mapSW = (typeof(mapSW) !== 'undefined') ? mapSW : true;
 				var html = '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
@@ -107,7 +102,7 @@ var cur_date = new Date();
 								' id="id-'+arr[i]+'" value="'+arr[i]+'" ';//+\
 						if(mapSW==false) html+='disabled ';
 						if(i==0) html+= 'checked';
-						html += ' onclick="openGDSM.seoulPublicUI.mapSelect($(this))"/>'+
+						html += ' onclick="openGDSM.PublicDataUI.mapSelect($(this))"/>'+
 								'<label for="id-'+arr[i]+'">'+arrText[i]+'</label>';
 				} 
 				html += '</fieldset>';		rootDiv.append(html);
@@ -120,43 +115,21 @@ var cur_date = new Date();
 				this.dateChk = true; 
 			 },
 			 inputTime : function(rootDiv){
-				var html =  '<label for="timeValue">시간 : </label>'+
-							 '<input type="time" id="timeValue">';
-				rootDiv.append(html);
-				this.timeChk = true;
-			 },
+					var html =  '<label for="timeValue">시간 : </label>'+
+								 '<input type="time" id="timeValue">';
+					rootDiv.append(html);
+					this.timeChk = true;
+				 },
 			 inputValueSetting : function(){ 
 				if(this.dateChk) $("#dateValue").attr('value',date.getYYYYMMDD("-"));
 				if(this.timeChk) $("#timeValue").attr('value',date.getHour()+":00");
-			 },
-			 processBtn : function(rootDiv,serviceName, provider){
+			 }, 
+			 processBtn : function(rootDiv,obj,serviceName, provider){
 				 provider = (typeof(provider) !== 'undefined') ? provider : "";
 					var html = '<a href="#" data-role="button" data-provider="'+provider+'" data-serivce="'+serviceName+'" '+ 
-					 			'onclick="openGDSM.seoulPublicUI.makeData($(this))">Visualization</a>';
+					 			'onclick="openGDSM.'+obj+'.makeData($(this))">시각화</a>';
 					rootDiv.append(html);
-			 },   
-			 makeData : function(obj){    
-				var visType="", envType="";
-				var visRadio = $("input[name='visradio']:radio");
-				var envRadio = $("input[name='envradio']:radio");
-				visRadio.each(function(i){ 
-					if($(this).is(":checked")){
-						visType=$(this).val(); 
-					}
-				});
-				envRadio.each(function(i){ 
-					if($(this).is(":checked")){
-						envType=$(this).val(); 
-					}
-				}); 
-				$('#'+this.divName).popup("close"); 
-				openGDSM.seoulOpenData.env.dataLoad(
-						obj.attr("data-serivce"),
-						this.apiKey, visType, envType, 
-						$("select[name=geoServerMap]").val(), 
-						$("#dateValue").val(),
-						$("#timeValue").val()); 
-			 },
+			 }, 
 			 mapSelect : function(obj){
 				 var mapSelect = $('#wfsMap'); 
 				 if(mapSelect.is(':empty')){
@@ -179,17 +152,49 @@ var cur_date = new Date();
 						mapSelect.empty();
 					} 
 				 }
+			 },  
+	}; 
+	/**
+	 * Seoul Pulbic OpenData Interface
+	 */ 
+	//TimeAverageAirQuality  
+	 openGDSM.seoulPublic = {
+			 divName : '',
+			 apiKey : '', 
+			 dateChk : false,
+			 timeChk : false,
+			 makeData : function(obj){    
+				var visType="", envType="";
+				var visRadio = $("input[name='visradio']:radio");
+				var envRadio = $("input[name='envradio']:radio");
+				visRadio.each(function(i){ 
+					if($(this).is(":checked")){
+						visType=$(this).val(); 
+					}
+				});
+				envRadio.each(function(i){ 
+					if($(this).is(":checked")){
+						envType=$(this).val(); 
+					}
+				}); 
+				$('#'+this.divName).popup("close"); 
+				openGDSM.seoulOpenData.env.dataLoad(
+						obj.attr("data-serivce"),
+						this.apiKey, visType, envType, 
+						$("select[name=geoServerMap]").val(), 
+						$("#dateValue").val(),
+						$("#timeValue").val()); 
 			 },
 			 /// TimeAverageAirQuality Service...
 			 areaEnv : function(divName, apiKey){ 
 				$('#'+divName).empty();
 				this.divName = divName;
-				this.dateChk = false, this.timeChk = false;
+				this.dateChk = true, this.timeChk = true;
 				this.apiKey = '6473565a72696e7438326262524174'; 
 				var rootDiv = $('#'+divName);
-				this.visualTypeRadioBtn(rootDiv);
-				this.inputDate(rootDiv);
-				this.inputTime(rootDiv);
+				openGDSM.PublicDataUI.visualTypeRadioBtn(rootDiv);
+				openGDSM.PublicDataUI.inputDate(rootDiv);
+				openGDSM.PublicDataUI.inputTime(rootDiv);
 				
 				var html = '<label for="envValue">환경정보:</label>'+
 						   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
@@ -205,9 +210,9 @@ var cur_date = new Date();
 				}
 				html += '</fieldset>';		
 				rootDiv.append(html);
-				this.processBtn(rootDiv, "TimeAverageAirQuality");
+				openGDSM.PublicDataUI.processBtn(rootDiv,'seoulPublic', "TimeAverageAirQuality");
 				rootDiv.trigger("create");
-				this.inputValueSetting();
+				openGDSM.PublicDataUI.inputValueSetting();
 			 },
 			 //RealtimeRoadsideStation Service
 			 roadEnv : function(divName, apiKey){
@@ -238,7 +243,7 @@ var cur_date = new Date();
 			 }
 	 };  
 	 
-	 openGDSM.PublicDataPortalUI = { 
+	 openGDSM.PublicDataPortal = { 
 			 apiKey : '',
 			 visualTypeRadioBtn : function(rootDiv, mapSW){ 
 					mapSW = (typeof(mapSW) !== 'undefined') ? mapSW : true;
@@ -255,35 +260,12 @@ var cur_date = new Date();
 					} 
 					html += '</fieldset>';		rootDiv.append(html);
 					rootDiv.append('<div id="wfsMap"></div>');
-			},  
-			 mapSelect : function(obj){
-				 var mapSelect = $('#wfsMap'); 
-				 if(mapSelect.is(':empty')){
-					 if(obj.val()=='map' || obj.val()=='mapChart'){
-						 var html = '<div data-role="fieldcontain">'+
-						 			'<select name="geoServerMap" id="geoserverSelectBox">';
-						 for(var i=0; i<openGDSMGeoserver.mapLayers.length; i++){
-							 html += '<option value="'+openGDSMGeoserver.mapLayers[i]+'"';
-							 if(i==0) html+=' selected';							 
-							 html += '>'+openGDSMGeoserver.mapLayers[i]+'</option>';
-						 }
-						 html +='</select>';
-						 mapSelect.append(html);
-						 mapSelect.trigger("create");
-					 }
-				 }
-				 //Only Chart
-				 else{
-					if(obj.val()=='chart'){
-						mapSelect.empty();
-					} 
-				 }
-			 }, 
-
+			},   
 			 makeData : function(obj){    
-				var visType="", envType="";
+				var visType="", envType="", areaType="";
 				var visRadio = $("input[name='visradio']:radio");
 				var envRadio = $("input[name='envradio']:radio");
+				var areaRadio = $("input[name='arearadio']:radio");
 				visRadio.each(function(i){ 
 					if($(this).is(":checked")){
 						visType=$(this).val(); 
@@ -294,30 +276,32 @@ var cur_date = new Date();
 						envType=$(this).val(); 
 					}
 				}); 
+				areaRadio.each(function(i){
+					if($(this).is(":checked")){
+						console.log(($(this)));
+						areaType=$(this).val(); 
+					}
+				});
+				
 				$('#'+this.divName).popup("close"); 
 				openGDSM.publicOpenData.env.dataLoad(
+						obj.attr("data-provider"),
 						obj.attr("data-serivce"),
-						this.apiKey, visType, envType, area,
+						this.apiKey, visType, envType, areaType,
 						$("select[name=geoServerMap]").val()
 						); 
-			 },
-			 processBtn : function(rootDiv,serviceName, provider){
-				 provider = (typeof(provider) !== 'undefined') ? provider : "";
-					var html = '<a href="#" data-role="button" data-provider="'+provider+'" data-serivce="'+serviceName+'" '+ 
-					 			'onclick="openGDSM.PublicDataPortalUI.makeData($(this))">Visualization</a>';
-					rootDiv.append(html);
-			 },   
+			 }, 
 			 areaEnv : function(divName, apiKey){  
 				this.apiKey = encodeURIComponent(apiKey);
 				$('#'+divName).empty(); 
 				this.divName = divName;
 			 	var rootDiv = $('#'+this.divName);
-			 	this.visualTypeRadioBtn(rootDiv); 
+			 	openGDSM.PublicDataUI.visualTypeRadioBtn(rootDiv); 
 			 	
-			 	var html = '<label for="areaValue">Area:</label>'+
+			 	var html = '<label for="areaValue">지역:</label>'+
 				   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
-			 	var areaType=['111'] ; //['PM10','SO2','O3','NO2','CO'];
-			 	var areaValues=['111'] ;// ['pm10Value','so2Value','o3Value','no2Value','coValue'];
+			 	var areaType=['서울','부산','대구','대전','광주','울산','인천','세종'] ; 
+			 	var areaValues=['서울','부산','대구','대전','광주','울산','인천','세종'] ;
 			 	for(var i=0; i<areaType.length; i++){
 			 		html += '<input type="radio" name="arearadio" class="custom" '+
 			 				' id="id-'+areaType[i]+'" value="'+areaValues[i]+'"/>'+
@@ -345,7 +329,7 @@ var cur_date = new Date();
 			 	html += '</fieldset>';		
 				rootDiv.append(html);
 
-				this.processBtn(rootDiv, "ArpltnInforInqireSvc", "airkorea");
+				openGDSM.PublicDataUI.processBtn(rootDiv,"PublicDataPortal","ArpltnInforInqireSvc", "airkorea");
 			 	rootDiv.trigger("create"); 
 			 }			 
 	 }; 

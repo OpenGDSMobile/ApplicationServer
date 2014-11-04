@@ -30,8 +30,7 @@ openGDSMGeoserver.getLayers = function(){
 openGDSMGeoserver.wfs = function(olmap,url,workspace,layername,color,width,epsg){
 	color = (typeof(color) !== 'undefined') ? color : "rgba(0,0,0,0)";
 	width = (typeof(width) !== 'undefined') ? width : "1";
-	epsg = (typeof(espg) !== 'undefined') ? epsg : "EPSG:900913";
-	$.mobile.loading('show');
+	epsg = (typeof(espg) !== 'undefined') ? epsg : "EPSG:900913"; 
 	vectorSource = new ol.source.ServerVector({
 				format: new ol.format.GeoJSON(),
 				loader: function(extent, resolution, projection){
