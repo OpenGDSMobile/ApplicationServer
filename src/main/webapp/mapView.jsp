@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- 
+ <!-- 
+   서울시 오픈 데이터 서버에서 .... 환경 정보 데이터 처리..
+ airQuality 이미지 불러서 ... 추가 ...
+ Db..는 ... 논문에만 집어넣자...
+  -->
 <!DOCTYPE html>
 <html>
 <head>    
@@ -43,6 +47,19 @@
 	 
 	
 	<title>Map Select</title>
+	<style>
+		#d3viewonMap{
+			z-index:10;
+			position:absolute;
+			overflow-x:hidden; 
+			overflow-y:auto; 
+			height:300px;
+			background : rgba(255,255,255,0.7);  
+		}
+		.font{
+			font-size:70%;
+		}
+	</style>
 	<script> 
 	beforeProcess = {
 		popupSize: function(obj,width,height){
@@ -63,8 +80,11 @@
 	$(document).ready(function(){
 		openGDSM.init();
 		openGDSMGeoserver.getLayers();
-		
-		$("#d3View").attr('width',$(window).width()-100);
+
+		$("#d3View").attr('width',$(window).width()-100); 
+		$('#d3viewonMap').hide();
+		$("#d3viewonMap").attr('width',$(window).width()-50);  
+		$('#d3viewonMap').css('top',$(window).height()-300);
 		beforeProcess.popupSize("#dataSelect");
 		beforeProcess.popupSize("#vworldList","300px"); 
 	});
@@ -73,6 +93,33 @@
 </head>
 <body>  
 <div data-role="page" id="mapview">
+<!-- d3And Map div -->
+		<div id="d3viewonMap">
+		  <a href="#" data-role="button" 
+		     data-theme="a" data-icon="delete" 
+		     data-iconpos="notext" class="ui-btn-right" onclick="$('#d3viewonMap').hide()"> Close</a>		
+		  <div id="range">
+              			<table style="margin:0 auto">
+              				<tr>
+              					<td style="background:#4c4cff; margin:0; padding:0">　</td>
+              					<td style="background:#9999ff; margin:0; padding:0">　</td>
+              					<td><span class="font">Good</span></td>
+              					<td style="background:#4CFF4C; margin:0; padding:0">　</td>
+              					<td style="background:#99FF99; margin:0; padding:0">　</td>
+              					<td><span class="font">Normal</span></td>
+              					<td style="background:#FFFF00; margin:0; padding:0">　</td>
+              					<td style="background:#FFFF99; margin:0; padding:0">　</td>
+              					<td><span class="font">Sensitive</span></td>
+              					<td style="background:#FF9900; margin:0; padding:0">　</td>
+              					<td><span class="font">Bad</span></td>
+              					<td style="background:#FF0000; margin:0; padding:0">　</td>
+              					<td><span class="font">Very Bad</span></td> 
+              				</tr>
+              			</table> 
+            </div>
+            <div id="d3viewonMap_sub"> </div>
+            
+		</div>
 <!-- Vworld WMS -->
 		<div data-role="popup" 
 		id="vworldList"  
@@ -97,17 +144,17 @@
               				<tr>
               					<td style="background:#4c4cff; margin:0; padding:0">　</td>
               					<td style="background:#9999ff; margin:0; padding:0">　</td>
-              					<td>Good</td>
+              					<td><span class="font">Good</span></td>
               					<td style="background:#4CFF4C; margin:0; padding:0">　</td>
               					<td style="background:#99FF99; margin:0; padding:0">　</td>
-              					<td>Normal</td>
+              					<td><span class="font">Normal</span></td>
               					<td style="background:#FFFF00; margin:0; padding:0">　</td>
               					<td style="background:#FFFF99; margin:0; padding:0">　</td>
-              					<td>Sensitive</td>
+              					<td><span class="font">Sensitive</span></td>
               					<td style="background:#FF9900; margin:0; padding:0">　</td>
-              					<td>Bad</td>
+              					<td><span class="font">Bad</span></td>
               					<td style="background:#FF0000; margin:0; padding:0">　</td>
-              					<td>Very Bad</td> 
+              					<td><span class="font">Very Bad</span></td> 
               				</tr>
               			</table> 
             </div>

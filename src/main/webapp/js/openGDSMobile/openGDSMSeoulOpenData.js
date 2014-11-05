@@ -33,8 +33,7 @@ openGDSM.seoulOpenData.env = {
 			data: JSON.stringify(data), 
 			contentType : "application/json;charset=UTF-8",
 			dataType : 'json',
-			success:function(msg){  
-				console.log(msg.data);
+			success:function(msg){   
 				if(visType=='chart')
 					openGDSM.seoulOpenData.env.chartVisual(JSON.parse(msg.data));
 				else if(visType=='map')
@@ -52,20 +51,18 @@ openGDSM.seoulOpenData.env = {
 		var envRange=[];  
 		var xyData=this.xydivision(data[this.serviceName], this.envType, 'MSRSTE_NM');
 		if(this.envType=="PM10")
-			envRange = openGDSM.seoulOpenData.env.PM10Range;
+			envRange = this.PM10Range;
 		else if(this.envType=="PM25")
-			envRange = openGDSM.seoulOpenData.env.PM25Range;
+			envRange = this.PM25Range;
 		else if(this.envType=="CO")
-			envRange = openGDSM.seoulOpenData.env.CORange;
+			envRange = this.CORange;
 		else if(this.envType=="NO2")
-			envRange = openGDSM.seoulOpenData.env.NO2Range;
+			envRange = this.NO2Range;
 		else if(this.envType=="SO2")
-			envRange = openGDSM.seoulOpenData.env.SO2Range;
+			envRange = this.SO2Range;
 		else if(this.envType=="O3")
-			envRange = openGDSM.seoulOpenData.env.O3Range;  
-		openGDSM.d3.barchart('d3View',xyData,this.colorRange,envRange);  
-		
-		
+			envRange = this.O3Range;  
+		openGDSM.d3.barchart('d3View',xyData,this.colorRange,envRange);   
 	},
 	/**
 	 * SeoupOpenData Environment Data OpenLayers Style
@@ -77,17 +74,17 @@ openGDSM.seoulOpenData.env = {
 		var xyData=this.xydivision(data[this.serviceName], this.envType, 'MSRSTE_NM');
 
 		if(this.envType=="PM10")
-			envRange = openGDSM.seoulOpenData.env.PM10Range;
+			envRange = this.PM10Range;
 		else if(this.envType=="PM25")
-			envRange = openGDSM.seoulOpenData.env.PM25Range;
+			envRange = this.PM25Range;
 		else if(this.envType=="CO")
-			envRange = openGDSM.seoulOpenData.env.CORange;
+			envRange = this.CORange;
 		else if(this.envType=="NO2")
-			envRange = openGDSM.seoulOpenData.env.NO2Range;
+			envRange = this.NO2Range;
 		else if(this.envType=="SO2")
-			envRange = openGDSM.seoulOpenData.env.SO2Range;
+			envRange = this.SO2Range;
 		else if(this.envType=="O3")
-			envRange = openGDSM.seoulOpenData.env.O3Range; 
+			envRange = this.O3Range; 
 		//WFS addLayer
 		openGDSMGeoserver.wfs(Map.map, 'http://113.198.80.9/','opengds',this.mapLayer);
 		
@@ -119,6 +116,13 @@ openGDSM.seoulOpenData.env = {
 					stroke : new ol.style.Stroke({
 						color : '#000000',
 						width : 1
+					}),
+					text : new ol.style.Text({
+			          font: '9px Calibri,sans-serif',
+			          text: text,
+			          fill: new ol.style.Fill({
+			            color: '#000'
+			          }) 
 					})
 				})];
 			}
@@ -126,9 +130,25 @@ openGDSM.seoulOpenData.env = {
 		});
 		envMap.setOpacity(0.6);
 	},
-	chartMapVisual: function(data){
-		console.log('map Chart');
-		console.log(data);
+	chartMapVisual: function(data){ 
+		$('#d3viewonMap').show(); 
+		var envRange=[];  
+		var xyData=this.xydivision(data[this.serviceName], this.envType, 'MSRSTE_NM');
+		if(this.envType=="PM10")
+			envRange = this.PM10Range;
+		else if(this.envType=="PM25")
+			envRange = this.PM25Range;
+		else if(this.envType=="CO")
+			envRange = this.CORange;
+		else if(this.envType=="NO2")
+			envRange = this.NO2Range;
+		else if(this.envType=="SO2")
+			envRange = this.SO2Range;
+		else if(this.envType=="O3")
+			envRange = this.O3Range;  
+		openGDSM.d3.barchart('d3viewonMap_sub',xyData,this.colorRange,envRange);
+		this.mapVisual(data);   
+		
 	},
 	/**
 	 * SeoupOpenData Environment Data Division xData,yData 

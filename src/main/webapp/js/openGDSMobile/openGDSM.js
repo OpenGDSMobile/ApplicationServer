@@ -133,7 +133,7 @@ var cur_date = new Date();
 			 mapSelect : function(obj){
 				 var mapSelect = $('#wfsMap'); 
 				 if(mapSelect.is(':empty')){
-					 if(obj.val()=='map' || obj.val()=='mapChart'){
+					 if(obj.val()=='map' || obj.val()=='chartMap'){
 						 var html = '<div data-role="fieldcontain">'+
 						 			'<select name="geoServerMap" id="geoserverSelectBox">';
 						 for(var i=0; i<openGDSMGeoserver.mapLayers.length; i++){
@@ -277,12 +277,10 @@ var cur_date = new Date();
 					}
 				}); 
 				areaRadio.each(function(i){
-					if($(this).is(":checked")){
-						console.log(($(this)));
+					if($(this).is(":checked")){ 
 						areaType=$(this).val(); 
 					}
-				});
-				
+				}); 
 				$('#'+this.divName).popup("close"); 
 				openGDSM.publicOpenData.env.dataLoad(
 						obj.attr("data-provider"),
@@ -300,8 +298,8 @@ var cur_date = new Date();
 			 	
 			 	var html = '<label for="areaValue">지역:</label>'+
 				   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
-			 	var areaType=['서울','부산','대구','대전','광주','울산','인천','세종'] ; 
-			 	var areaValues=['서울','부산','대구','대전','광주','울산','인천','세종'] ;
+			 	var areaType=['서울','부산','대구','대전','광주','울산','인천'] ; 
+			 	var areaValues=['서울','부산','대구','대전','광주','울산','인천'] ;
 			 	for(var i=0; i<areaType.length; i++){
 			 		html += '<input type="radio" name="arearadio" class="custom" '+
 			 				' id="id-'+areaType[i]+'" value="'+areaValues[i]+'"/>'+
