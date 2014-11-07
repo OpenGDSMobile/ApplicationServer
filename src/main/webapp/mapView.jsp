@@ -56,9 +56,17 @@
 			height:300px;
 			background : rgba(255,255,255,0.7);  
 		}
+		#interpolationMap{
+			z-index:10;
+			position:absolute;
+			overflow-x:hidden; 
+			overflow-y:auto; 
+			height:300px;
+			background : rgba(255,255,255,0.7);  
+		}
 		.font{
 			font-size:70%;
-		}
+		} 
 	</style>
 	<script> 
 	beforeProcess = {
@@ -85,8 +93,15 @@
 		$('#d3viewonMap').hide();
 		$("#d3viewonMap").attr('width',$(window).width()-50);  
 		$('#d3viewonMap').css('top',$(window).height()-300);
+
+		$('#interpolationMap').hide();
+		$("#interpolationMap").attr('width',$(window).width()-50);  
+		$('#interpolationMap').css('top',$(window).height()-600);
 		beforeProcess.popupSize("#dataSelect");
 		beforeProcess.popupSize("#vworldList","300px"); 
+		
+		$('#layersList').css('height',$(window).height());
+		$('#layersList').css("overflow-y","auto");
 	});
 	</script>
 	
@@ -94,6 +109,12 @@
 <body>  
 <div data-role="page" id="mapview">
 <!-- d3And Map div -->
+		<div id="interpolationMap">
+		<a href="#" data-role="button" 
+		     data-theme="a" data-icon="delete" 
+		     data-iconpos="notext" class="ui-btn-right" onclick="$('#interpolationMap').hide()"> Close</a><br>
+		<img id="interpolationMapImage" src=""/>
+		</div>  
 		<div id="d3viewonMap">
 		  <a href="#" data-role="button" 
 		     data-theme="a" data-icon="delete" 
@@ -117,8 +138,7 @@
               				</tr>
               			</table> 
             </div>
-            <div id="d3viewonMap_sub"> </div>
-            
+            <div id="d3viewonMap_sub"> </div>      
 		</div>
 <!-- Vworld WMS -->
 		<div data-role="popup" 
@@ -188,12 +208,12 @@
 		</div>  
 	<!-- List Panel --> 
                 <div data-role="panel" data-display="overlay" id="layerList" style="padding:0;">
-                                <ul data-role="listview">
+                                <ul data-role="listview" id="layersList">
                                         <li data-theme="g" data-icon="delete" style="height: 2.8em;"><a href="#" data-rel="close" style="color:rgb(255, 255, 255);">Close menu</a></li>
                                         <li data-theme="z" data-role="list-divider">기본 제공 데이터</li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('City')">전국(구 단위)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('City_EMD')">전국(동 단위)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_si')">서울특별시(구 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('City_gu')">전국(구 단위)</a></li>
+                                                <!-- <li><a href="#" onclick="openGDSM.wfsMap.geoserver('City_dong')">전국(동 단위)</a></li> -->
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_gu')">서울특별시(구 단위)</a></li>
                                                 <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Seoul_dong')">서울특별시(동 단위)</a></li>
                                                 <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Incheon_dong')">인천광역시(동 단위)</a></li>
                                                 <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Sejong_dong')">세종시(동 단위)</a></li>
@@ -201,7 +221,17 @@
                                                 <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Daegu_dong')">대구광역시(동 단위)</a></li>
                                                 <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Ulsan_dong')">울산광역시(동 단위)</a></li>
                                                 <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Gwangju_dong')">광주광역시(동 단위)</a></li>
-                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Busan_dong')">부산광역시(돟 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Busan_dong')">부산광역시(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Chungcheongbuk_dong')">충청북도(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Chungcheongnam_dong')">충청남도(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Gangwon_dong')">강원도(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Gyeonggi_dong')">경기도(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Gyeongsangbuk_dong')">경상북도(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Gyeongsangnam_dong')">경상남도(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Jeju_dong')">제주도(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Jellanam_dong')">전라남도(동 단위)</a></li>
+                                                <li><a href="#" onclick="openGDSM.wfsMap.geoserver('Jeollabuk_dong')">전라북도(동 단위)</a></li>
+                                                
                                 <!--<li data-theme="z" data-role="list-divider">사용자 업로드 데이터</li>
                                         <li><a href="#" data-key="workspaceName" data-value="user" data-name="createWorkspace" onclick="openGDSM.geoServerProcess(this)">test</a></li> -->  
                                 </ul>
@@ -228,7 +258,7 @@
  	 	<a href="#select" data-role="button" data-rel="popup"  data-transition="slidedown" data-theme="g">메뉴</a> 
 		<h4>지도 시각화</h4>
 		<!-- <a href="logout.do" data-role="button" data-theme="g" >로그아웃</a> -->
-		<a href="#publicDataView" data-role="button" data-theme="g" >공공오픈데이터</a>
+		<!-- <a href="#publicDataView" data-role="button" data-theme="g" >공공오픈데이터</a> -->
 	</div>	
 	
 	<!-- Map Div -->
@@ -237,7 +267,7 @@
 		</div>		
 	</div>
 	<div data-role="footer" class="ui-body-g center" data-position="inline"  data-tap-toggle="false" >
-		<h4>.</h4>
+		<h4></h4>
 	</div>
 </div>
 </body>

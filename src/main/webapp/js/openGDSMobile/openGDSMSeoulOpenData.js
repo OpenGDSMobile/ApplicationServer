@@ -7,6 +7,8 @@ openGDSM.seoulOpenData.env = {
 	envType : '',
 	visType : '',
 	mapLayer : '',
+	dateValue : '',
+	timeValue : '',
 	colorRange : ["#4C4Cff","#9999FF","#4cff4c","#99ff99","#FFFF00","#FFFF99","#FF9900","#FF0000"],
 	PM10Range : [15,30,55,80,100,120,200],
 	PM25Range : [15,30,55,80,100,120,200],
@@ -22,6 +24,8 @@ openGDSM.seoulOpenData.env = {
 		this.envType = envType;
 		this.visType = visType;
 		this.mapLayer = mapLayer;
+		this.dateValue = dateValue;
+		this.timeValue = timeValue;
 		var data = '{"serviceName":"'+serviceName+'",'+
 		   			' "keyValue":"'+apiKey+'",'+					
 		   			'"dateValue":'+'"'+dateValue+'",'+
@@ -129,6 +133,9 @@ openGDSM.seoulOpenData.env = {
 			return styleCache[text];  
 		});
 		envMap.setOpacity(0.6);
+		$('#interpolationMapImage').attr('src','http://113.198.80.60/html/aqm/resultImages/'+this.dateValue.split("-").join("")+this.timeValue.replace(":","")+this.envType+'_result.jpg');
+		$('#interpolationMapImage').attr('height','250px');
+		$('#interpolationMap').show();
 	},
 	chartMapVisual: function(data){ 
 		$('#d3viewonMap').show(); 

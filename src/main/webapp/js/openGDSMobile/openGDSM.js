@@ -53,14 +53,19 @@ var cur_date = new Date();
 		apiKey = "9E21E5EE-67D4-36B9-85BB-E153321EEE65";
 		var rootDiv = $('#'+divName);
 		var html = 'Select Max 5<br><fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
-		var styles = ['LT_C_UQ111','LT_C_UQ112','LT_C_UQ113','LT_C_UQ114','LT_C_UQ121'];
-		var stylesText = ['도시지역','관리지역','농립지역','자연환경보전지역','경관지구']; 
+		var styles = ['LT_C_UQ111','LT_C_UQ112','LT_C_UQ113','LT_C_UQ114',
+		              'LT_C_UQ121','LT_C_UQ122','LT_C_UQ123','LT_C_UQ124',
+		              'LT_C_UQ125','LT_C_UQ126','LT_C_UQ127','LT_C_UQ128',
+		              'LT_C_UQ129','LT_C_UQ130'];
+		var stylesText = ['도시지역','관리지역','농립지역','자연환경보전지역','경관지구','미관지구',
+		                  	  '고도지구','방화지구','방재지구','보존지구','시설보호지구','취락지구',
+		                  	  '개발진흥지구','특정용도제한지구']; 
 
 		for(var i=0; i<styles.length; i++){
 			html += '<input type="checkbox" name="vworldWMS" class="custom" '+
 					' id="id-'+styles[i]+'" value="'+styles[i]+'" />'+
 					'<label for="id-'+styles[i]+'">'+stylesText[i]+'</label>';
-			if(i!=0 && i%3==0){
+			if(i!=0 && (i+1)%2==0){
 				html+='</fieldset>'+
 					  '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
 			}
@@ -298,8 +303,8 @@ var cur_date = new Date();
 			 	
 			 	var html = '<label for="areaValue">지역:</label>'+
 				   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
-			 	var areaType=['서울','부산','대구','대전','광주','울산','인천'] ; 
-			 	var areaValues=['서울','부산','대구','대전','광주','울산','인천'] ;
+			 	var areaType=['서울','부산','대구','대전','광주','울산','인천','전남','전북','경남','경북','강원','경기','제주'] ; 
+			 	var areaValues=['서울','부산','대구','대전','광주','울산','인천','전남','전북','경남','경북','강원','경기','제주'] ;
 			 	for(var i=0; i<areaType.length; i++){
 			 		html += '<input type="radio" name="arearadio" class="custom" '+
 			 				' id="id-'+areaType[i]+'" value="'+areaValues[i]+'"/>'+

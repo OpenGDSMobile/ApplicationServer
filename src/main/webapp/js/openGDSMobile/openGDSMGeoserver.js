@@ -73,8 +73,7 @@ openGDSMGeoserver.wfs = function(olmap,url,workspace,layername,color,width,epsg)
 	   	source: vectorSource,
 	   	style: styles
 	  });
-	olmap.addLayer(vectorTemp); 
-
+	olmap.addLayer(vectorTemp);
 }; 
 
 
