@@ -19,23 +19,17 @@ public class AirQualityDataDAOImp implements AirQualityDataDAO {
 
 	@Override
 	public void createMap() {
-
 		final String airEnvironmentJSON_filePath = "/var/www/html/aqm/201411021600.json";
-		
 		double[] seoulAirLocationLatitude  = {37.51754,  37.54573,	37.63788,  37.54465,  37.48736,  37.54798,	37.50373,  37.45239,  37.65878,  37.65420,  37.57578,  37.48296,  37.54975,  37.57670,	37.50457,  37.54323,  37.60674,  37.52182,	37.52342,  37.52607,  37.54090,  37.60983,	37.57204,  37.56427,  37.58485};
 		double[] seoulAirLocationLongitute = {127.04747, 127.13666, 127.02886, 126.83516, 126.92710, 127.09267, 126.89032, 126.90834, 127.06850, 127.02909, 127.02887, 126.97300, 126.94558, 126.93786, 126.99450, 127.04193, 127.02728, 127.11650, 126.85871, 126.89723, 127.00465, 126.93485, 127.00502, 126.97468, 127.09402}; 
-		
 		String[] airEnvironmentVariables = {"PM10", "NO2", "O3", "CO", "SO2", "PM25"};
-		
 		String aqmHome = "/var/www/html/aqm";
 		PrintWriter writer;
 		
 		try {
 			File aqmFolder = new File(aqmHome);
 			if (aqmFolder.exists() && aqmFolder.isDirectory()) {
-			   System.out.println("aqm directory exists");
-			   
-			   String resultHome = "/var/www/html/aqm/resultImages";
+ 			    String resultHome = "/var/www/html/aqm/resultImages";
 				String tempHome = "/var/www/html/aqm/images";
 				
 				File resultHomeFolder = new File(resultHome);
@@ -45,7 +39,6 @@ public class AirQualityDataDAOImp implements AirQualityDataDAO {
 				tempHomeFolder.mkdir();
 			}
 			else{
-				System.out.println("aqm directory not exists");
 				aqmFolder.mkdir();
 				
 				String resultHome = "/var/www/html/aqm/resultImages";
@@ -74,8 +67,6 @@ public class AirQualityDataDAOImp implements AirQualityDataDAO {
 
 				for(int i=0; i<rows.size(); i++){
 					JSONObject tObj = (JSONObject) rows.get(i);
-					//System.out.println("The PM10 " + tObj.get("MSRSTE_NM") + tObj.get("PM10"));
-					//writer.println(seoulAirLocationLongitute[i] + "," + seoulAirLocationLatitude[i] + "," + tObj.get("PM10"));
 					writer.println(seoulAirLocationLongitute[i] + "," + seoulAirLocationLatitude[i] + "," + tObj.get(target));
 					
 					if(i==0)
@@ -101,7 +92,6 @@ public class AirQualityDataDAOImp implements AirQualityDataDAO {
 		        String e_grid = "gdal_grid -zfield \"Elevation\" -a_srs EPSG:4326 -txe 126.764 127.184  -tye 37.4285 37.7014 -of GTiff -l " + target + " " + aqmHome + "/" + target + ".vrt" + " " + aqmHome + "/images/" + target + "_init.tif";
 		        Process p = rt.exec(new String[]{"bash","-c", e_grid});
 		        p.waitFor();
-		       
 		        
 		        URL colorTableLocation = this.getClass().getResource("/colorTables/" + target + "_color_code.txt"); 
 		        String colorTableFullPath = colorTableLocation.getPath();
@@ -114,7 +104,6 @@ public class AirQualityDataDAOImp implements AirQualityDataDAO {
 		        String seoulBoundShpFullPath = shpLocation.getPath();
 		        
 		        String e_warp = "gdalwarp -cutline " + seoulBoundShpFullPath + " -overwrite -tr 10 10 -dstnodata -99999 -s_srs EPSG:4326 -t_srs EPSG:3857 " + aqmHome + "/images/" + target + "_relief.tif " + aqmHome + "/images/" + target + ".tif";
-		        //String e_warp = "gdalwarp -cutline " + aqmHome + "/shp/wgs.shp -overwrite -tr 10 10 -dstnodata -99999 -s_srs EPSG:4326 -t_srs EPSG:3857 " + aqmHome + "/images/" + target + "_relief.tif " + aqmHome + "/images/" + target + ".tif";
 		        p = rt.exec(new String[]{"bash","-c", e_warp});
 		        p.waitFor();
 		        
