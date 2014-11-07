@@ -18,6 +18,6 @@ public class AirQualityServiceImp implements AirQualityService{
 	public void requestAirQualityMapCreate(Map<String,Object> data) {
 
 		System.out.println("hahah");
-		airQualityDataobj.createMap();
+		//airQualityDataobj.createMap();
 	}
 }

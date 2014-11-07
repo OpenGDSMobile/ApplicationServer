@@ -46,7 +46,7 @@ openGDSM.d3.barchart = function(divId, xyData, color, range){
 					})
 					//.attr('dy','.15em')
 					.attr('font-weight','bold')
-					.attr('font-size','0.2em')
+					.attr('font-size','0.9em')
 					.text(function(d){ 
 						return d;
 					});
@@ -62,7 +62,7 @@ openGDSM.d3.barchart = function(divId, xyData, color, range){
 						})
 						.attr('dy','.15em')
 						.attr('fill','black')
-						.attr('font-size','0.1em')
+						.attr('font-size','0.8em')
 						.attr('font-weight','bold')
 						.text(function(d){
 							return d;

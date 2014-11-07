@@ -7,6 +7,8 @@ openGDSM.seoulOpenData.env = {
 	envType : '',
 	visType : '',
 	mapLayer : '',
+	dateValue : '',
+	timeValue : '',
 	colorRange : ["#4C4Cff","#9999FF","#4cff4c","#99ff99","#FFFF00","#FFFF99","#FF9900","#FF0000"],
 	PM10Range : [15,30,55,80,100,120,200],
 	PM25Range : [15,30,55,80,100,120,200],
@@ -22,6 +24,8 @@ openGDSM.seoulOpenData.env = {
 		this.envType = envType;
 		this.visType = visType;
 		this.mapLayer = mapLayer;
+		this.dateValue = dateValue;
+		this.timeValue = timeValue;
 		var data = '{"serviceName":"'+serviceName+'",'+
 		   			' "keyValue":"'+apiKey+'",'+					
 		   			'"dateValue":'+'"'+dateValue+'",'+
@@ -33,7 +37,7 @@ openGDSM.seoulOpenData.env = {
 			data: JSON.stringify(data), 
 			contentType : "application/json;charset=UTF-8",
 			dataType : 'json',
-			success:function(msg){  
+			success:function(msg){   
 				if(visType=='chart')
 					openGDSM.seoulOpenData.env.chartVisual(JSON.parse(msg.data));
 				else if(visType=='map')
@@ -51,20 +55,18 @@ openGDSM.seoulOpenData.env = {
 		var envRange=[];  
 		var xyData=this.xydivision(data[this.serviceName], this.envType, 'MSRSTE_NM');
 		if(this.envType=="PM10")
-			envRange = openGDSM.seoulOpenData.env.PM10Range;
+			envRange = this.PM10Range;
 		else if(this.envType=="PM25")
-			envRange = openGDSM.seoulOpenData.env.PM25Range;
+			envRange = this.PM25Range;
 		else if(this.envType=="CO")
-			envRange = openGDSM.seoulOpenData.env.CORange;
+			envRange = this.CORange;
 		else if(this.envType=="NO2")
-			envRange = openGDSM.seoulOpenData.env.NO2Range;
+			envRange = this.NO2Range;
 		else if(this.envType=="SO2")
-			envRange = openGDSM.seoulOpenData.env.SO2Range;
+			envRange = this.SO2Range;
 		else if(this.envType=="O3")
-			envRange = openGDSM.seoulOpenData.env.O3Range;  
-		openGDSM.d3.barchart('d3View',xyData,this.colorRange,envRange);  
-		
-		
+			envRange = this.O3Range;  
+		openGDSM.d3.barchart('d3View',xyData,this.colorRange,envRange);   
 	},
 	/**
 	 * SeoupOpenData Environment Data OpenLayers Style
@@ -74,18 +76,19 @@ openGDSM.seoulOpenData.env = {
 		var envMap=null;
 		var curMaps=null;
 		var xyData=this.xydivision(data[this.serviceName], this.envType, 'MSRSTE_NM');
+
 		if(this.envType=="PM10")
-			envRange = openGDSM.seoulOpenData.env.PM10Range;
+			envRange = this.PM10Range;
 		else if(this.envType=="PM25")
-			envRange = openGDSM.seoulOpenData.env.PM25Range;
+			envRange = this.PM25Range;
 		else if(this.envType=="CO")
-			envRange = openGDSM.seoulOpenData.env.CORange;
+			envRange = this.CORange;
 		else if(this.envType=="NO2")
-			envRange = openGDSM.seoulOpenData.env.NO2Range;
+			envRange = this.NO2Range;
 		else if(this.envType=="SO2")
-			envRange = openGDSM.seoulOpenData.env.SO2Range;
+			envRange = this.SO2Range;
 		else if(this.envType=="O3")
-			envRange = openGDSM.seoulOpenData.env.O3Range; 
+			envRange = this.O3Range; 
 		//WFS addLayer
 		openGDSMGeoserver.wfs(Map.map, 'http://113.198.80.9/','opengds',this.mapLayer);
 		
@@ -94,13 +97,14 @@ openGDSM.seoulOpenData.env = {
 			if( curMaps[i].get('title') == this.mapLayer){
 				envMap = curMaps[i];
 			}
-		} 
+		}  
+		styleCache = {};
 		envMap.setStyle(function(f,r){  
 			var text = r < 5000 ? f.get('SIG_KOR_NM') : ''; 
 			if(!styleCache[text]){ 
 				var color = '';
 				for(var i=0; i<xyData[1].length; i++){
-					if(text==xyData[1][i]){
+					if(text==xyData[1][i]){ 
 						for(var j=0; j<envRange.length; j++){
 							if( xyData[0][i] <= envRange[j] ){ 
 								color = openGDSM.seoulOpenData.env.colorRange[j];
@@ -116,16 +120,42 @@ openGDSM.seoulOpenData.env = {
 					stroke : new ol.style.Stroke({
 						color : '#000000',
 						width : 1
+					}),
+					text : new ol.style.Text({
+			          font: '9px Calibri,sans-serif',
+			          text: text,
+			          fill: new ol.style.Fill({
+			            color: '#000'
+			          }) 
 					})
 				})];
 			}
 			return styleCache[text];  
 		});
 		envMap.setOpacity(0.6);
+		$('#interpolationMapImage').attr('src','http://113.198.80.60/html/aqm/resultImages/'+this.dateValue.split("-").join("")+this.timeValue.replace(":","")+this.envType+'_result.jpg');
+		$('#interpolationMapImage').attr('height','250px');
+		$('#interpolationMap').show();
 	},
-	chartMapVisual: function(data){
-		console.log('map Chart');
-		console.log(data);
+	chartMapVisual: function(data){ 
+		$('#d3viewonMap').show(); 
+		var envRange=[];  
+		var xyData=this.xydivision(data[this.serviceName], this.envType, 'MSRSTE_NM');
+		if(this.envType=="PM10")
+			envRange = this.PM10Range;
+		else if(this.envType=="PM25")
+			envRange = this.PM25Range;
+		else if(this.envType=="CO")
+			envRange = this.CORange;
+		else if(this.envType=="NO2")
+			envRange = this.NO2Range;
+		else if(this.envType=="SO2")
+			envRange = this.SO2Range;
+		else if(this.envType=="O3")
+			envRange = this.O3Range;  
+		openGDSM.d3.barchart('d3viewonMap_sub',xyData,this.colorRange,envRange);
+		this.mapVisual(data);   
+		
 	},
 	/**
 	 * SeoupOpenData Environment Data Division xData,yData 

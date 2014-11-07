@@ -4,10 +4,19 @@
  */
 var openGDSM = {};
 	openGDSM.wmsMapUI = {};
-	openGDSM.wfsMap ={};
+	openGDSM.wfsMap ={}; 
 var date = {};
 var cur_date = new Date(); 
-(function(){ 
+(function(){
+	openGDSM.init = function(){ 
+		$(document).on("pageinit",function(){
+			$.mobile.loader.prototype.options.text="loading";
+			$.mobile.loader.prototype.options.textVisible=false;
+			$.mobile.loader.prototype.options.theme="a";
+			$.mobile.loader.prototype.options.html="";
+		});
+		
+	};
 	/**
 	 * base Map Setting
 	 * Parameter : divName -> Map div Name,     mapStyle -> osm , vworld
@@ -38,19 +47,25 @@ var cur_date = new Date();
 				}
 			});
 			selectedData = selectedData.slice(0,-1);
-			openGDSM.vWorld.wmsAPI(Map.map, apiKey, selectedData);
+ 
+			openGDSM.vWorld.wmsAPI(Map.map, apiKey, selectedData); 
 		}; 
 		apiKey = "9E21E5EE-67D4-36B9-85BB-E153321EEE65";
 		var rootDiv = $('#'+divName);
 		var html = 'Select Max 5<br><fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
-		var styles = ['LT_C_UQ111','LT_C_UQ112','LT_C_UQ113','LT_C_UQ114','LT_C_UQ121'];
-		var stylesText = ['도시지역','관리지역','농립지역','자연환경보전지역','경관지구']; 
+		var styles = ['LT_C_UQ111','LT_C_UQ112','LT_C_UQ113','LT_C_UQ114',
+		              'LT_C_UQ121','LT_C_UQ122','LT_C_UQ123','LT_C_UQ124',
+		              'LT_C_UQ125','LT_C_UQ126','LT_C_UQ127','LT_C_UQ128',
+		              'LT_C_UQ129','LT_C_UQ130'];
+		var stylesText = ['도시지역','관리지역','농립지역','자연환경보전지역','경관지구','미관지구',
+		                  	  '고도지구','방화지구','방재지구','보존지구','시설보호지구','취락지구',
+		                  	  '개발진흥지구','특정용도제한지구']; 
 
 		for(var i=0; i<styles.length; i++){
 			html += '<input type="checkbox" name="vworldWMS" class="custom" '+
 					' id="id-'+styles[i]+'" value="'+styles[i]+'" />'+
 					'<label for="id-'+styles[i]+'">'+stylesText[i]+'</label>';
-			if(i!=0 && i%3==0){
+			if(i!=0 && (i+1)%2==0){
 				html+='</fieldset>'+
 					  '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
 			}
@@ -74,27 +89,25 @@ var cur_date = new Date();
 			g = Math.floor(Math.random()*256),
 			b = Math.floor(Math.random()*256),
 			color ='rgba('+r+','+g+','+b+',0.7)',
-			width = 1;
-		openGDSMGeoserver.wfs(Map.map, url, workspace, layerName, color, width);		
+			width = 1; 
+		openGDSMGeoserver.wfs(Map.map, url, workspace, layerName, color, width);  
 	}; 
+
 	/**
-	 * Seoul Pulbic OpenData User Interface
+	 * Pulbic OpenData User Interface
 	 */ 
-	//TimeAverageAirQuality
-	 openGDSM.seoulPublicUI = {
-			 divName : '',
-			 apiKey : '',
-			 mapLayers : [],
-			 dateChk : false,
-			 timeChk : false,
-			 visualTypeRadioBtn : function(rootDiv){
+	openGDSM.PublicDataUI = {  
+			 visualTypeRadioBtn : function(rootDiv, mapSW){ 
+				mapSW = (typeof(mapSW) !== 'undefined') ? mapSW : true;
 				var html = '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
 				var arr = ['chart','map','chartMap'];
 				var arrText = ['차트','맵','차트&맵'];
 				for(var i=0; i<arr.length; i++){ 
 						html += '<input type="radio" name="visradio" class="custom" '+
-								' id="id-'+arr[i]+'" value="'+arr[i]+
-								'" onclick="openGDSM.seoulPublicUI.mapSelect($(this))"/>'+
+								' id="id-'+arr[i]+'" value="'+arr[i]+'" ';//+\
+						if(mapSW==false) html+='disabled ';
+						if(i==0) html+= 'checked';
+						html += ' onclick="openGDSM.PublicDataUI.mapSelect($(this))"/>'+
 								'<label for="id-'+arr[i]+'">'+arrText[i]+'</label>';
 				} 
 				html += '</fieldset>';		rootDiv.append(html);
@@ -107,20 +120,54 @@ var cur_date = new Date();
 				this.dateChk = true; 
 			 },
 			 inputTime : function(rootDiv){
-				var html =  '<label for="timeValue">시간 : </label>'+
-							 '<input type="time" id="timeValue">';
-				rootDiv.append(html);
-				this.timeChk = true;
-			 },
+					var html =  '<label for="timeValue">시간 : </label>'+
+								 '<input type="time" id="timeValue">';
+					rootDiv.append(html);
+					this.timeChk = true;
+				 },
 			 inputValueSetting : function(){ 
 				if(this.dateChk) $("#dateValue").attr('value',date.getYYYYMMDD("-"));
 				if(this.timeChk) $("#timeValue").attr('value',date.getHour()+":00");
-			 },
-			 processBtn : function(rootDiv,serviceName){
-					var html = '<a href="#" data-role="button" data-serivce="'+serviceName+'" '+ 
-					 			'onclick="openGDSM.seoulPublicUI.makeData($(this))">Visualization</a>';
+			 }, 
+			 processBtn : function(rootDiv,obj,serviceName, provider){
+				 provider = (typeof(provider) !== 'undefined') ? provider : "";
+					var html = '<a href="#" data-role="button" data-provider="'+provider+'" data-serivce="'+serviceName+'" '+ 
+					 			'onclick="openGDSM.'+obj+'.makeData($(this))">시각화</a>';
 					rootDiv.append(html);
-			 },   
+			 }, 
+			 mapSelect : function(obj){
+				 var mapSelect = $('#wfsMap'); 
+				 if(mapSelect.is(':empty')){
+					 if(obj.val()=='map' || obj.val()=='chartMap'){
+						 var html = '<div data-role="fieldcontain">'+
+						 			'<select name="geoServerMap" id="geoserverSelectBox">';
+						 for(var i=0; i<openGDSMGeoserver.mapLayers.length; i++){
+							 html += '<option value="'+openGDSMGeoserver.mapLayers[i]+'"';
+							 if(i==0) html+=' selected';							 
+							 html += '>'+openGDSMGeoserver.mapLayers[i]+'</option>';
+						 }
+						 html +='</select>';
+						 mapSelect.append(html);
+						 mapSelect.trigger("create");
+					 }
+				 }
+				 //Only Chart
+				 else{
+					if(obj.val()=='chart'){
+						mapSelect.empty();
+					} 
+				 }
+			 },  
+	}; 
+	/**
+	 * Seoul Pulbic OpenData Interface
+	 */ 
+	//TimeAverageAirQuality  
+	 openGDSM.seoulPublic = {
+			 divName : '',
+			 apiKey : '', 
+			 dateChk : false,
+			 timeChk : false,
 			 makeData : function(obj){    
 				var visType="", envType="";
 				var visRadio = $("input[name='visradio']:radio");
@@ -143,58 +190,16 @@ var cur_date = new Date();
 						$("#dateValue").val(),
 						$("#timeValue").val()); 
 			 },
-			 getLayers : function(){ 
-				 data = {ws:'opengds'};
-				 if(this.mapLayers){
-					 $.ajax({
-							type:'POST',
-							url:'getLayerNames.do',
-							data: JSON.stringify(data), 
-							contentType : "application/json;charset=UTF-8",
-							dataType : 'json',
-							success:function(msg){
-								openGDSM.seoulPublicUI.mapLayers = msg.data;
-							},
-							error:function(){
-								console.log("err");
-							}
-					}); 
-				 } 
-			 },
-			 mapSelect : function(obj){
-				 var mapSelect = $('#wfsMap'); 
-				 if(mapSelect.is(':empty')){
-					 if(obj.val()=='map' || obj.val()=='mapChart'){
-						 var html = '<div data-role="fieldcontain">'+
-						 			'<select name="geoServerMap" id="geoserverSelectBox">';
-						 for(var i=0; i<this.mapLayers.length; i++){
-							 html += '<option value="'+this.mapLayers[i]+'"';
-							 if(i==0) html+=' selected';							 
-							 html += '>'+this.mapLayers[i]+'</option>';
-						 }
-						 html +='</select>';
-						 mapSelect.append(html);
-						 mapSelect.trigger("create");
-					 }
-				 }
-				 //Only Chart
-				 else{
-					if(obj.val()=='chart'){
-						mapSelect.empty();
-					} 
-				 }
-			 },
 			 /// TimeAverageAirQuality Service...
 			 areaEnv : function(divName, apiKey){ 
-				this.getLayers();
 				$('#'+divName).empty();
 				this.divName = divName;
-				this.dateChk = false, this.timeChk = false;
+				this.dateChk = true, this.timeChk = true;
 				this.apiKey = '6473565a72696e7438326262524174'; 
 				var rootDiv = $('#'+divName);
-				this.visualTypeRadioBtn(rootDiv);
-				this.inputDate(rootDiv);
-				this.inputTime(rootDiv);
+				openGDSM.PublicDataUI.visualTypeRadioBtn(rootDiv);
+				openGDSM.PublicDataUI.inputDate(rootDiv);
+				openGDSM.PublicDataUI.inputTime(rootDiv);
 				
 				var html = '<label for="envValue">환경정보:</label>'+
 						   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
@@ -210,19 +215,18 @@ var cur_date = new Date();
 				}
 				html += '</fieldset>';		
 				rootDiv.append(html);
-				this.processBtn(rootDiv, "TimeAverageAirQuality");
+				openGDSM.PublicDataUI.processBtn(rootDiv,'seoulPublic', "TimeAverageAirQuality");
 				rootDiv.trigger("create");
-				this.inputValueSetting();
+				openGDSM.PublicDataUI.inputValueSetting();
 			 },
 			 //RealtimeRoadsideStation Service
 			 roadEnv : function(divName, apiKey){
-					this.getLayers();
 					$('#'+divName).empty(); 
 					this.divName = divName;
 					this.dateChk = false, this.timeChk = false;
 					this.apiKey = '4b56506967696e7437317348694371';
 				 	var rootDiv = $('#'+this.divName); 
-					this.visualTypeRadioBtn(rootDiv);  
+					this.visualTypeRadioBtn(rootDiv,false);  
 							
 					var html = '<label for="envValue">환경정보:</label>'+
 							   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
@@ -242,132 +246,102 @@ var cur_date = new Date();
 					rootDiv.trigger("create");
 					this.inputValueSetting(); 
 			 }
+	 };  
+	 
+	 openGDSM.PublicDataPortal = { 
+			 apiKey : '',
+			 visualTypeRadioBtn : function(rootDiv, mapSW){ 
+					mapSW = (typeof(mapSW) !== 'undefined') ? mapSW : true;
+					var html = '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+					var arr = ['chart','map','chartMap'];
+					var arrText = ['차트','맵','차트&맵'];
+					for(var i=0; i<arr.length; i++){ 
+							html += '<input type="radio" name="visradio" class="custom" '+
+									' id="id-'+arr[i]+'" value="'+arr[i]+'" ';//+
+							if(mapSW==false) html+='disabled ';
+							if(i==0) html+= 'checked';
+							html += ' onclick="openGDSM.PublicDataPortalUI.mapSelect($(this))"/>'+
+									'<label for="id-'+arr[i]+'">'+arrText[i]+'</label>';
+					} 
+					html += '</fieldset>';		rootDiv.append(html);
+					rootDiv.append('<div id="wfsMap"></div>');
+			},   
+			 makeData : function(obj){    
+				var visType="", envType="", areaType="";
+				var visRadio = $("input[name='visradio']:radio");
+				var envRadio = $("input[name='envradio']:radio");
+				var areaRadio = $("input[name='arearadio']:radio");
+				visRadio.each(function(i){ 
+					if($(this).is(":checked")){
+						visType=$(this).val(); 
+					}
+				});
+				envRadio.each(function(i){ 
+					if($(this).is(":checked")){
+						envType=$(this).val(); 
+					}
+				}); 
+				areaRadio.each(function(i){
+					if($(this).is(":checked")){ 
+						areaType=$(this).val(); 
+					}
+				}); 
+				$('#'+this.divName).popup("close"); 
+				openGDSM.publicOpenData.env.dataLoad(
+						obj.attr("data-provider"),
+						obj.attr("data-serivce"),
+						this.apiKey, visType, envType, areaType,
+						$("select[name=geoServerMap]").val()
+						); 
+			 }, 
+			 areaEnv : function(divName, apiKey){  
+				this.apiKey = encodeURIComponent(apiKey);
+				$('#'+divName).empty(); 
+				this.divName = divName;
+			 	var rootDiv = $('#'+this.divName);
+			 	openGDSM.PublicDataUI.visualTypeRadioBtn(rootDiv); 
+			 	
+			 	var html = '<label for="areaValue">지역:</label>'+
+				   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+			 	var areaType=['서울','부산','대구','대전','광주','울산','인천','전남','전북','경남','경북','강원','경기','제주'] ; 
+			 	var areaValues=['서울','부산','대구','대전','광주','울산','인천','전남','전북','경남','경북','강원','경기','제주'] ;
+			 	for(var i=0; i<areaType.length; i++){
+			 		html += '<input type="radio" name="arearadio" class="custom" '+
+			 				' id="id-'+areaType[i]+'" value="'+areaValues[i]+'"/>'+
+			 				'<label for="id-'+areaType[i]+'">'+areaType[i]+'</label>';
+			 		if(i!=0 && (i+1)%3==0){
+			 				html+='</fieldset>'+
+			 				'<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+			 		}
+			 	} 
+			 	html += '</fieldset>'; 
+			 	
+			 	html += '<label for="envValue">환경정보:</label>'+
+				   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+			 	var envType = ['PM10','SO2','O3','NO2','CO'];
+			 	var envValues = ['pm10Value','so2Value','o3Value','no2Value','coValue'];
+			 	for(var i=0; i<envType.length; i++){
+			 		html += '<input type="radio" name="envradio" class="custom" '+
+			 				' id="id-'+envType[i]+'" value="'+envValues[i]+'"/>'+
+			 				'<label for="id-'+envType[i]+'">'+envType[i]+'</label>';
+			 		if(i!=0 && (i+1)%3==0){
+			 				html+='</fieldset>'+
+			 				'<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
+			 		}
+			 	} 
+			 	html += '</fieldset>';		
+				rootDiv.append(html);
+
+				openGDSM.PublicDataUI.processBtn(rootDiv,"PublicDataPortal","ArpltnInforInqireSvc", "airkorea");
+			 	rootDiv.trigger("create"); 
+			 }			 
 	 }; 
 	 
 	 
 	 
 	 
-	 
-	 
-	 
-	 
-	 
-	///////////////////////////////////////////////////////
-	openGDSM.geoServerProcess = function(obj){
-		console.log($(obj).attr('data-name')); 
-		switch($(obj).attr('data-name')){
-		case 'loadVector':
-			var mapLayers = Map.map.getLayers(),
-			obj_exist=false,
-			name = $(obj).attr('data-id'),
-			r = Math.floor(Math.random()*256),
-			g = Math.floor(Math.random()*256),
-			b = Math.floor(Math.random()*256); 
-			mapLayers.forEach(function(data){
-				if(data.get('title')==name){
-					obj_exist = true;		
-					Layer.removeLayer(data);
-					return ;
-				}
-			}); 
-			if(!obj_exist)	{
-				Layer.createLayer(obj,'rgba('+r+','+g+','+b+',1.0)',1);
-			//ajaxNetwork(obj,data);
-			}
-			
-		break;
-		case 'createWorkspace':
-			//createkeyValueJsonString($(obj));
-			ajaxNetwork(obj,data);
-			break;
-		
-		}
-		//ajaxNetwork(obj);
-	}; 
 	
-	/** keyValue, DateValue, TimeValue -- data-key, data-value**/
-	openGDSM.publicOpenData = function(obj,state,data){
-		state = (typeof(state) !== 'undefined') ? state : "start";
-		data = (typeof(data) !== 'undefined') ? data : null; 
-		
-		///// Checkbox Check!!
-		var chkValues = ["keyValue","dateValue","timeValue"];
-		var chkArray=[];
-		chkArray.push($(obj));
-		for(i in chkValues){
-			if( $("#chk"+chkValues[i]).is(":checked") ){
-				$('#'+chkValues[i]).attr('data-value',$('#'+chkValues[i]).attr('value'));
-				chkArray.push($('#'+chkValues[i]));
-			}
-		}  
-		//6473565a72696e7438326262524174    env
-		//4b56506967696e7437317348694371	road
-
-		switch($(obj).attr('data-name')){
-		case 'SeoulpublicOpenData':
-			if(state=="start"){  
-				var jsonStringData = createkeyValueJsonString(chkArray);
-				$('#'+$(obj).attr('data-popup')).popup('close');
-				ajaxNetwork(obj,jsonStringData);
-			}
-			else if(state=="jsondata"){
-				var dataList = data[ $(obj).attr('data-value') ]; // Service Name
-			//	var keys = Object.keys(dataList);  
-
-				$('#dataSelect').popup("open");
-				
-				
-				if($(obj).attr('data-value')=="TimeAverageAirQuality"){
-					var envType = $(':radio[name="env"]:checked').val();
-					var colorRange =openGDSM.seoulOpenData.env.colorRange; 
-					var xyData=openGDSM.seoulOpenData.env.xydivision(dataList, envType);
-					if(envType=="PM10")
-						envType = openGDSM.seoulOpenData.env.PM10Range;
-					else if(envType=="PM25")
-						envType = openGDSM.seoulOpenData.env.PM25Range;
-					else if(envType=="CO")
-						envType = openGDSM.seoulOpenData.env.CORange;
-					else if(envType=="NO2")
-						envType = openGDSM.seoulOpenData.env.NO2Range;
-					else if(envType=="SO2")
-						envType = openGDSM.seoulOpenData.env.SO2Range;
-					else if(envType=="O3")
-						envType = openGDSM.seoulOpenData.env.O3Range;
-					
-					openGDSM.d3.barchart('d3View',xyData,colorRange,envType);	
-				} 
-
-				if($(obj).attr('data-value')=="RealtimeRoadsideStation"){
-					var envType = $(':radio[name="env"]:checked').val();
-					var colorRange =openGDSM.seoulOpenData.env.colorRange; 
-					var xyData=openGDSM.seoulOpenData.env.xydivision(dataList, envType);
-					if(envType=="PM10")
-						envType = openGDSM.seoulOpenData.env.PM10Range;
-					else if(envType=="PM25")
-						envType = openGDSM.seoulOpenData.env.PM25Range;
-					else if(envType=="CO")
-						envType = openGDSM.seoulOpenData.env.CORange;
-					else if(envType=="NO2")
-						envType = openGDSM.seoulOpenData.env.NO2Range;
-					else if(envType=="SO2")
-						envType = openGDSM.seoulOpenData.env.SO2Range;
-					else if(envType=="O3")
-						envType = openGDSM.seoulOpenData.env.O3Range;
-					
-					openGDSM.d3.barchart('d3View',xyData,colorRange,envType); 
-				}
-				
-			} 
-			else if(state=="tableView"){
-				console.log($('#selectData').attr('value'));
-			}
-			else if(state=="d3View"){
-				
-			}
-		break; 
-		} 
-	};
-	
+	 //////////////////////////////////////////
 	createkeyValueJsonString = function(data){    
 		var str = "{";
 		for(var i in data){ 
@@ -377,26 +351,7 @@ var cur_date = new Date();
 			else						str +='",';
 		}  
 		return JSON.parse(str); 
-	};//JSON {key:value}  
-	ajaxNetwork = function(obj, data){
-		$.ajax({
-			type:'POST',
-			url:$(obj).attr('data-name')+'.do',
-			data: JSON.stringify(data), 
-			contentType : "application/json;charset=UTF-8",
-			dataType : 'json',
-			success:function(msg){ 
-				openGDSM.publicOpenData(obj,"jsondata",JSON.parse(msg.data));
-				//openGDSM.geoServertest(obj,JSON.parse(msg.data));
-			},
-			error:function(){
-				console.log("err");
-			}
-		}); 
-	};
-
-	
-	
+	};//JSON {key:value}    
 	
 /**
  * getDate Module About Public Date 
