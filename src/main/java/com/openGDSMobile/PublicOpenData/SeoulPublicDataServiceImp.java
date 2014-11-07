@@ -8,6 +8,8 @@ import org.codehaus.jackson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import com.openGDSMobile.airQuality.AirQualityDataDAO;
  
 
 
@@ -21,8 +23,15 @@ public class SeoulPublicDataServiceImp implements PublicDataService{
 	String[] keysValue; 
 	String amount = "";
 	String seoulBaseURL="";
+	
+	@Autowired
+	@Qualifier("airQualityData")
+	AirQualityDataDAO airQualityDataobj; 
+	
 	@Override
 	public String requestPublicData(Map<String,Object> data) {
+		
+		
 		String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
 		keysValue=new String[]{"","","",""};
 		Set<String> keys = data.keySet();
@@ -45,6 +54,9 @@ public class SeoulPublicDataServiceImp implements PublicDataService{
 		JsonParser jp =publicDataobj.getJSONPublicData(seoulBaseURL); 
 		try {
 			String result = String.valueOf(jp.readValueAsTree()); 
+
+			airQualityDataobj.createMap(result);
+			
 			return result; 
 		} catch (Exception e) { 
 			e.printStackTrace();

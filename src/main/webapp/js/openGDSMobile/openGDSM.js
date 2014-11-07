@@ -8,7 +8,7 @@ var openGDSM = {};
 var date = {};
 var cur_date = new Date(); 
 (function(){
-	openGDSM.init = function(){
+	openGDSM.init = function(){ 
 		$(document).on("pageinit",function(){
 			$.mobile.loader.prototype.options.text="loading";
 			$.mobile.loader.prototype.options.textVisible=false;
