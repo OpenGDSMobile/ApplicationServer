@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
- <!-- 
-   서울시 오픈 데이터 서버에서 .... 환경 정보 데이터 처리..
- airQuality 이미지 불러서 ... 추가 ...
- Db..는 ... 논문에만 집어넣자...
-  -->
+    pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
 <html>
 <head>    
@@ -199,10 +194,10 @@
 					</li>
 					<li data-theme="z" data-role="list-divider">배경 지도</li>
 					<li><a href="#"  onclick="openGDSM.baseMap('map','osm')">OpenStreetMap</a></li>
-					<li><a href="#"  onclick="openGDSM.baseMap('map','vworld')">V-World</a></li>
-					<li data-theme="z" data-role="list-divider">WMS</li> 
+					<li><a href="#"  onclick="openGDSM.baseMap('map','vworld')">VWorld</a></li>
+					<li data-theme="z" data-role="list-divider">VWorld 데이터 API</li> 
 					<li><a href="#vworldList"  data-rel="popup" data-position-to="window" 
-					     onclick="openGDSM.wmsMapUI.vworld('vworldList','E9CACC10-B443-30E1-9E2E-9E18F49049CA')" >V-World</a></li>
+					     onclick="openGDSM.wmsMapUI.vworld('vworldList','E9CACC10-B443-30E1-9E2E-9E18F49049CA')" >VWorld</a></li>
 					<!-- <li><a href="#vworldList"  data-rel="popup" data-position-to="window" >V-World</a></li>-->
 				</ul>
 		</div>  

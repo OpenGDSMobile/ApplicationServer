@@ -56,10 +56,10 @@ var cur_date = new Date();
 		var styles = ['LT_C_UQ111','LT_C_UQ112','LT_C_UQ113','LT_C_UQ114',
 		              'LT_C_UQ121','LT_C_UQ122','LT_C_UQ123','LT_C_UQ124',
 		              'LT_C_UQ125','LT_C_UQ126','LT_C_UQ127','LT_C_UQ128',
-		              'LT_C_UQ129','LT_C_UQ130'];
+		              'LT_C_UQ129','LT_C_UQ130','LT_C_WKMBBSN','LT_C_TDWAREA','LT_L_FRSTCLIMB'];
 		var stylesText = ['도시지역','관리지역','농립지역','자연환경보전지역','경관지구','미관지구',
 		                  	  '고도지구','방화지구','방재지구','보존지구','시설보호지구','취락지구',
-		                  	  '개발진흥지구','특정용도제한지구']; 
+		                  	  '개발진흥지구','특정용도제한지구','수자원[대권역]','보행우선구역','등산로']; 
 
 		for(var i=0; i<styles.length; i++){
 			html += '<input type="checkbox" name="vworldWMS" class="custom" '+
@@ -82,7 +82,7 @@ var cur_date = new Date();
 	 */
 	//openGDSM.wfsMap.geoserver = function(url,workspace,layerName,color,width){
 	openGDSM.wfsMap.geoserver = function(layerName){
-		var url = "http://113.198.80.9/",
+		var url = "http://113.198.80.60/",
 			workspace = 'opengds',
 			//layerName = 'Seoul_si',
 			r = Math.floor(Math.random()*256),
@@ -100,12 +100,12 @@ var cur_date = new Date();
 			 visualTypeRadioBtn : function(rootDiv, mapSW){ 
 				mapSW = (typeof(mapSW) !== 'undefined') ? mapSW : true;
 				var html = '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
-				var arr = ['chart','map','chartMap'];
-				var arrText = ['차트','맵','차트&맵'];
+				var arr = ['map','chart','chartMap'];
+				var arrText = ['맵','차트','맵&차트'];
 				for(var i=0; i<arr.length; i++){ 
 						html += '<input type="radio" name="visradio" class="custom" '+
 								' id="id-'+arr[i]+'" value="'+arr[i]+'" ';//+\
-						if(mapSW==false) html+='disabled ';
+						if(mapSW==false && arr[i]!='chart') html+='disabled ';
 						if(i==0) html+= 'checked';
 						html += ' onclick="openGDSM.PublicDataUI.mapSelect($(this))"/>'+
 								'<label for="id-'+arr[i]+'">'+arrText[i]+'</label>';
@@ -130,6 +130,7 @@ var cur_date = new Date();
 				if(this.timeChk) $("#timeValue").attr('value',date.getHour()+":00");
 			 }, 
 			 processBtn : function(rootDiv,obj,serviceName, provider){
+				 console.log(obj);
 				 provider = (typeof(provider) !== 'undefined') ? provider : "";
 					var html = '<a href="#" data-role="button" data-provider="'+provider+'" data-serivce="'+serviceName+'" '+ 
 					 			'onclick="openGDSM.'+obj+'.makeData($(this))">시각화</a>';
@@ -203,11 +204,15 @@ var cur_date = new Date();
 				
 				var html = '<label for="envValue">환경정보:</label>'+
 						   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
-				var envType = ['PM10','PM25','SO2','O3','NO2','CO'];
+				var envType = ['pm10','pm25','so2','o3','no2','co'];
+				var envTypeValue = ['PM10','PM25','SO2','O3','NO2','CO'];
 				for(var i=0; i<envType.length; i++){
 					html += '<input type="radio" name="envradio" class="custom" '+
-					' id="id-'+envType[i]+'" value="'+envType[i]+'"/>'+
-					'<label for="id-'+envType[i]+'">'+envType[i]+'</label>';
+					' id="id-'+envTypeValue[i]+'" value="'+envTypeValue[i]+'"/>'+
+					'<label for="id-'+envTypeValue[i]+'">'+
+					//envType[i]+
+					'<img src="images/'+envType[i]+'.png" width=30>'+
+					'</label>';
 					if(i!=0 && (i+1)%3==0){
 						html+='</fieldset>'+
 							  '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
@@ -226,15 +231,20 @@ var cur_date = new Date();
 					this.dateChk = false, this.timeChk = false;
 					this.apiKey = '4b56506967696e7437317348694371';
 				 	var rootDiv = $('#'+this.divName); 
-					this.visualTypeRadioBtn(rootDiv,false);  
+				 	openGDSM.PublicDataUI.visualTypeRadioBtn(rootDiv,false);  
 							
 					var html = '<label for="envValue">환경정보:</label>'+
 							   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
-					var envType = ['PM10','PM25','SO2','O3','NO2','CO'];
+
+					var envType = ['pm10','pm25','so2','o3','no2','co'];
+					var envTypeValue = ['PM10','PM25','SO2','O3','NO2','CO'];
 					for(var i=0; i<envType.length; i++){
 						html += '<input type="radio" name="envradio" class="custom" '+
-						' id="id-'+envType[i]+'" value="'+envType[i]+'"/>'+
-						'<label for="id-'+envType[i]+'">'+envType[i]+'</label>';
+						' id="id-'+envTypeValue[i]+'" value="'+envTypeValue[i]+'"/>'+
+						'<label for="id-'+envTypeValue[i]+'">'+
+						//envType[i]+
+						'<img src="images/'+envType[i]+'.png" width=30>'+
+						'</label>';
 						if(i!=0 && (i+1)%3==0){
 							html+='</fieldset>'+
 								  '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
@@ -242,9 +252,9 @@ var cur_date = new Date();
 					} 
 					html += '</fieldset>';		
 					rootDiv.append(html);
-					this.processBtn(rootDiv, "RealtimeRoadsideStation");
+					openGDSM.PublicDataUI.processBtn(rootDiv,'seoulPublic', "RealtimeRoadsideStation");
 					rootDiv.trigger("create");
-					this.inputValueSetting(); 
+					openGDSM.PublicDataUI.inputValueSetting(); 
 			 }
 	 };  
 	 
@@ -253,8 +263,8 @@ var cur_date = new Date();
 			 visualTypeRadioBtn : function(rootDiv, mapSW){ 
 					mapSW = (typeof(mapSW) !== 'undefined') ? mapSW : true;
 					var html = '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
-					var arr = ['chart','map','chartMap'];
-					var arrText = ['차트','맵','차트&맵'];
+					var arr = ['map','chart','chartMap'];
+					var arrText = ['맵','차트','맵&차트'];
 					for(var i=0; i<arr.length; i++){ 
 							html += '<input type="radio" name="visradio" class="custom" '+
 									' id="id-'+arr[i]+'" value="'+arr[i]+'" ';//+
@@ -318,12 +328,15 @@ var cur_date = new Date();
 			 	
 			 	html += '<label for="envValue">환경정보:</label>'+
 				   '<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';
-			 	var envType = ['PM10','SO2','O3','NO2','CO'];
+			 	var envType = ['pm10','pm25','so2','o3','no2','co'];
 			 	var envValues = ['pm10Value','so2Value','o3Value','no2Value','coValue'];
 			 	for(var i=0; i<envType.length; i++){
 			 		html += '<input type="radio" name="envradio" class="custom" '+
 			 				' id="id-'+envType[i]+'" value="'+envValues[i]+'"/>'+
-			 				'<label for="id-'+envType[i]+'">'+envType[i]+'</label>';
+			 				'<label for="id-'+envType[i]+'">'+
+							//envType[i]+
+							'<img src="images/'+envType[i]+'.png" width=30>'+
+			 				'</label>';
 			 		if(i!=0 && (i+1)%3==0){
 			 				html+='</fieldset>'+
 			 				'<fieldset data-role="controlgroup" data-type="horizontal" class="egov-align-center">';

@@ -55,7 +55,8 @@ public class SeoulPublicDataServiceImp implements PublicDataService{
 		try {
 			String result = String.valueOf(jp.readValueAsTree()); 
 
-			airQualityDataobj.createMap(result);
+			if(keysValue[0].equals("TimeAverageAirQuality")) 
+				airQualityDataobj.createMap(result);
 			
 			return result; 
 		} catch (Exception e) { 
