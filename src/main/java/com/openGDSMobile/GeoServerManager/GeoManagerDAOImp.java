@@ -16,9 +16,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository("geodao")
 public class GeoManagerDAOImp implements GeoManagerDAO {
-
-	//static String RESTURL = "http://113.198.80.60:8080/geoserver";
-	static String RESTURL = "http://113.198.80.60/geoserver";
+ 
+	static String RESTURL = "http://113.198.80.9/geoserver";
 	static String RESTUSER = "admin";
 	static String RESTPW = "geoserver";
 	
