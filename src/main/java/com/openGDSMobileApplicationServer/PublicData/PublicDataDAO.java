@@ -1,4 +1,4 @@
-package com.openGDSMobile.PublicOpenData;
+package com.openGDSMobileApplicationServer.PublicData;
  
 import org.codehaus.jackson.JsonParser; 
 import org.jdom2.Document;

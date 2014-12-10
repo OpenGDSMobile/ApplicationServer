@@ -1,4 +1,4 @@
-package com.openGDSMobile.GeoServerManager;
+package com.openGDSMobileApplicationServer.GeoServerManager;
  
  
 import java.util.List;
@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GeoManagerServiceImp implements GeoManagerService {
+public class GeoServerManagerServiceImp implements GeoServerManagerService {
 
 	@Autowired
 	@Qualifier("geodao")
-	GeoManagerDAO geo_manager;
+	GeoServerManagerDAO geo_manager;
 	
 	@Override
 	public boolean createWorkspace(String name) {

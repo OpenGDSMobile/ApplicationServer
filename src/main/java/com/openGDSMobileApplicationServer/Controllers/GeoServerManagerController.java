@@ -1,4 +1,4 @@
-package com.openGDSMobile.Controllers;
+package com.openGDSMobileApplicationServer.Controllers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.openGDSMobile.GeoServerManager.GeoManagerService;
+import com.openGDSMobileApplicationServer.GeoServerManager.GeoServerManagerService;
 
 @Controller
-public class GeoServerController { 
+public class GeoServerManagerController { 
 	@Autowired
-	GeoManagerService geomanager; 
+	GeoServerManagerService geomanager; 
 	
 	@RequestMapping(value="/createWorkspace.do")
 	public @ResponseBody Map<String, Object> workspaceCreate(@RequestBody String JSONData){ 

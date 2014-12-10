@@ -1,4 +1,4 @@
-package com.openGDSMobile.UserManager;
+package com.openGDSMobileApplicationServer.UserManager;
 
 public class User {
 	private String userId;

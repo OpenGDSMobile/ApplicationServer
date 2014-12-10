@@ -1,4 +1,4 @@
-package com.openGDSMobile.UserManager;
+package com.openGDSMobileApplicationServer.UserManager;
     
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,6 +3,6 @@
 
 <configuration> 
 	<typeAliases>
-		<typeAlias alias="users" type="com.openGDSMobile.UserManager.User"/>
+		<typeAlias alias="users" type="com.openGDSMobileApplicationServer.UserManager.User"/>
 	</typeAliases>
 </configuration>

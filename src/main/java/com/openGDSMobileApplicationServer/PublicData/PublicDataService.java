@@ -1,4 +1,4 @@
-package com.openGDSMobile.PublicOpenData;
+package com.openGDSMobileApplicationServer.PublicData;
 
 import java.util.Map; 
 

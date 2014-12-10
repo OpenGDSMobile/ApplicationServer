@@ -1,4 +1,4 @@
-package com.openGDSMobile.GeoServerManager;
+package com.openGDSMobileApplicationServer.GeoServerManager;
 
 import java.net.MalformedURLException; 
 import java.util.List;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository("geodao")
-public class GeoManagerDAOImp implements GeoManagerDAO {
+public class GeoServerManagerDAOImp implements GeoServerManagerDAO {
  
 	static String RESTURL = "http://113.198.80.9/geoserver";
 	static String RESTUSER = "admin";
@@ -27,16 +27,10 @@ public class GeoManagerDAOImp implements GeoManagerDAO {
 	JsonFactory jsonfactory;
 	ObjectMapper mapper;
 
-	GeoManagerDAOImp() throws MalformedURLException{
+	GeoServerManagerDAOImp() throws MalformedURLException{
 		super();
 		publisher = new GeoServerRESTPublisher(RESTURL, RESTUSER, RESTPW);
-		reader= new GeoServerRESTReader(RESTURL, RESTUSER, RESTPW); 
-
-		mapper = new ObjectMapper();
-		mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-		mapper.setVisibility(JsonMethod.FIELD,Visibility.ANY);
-		jsonfactory = new JsonFactory();
-		jsonfactory.setCodec(mapper);
+		reader= new GeoServerRESTReader(RESTURL, RESTUSER, RESTPW);  
 	}
 			
 	@Override
@@ -46,7 +40,7 @@ public class GeoManagerDAOImp implements GeoManagerDAO {
 	} 
 	@Override
 	public List<String> getGeoserverLayerNames(String workspace) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 		return reader.getDatastores(workspace).getNames();
 	}
 

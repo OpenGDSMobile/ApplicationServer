@@ -1,4 +1,4 @@
-package com.openGDSMobile.util;
+package com.openGDSMobileApplicationServer.util;
 
 import java.io.IOException;
 import java.util.HashMap;

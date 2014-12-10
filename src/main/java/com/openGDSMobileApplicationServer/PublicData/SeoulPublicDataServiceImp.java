@@ -1,4 +1,4 @@
-package com.openGDSMobile.PublicOpenData;
+package com.openGDSMobileApplicationServer.PublicData;
  
 import java.util.Iterator;
 import java.util.Map;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.openGDSMobile.airQuality.AirQualityDataDAO;
+import com.openGDSMobileApplicationServer.airQuality.AirQualityDataDAO;
  
 
 

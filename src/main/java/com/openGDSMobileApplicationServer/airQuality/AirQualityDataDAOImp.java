@@ -1,4 +1,4 @@
-package com.openGDSMobile.airQuality;
+package com.openGDSMobileApplicationServer.airQuality;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -119,7 +119,7 @@ public class AirQualityDataDAOImp implements AirQualityDataDAO {
 		        p = rt.exec(new String[]{"bash","-c", e_warp});
 		        p.waitFor();
 		        
-		        String e_translate = "gdal_translate -of JPEG " + aqmHome + "/images/" + target + ".tif " + aqmHome + "/resultImages/"+ dayString + target + "_result.jpg";
+		        String e_translate = "gdal_translate -of PNG " + aqmHome + "/images/" + target + ".tif " + aqmHome + "/resultImages/"+ dayString + target + "_result.png";
 		        p = rt.exec(new String[]{"bash","-c", e_translate});
 		        p.waitFor();
 			}

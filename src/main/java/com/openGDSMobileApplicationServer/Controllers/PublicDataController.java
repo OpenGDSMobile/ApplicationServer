@@ -1,4 +1,4 @@
-package com.openGDSMobile.Controllers;
+package com.openGDSMobileApplicationServer.Controllers;
  
 
 import java.util.HashMap;
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
- 
-import com.openGDSMobile.PublicOpenData.PublicDataService;
-import com.openGDSMobile.util.Util;
+
+import com.openGDSMobileApplicationServer.PublicData.PublicDataService;
+import com.openGDSMobileApplicationServer.util.Util;
  
 
 @Controller
-public class PublicOpenDataController { 
+public class PublicDataController { 
 
 	@Autowired
 	@Qualifier("Seoul")

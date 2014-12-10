@@ -1,4 +1,4 @@
-package com.openGDSMobile.airQuality;
+package com.openGDSMobileApplicationServer.airQuality;
 
 import java.util.Map;
 
