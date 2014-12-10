@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface AirQualityService {
 
-	void requestAirQualityMapCreate(Map<String,Object> data);
+	Object requestAirQualityMapCreate(String JSONData);
 }
 
 

@@ -15,9 +15,8 @@ public class AirQualityServiceImp implements AirQualityService{
 	AirQualityDataDAO airQualityDataobj; 
 	
 	@Override
-	public void requestAirQualityMapCreate(Map<String,Object> data) {
-
-		System.out.println("hahah");
-		//airQualityDataobj.createMap();
+	public Object requestAirQualityMapCreate(String JSONData) { 
+	    airQualityDataobj.createMap(JSONData);
+		return "OK";
 	}
 }
