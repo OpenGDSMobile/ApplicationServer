@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service("Portal")
-public class PublicDataPortalServiceImp implements PublicDataService {
+public class PublicDataPortalEnvServiceImp implements PublicDataService {
 
 	@Autowired
 	@Qualifier("PortalDAO")

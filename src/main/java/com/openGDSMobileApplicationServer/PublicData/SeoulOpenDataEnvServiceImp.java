@@ -14,7 +14,7 @@ import com.openGDSMobileApplicationServer.airQuality.AirQualityDataDAO;
 
 
 @Service("Seoul")
-public class SeoulPublicDataServiceImp implements PublicDataService{ 
+public class SeoulOpenDataEnvServiceImp implements PublicDataService{ 
 
 	@Autowired
 	@Qualifier("seoulPublicDAO")

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.openGDSMobileApplicationServer.GeoServerManager.GeoServerManagerService;
+import com.openGDSMobileApplicationServer.util.Util;
 
 @Controller
 public class GeoServerManagerController { 
@@ -35,10 +36,12 @@ public class GeoServerManagerController {
 	@RequestMapping(value="/getLayerNames.do")
 	public @ResponseBody Map<String, Object> getLayerNames(@RequestBody String data){ 
 		Map<String, Object> message = new HashMap<String, Object>(); 
-		try { 
+		
+		try {  
+			Map<String,Object> Mapdata = Util.convertJsonToObject(data);  
 			message.put("result", "OK");
 			message.put("message", null); 
-			message.put("data", geomanager.getLayerNames("opengds")); 
+			message.put("data", geomanager.getLayerNames(Mapdata.get("WorkspaceName").toString())); 
 			return message;			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

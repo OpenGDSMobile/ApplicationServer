@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository("PortalDAO") 
-public class PublicDataPortalDAOImp implements PublicDataDAO {
+public class PublicDataPortalEnvDAOImp implements PublicDataDAO {
  
 
-	PublicDataPortalDAOImp(){ 
+	PublicDataPortalEnvDAOImp(){ 
 	}
 	
 	@Override

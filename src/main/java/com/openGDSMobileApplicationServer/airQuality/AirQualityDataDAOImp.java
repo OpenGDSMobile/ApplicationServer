@@ -66,7 +66,7 @@ public class AirQualityDataDAOImp implements AirQualityDataDAO {
 				writer = new PrintWriter(aqmHome +"/" + target + ".csv", "UTF-8");
 				writer.println("Easting,Northing,Elevation");
 				
-				//FileReader reader = new FileReader(airEnvironmentJSON_filePath);
+				  //FileReader reader = new FileReader(airEnvironmentJSON_filePath);
 				JSONParser jsonParser = new JSONParser();
 				//JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
 				JSONObject jsonObject = (JSONObject) jsonParser.parse(airEnvironmentJSON_filePath);

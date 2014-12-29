@@ -13,12 +13,12 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository("seoulPublicDAO") 
-public class SeoulPublicDataDAOImp implements PublicDataDAO {
+public class SeoulOpenDataEnvDAOImp implements PublicDataDAO {
 
 	JsonFactory jsonfactory;
 	ObjectMapper mapper;
 	 
-	SeoulPublicDataDAOImp(){
+	SeoulOpenDataEnvDAOImp(){
 		mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
 		mapper.setVisibility(JsonMethod.FIELD,Visibility.ANY);
