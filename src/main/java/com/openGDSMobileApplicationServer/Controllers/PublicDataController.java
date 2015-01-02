@@ -21,22 +21,22 @@ public class PublicDataController {
 
 	@Autowired
 	@Qualifier("Seoul")
-	PublicDataService pds;
+	PublicDataService seoulOpenDataObj;
 	
 	@Autowired
 	@Qualifier("Portal")
-	PublicDataService pdp; 
+	PublicDataService publicDataPortalObj; 
 	
 	@RequestMapping(headers="Content-Type=application/json", 
-			value="/EnvironmentSeoulData.do",method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> seoulPublic(@RequestBody String JSONData){ 
+			value="/SeoulOpenData.do",method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> seoulOpenData(@RequestBody String JSONData){ 
 		Map<String, Object> message = new HashMap<String, Object>();
 		
 		try {
 			Map<String,Object> data = Util.convertJsonToObject(JSONData); 
 			message.put("result", "OK");
 			message.put("message", null); 
-			message.put("data", pds.requestPublicData(data));
+			message.put("data", seoulOpenDataObj.requestPublicData(data));
 			return message;			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block 
@@ -48,15 +48,15 @@ public class PublicDataController {
 	} 
 	
 	@RequestMapping(headers="Content-Type=application/json", 
-			value="/EnvironmentPublicData.do",method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> PublicDataPortal(@RequestBody String JSONData){ 
+			value="/PublicDataPortal.do",method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> publicDataPortal(@RequestBody String JSONData){ 
 		Map<String, Object> message = new HashMap<String, Object>();
 		
 		try {
 			Map<String,Object> data = Util.convertJsonToObject(JSONData); 
 			message.put("result", "OK");
 			message.put("message", null); 
-			message.put("data", pdp.requestPublicData(data));
+			message.put("data", publicDataPortalObj.requestPublicData(data));
 			return message;			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block 

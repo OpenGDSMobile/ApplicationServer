@@ -15,7 +15,7 @@ import com.openGDSMobileApplicationServer.util.Util;
 @Controller
 public class GeoServerManagerController { 
 	@Autowired
-	GeoServerManagerService geomanager; 
+	GeoServerManagerService geoServerManagerObj; 
 	
 	@RequestMapping(value="/createWorkspace.do")
 	public @ResponseBody Map<String, Object> workspaceCreate(@RequestBody String JSONData){ 
@@ -41,7 +41,7 @@ public class GeoServerManagerController {
 			Map<String,Object> Mapdata = Util.convertJsonToObject(data);  
 			message.put("result", "OK");
 			message.put("message", null); 
-			message.put("data", geomanager.getLayerNames(Mapdata.get("WorkspaceName").toString())); 
+			message.put("data", geoServerManagerObj.getLayerNames(Mapdata.get("WorkspaceName").toString())); 
 			return message;			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
