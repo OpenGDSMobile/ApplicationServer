@@ -6,6 +6,7 @@ import java.net.URL;
 import org.codehaus.jackson.JsonParser;
 import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Repository; 
 
 
@@ -17,7 +18,7 @@ public class PublicDataPortalDAOImp implements PublicDataDAO {
 	}
 	
 	@Override
-	public JsonParser getJSONPublicData(String path) {
+	public JSONObject getJSONPublicData(String path) {
 		
 		return null;
 	}
@@ -25,12 +26,6 @@ public class PublicDataPortalDAOImp implements PublicDataDAO {
 	@Override
 	public Document getXMLPublicData(String path) {
 		try {
-		/*	URL url = new URL(path);
-			InputSource is = new InputSource(url.openStream());
-			Document db =  dBuilder.parse(is);
-			System.out.println("suc");		
-			return  db;
-			*/
 			URL url = new URL(path);
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(url);

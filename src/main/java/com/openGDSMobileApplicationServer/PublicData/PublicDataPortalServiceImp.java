@@ -45,8 +45,8 @@ public class PublicDataPortalServiceImp implements PublicDataService {
 		return null;
 	}  
 	public String processEnvironmentURL(Map<String,Object> data){ 
-		String[] keys = {"provider","serviceName","areaType","keyValue","envType"};
-		String[] keyValue=new String[]{"","","","",""};
+		String[] keys = {"serviceName","areaType","keyValue","envType"};
+		String[] keyValue=new String[]{"","","",""};
 		Set<String> dataKeyNames = data.keySet();
 		Iterator<String> it = dataKeyNames.iterator(); 
 		while(it.hasNext()){ 
@@ -58,14 +58,14 @@ public class PublicDataPortalServiceImp implements PublicDataService {
 			} 
 		}  
 		String portalEnvURL = "http://openapi.airkorea.or.kr/openapi/services/rest/"+ 
-		keyValue[1]+"/getCtprvnRltmMesureDnsty?sidoName="+keyValue[2]+
-		"&numOfRows=100&ServiceKey="+keyValue[3];
+		keyValue[0]+"/getCtprvnRltmMesureDnsty?sidoName="+keyValue[1]+
+		"&numOfRows=100&ServiceKey="+keyValue[2];
 		System.out.println(portalEnvURL); 
 		return portalEnvURL;
 	}
 	public String processEnvironmentData(Map<String,Object> data, Document doc){
-		String[] keys = {"provider","serviceName","areaType","keyValue","envType"};
-		String[] keyValue=new String[]{"","","","",""};
+		String[] keys = {"serviceName","areaType","keyValue","envType"};
+		String[] keyValue=new String[]{"","","",""};
 		Set<String> dataKeyNames = data.keySet();
 		Iterator<String> it = dataKeyNames.iterator(); 
 		while(it.hasNext()){ 
@@ -90,8 +90,8 @@ public class PublicDataPortalServiceImp implements PublicDataService {
 						if(node.getName().equals("stationName")){
 							result +="{\"stationName\":\""+node.getValue()+"\",";
 						}
-						if(node.getName().equals(keyValue[4])){
-							result +="\""+keyValue[4]+"\":\""+node.getValue().trim()+"\"},";
+						if(node.getName().equals(keyValue[3])){
+							result +="\""+keyValue[3]+"\":\""+node.getValue().trim()+"\"},";
 							
 						}
 					}
