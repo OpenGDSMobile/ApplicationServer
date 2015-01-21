@@ -33,7 +33,8 @@ public class GeoServerManagerDAOImp implements GeoServerManagerDAO {
 	@Override
 	public List<String> getGeoserverLayerNames(String workspace) {
 		// TODO Auto-generated method stub 
-		return reader.getDatastores(workspace).getNames();
+		System.out.println(reader.getLayers().getNames());
+		return reader.getLayers().getNames();
 	}
 
 }
