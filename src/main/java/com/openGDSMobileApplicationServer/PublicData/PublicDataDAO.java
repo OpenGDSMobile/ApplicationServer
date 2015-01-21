@@ -1,6 +1,5 @@
 package com.openGDSMobileApplicationServer.PublicData;
  
-import org.codehaus.jackson.JsonParser; 
 import org.jdom2.Document;
 import org.json.simple.JSONObject;
 

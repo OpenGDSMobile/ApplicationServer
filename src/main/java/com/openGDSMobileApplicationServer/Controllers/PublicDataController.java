@@ -34,6 +34,7 @@ public class PublicDataController {
 		
 		try {
 			Map<String,Object> data = Util.convertJsonToObject(JSONData); 
+			System.out.println(data);
 			message.put("result", "OK");
 			message.put("message", null); 
 			message.put("data", seoulOpenDataObj.requestPublicData(data));

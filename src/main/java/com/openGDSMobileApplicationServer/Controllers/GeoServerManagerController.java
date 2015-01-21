@@ -35,10 +35,9 @@ public class GeoServerManagerController {
 	
 	@RequestMapping(value="/getLayerNames.do")
 	public @ResponseBody Map<String, Object> getLayerNames(@RequestBody String data){ 
-		Map<String, Object> message = new HashMap<String, Object>(); 
-		
+		Map<String, Object> message = new HashMap<String, Object>();
 		try {  
-			Map<String,Object> Mapdata = Util.convertJsonToObject(data);  
+			Map<String,Object> Mapdata = Util.convertJsonToObject(data);
 			message.put("result", "OK");
 			message.put("message", null); 
 			message.put("data", geoServerManagerObj.getLayerNames(Mapdata.get("WorkspaceName").toString())); 

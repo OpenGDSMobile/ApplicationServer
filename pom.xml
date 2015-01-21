@@ -141,34 +141,28 @@
 		</dependency>  
 		
 		<!--Ajax -->	
+		<!--<dependency>
+			<groupId>de.grundid.opendatalab</groupId>
+			<artifactId>geojson-jackson</artifactId>
+			<version>1.2</version>
+		</dependency>
+		-->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
-			<version>1.9.13</version>
+			<version>1.9.12</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.13</version>
-		</dependency>
-		<dependency>
-			<groupId>de.grundid.opendatalab</groupId>
-			<artifactId>geojson-jackson</artifactId>
-			<version>1.2</version>
+			<version>1.9.12</version>
 		</dependency>
 		
 		<dependency>
     		<groupId>com.googlecode.json-simple</groupId>
     		<artifactId>json-simple</artifactId>
-    		<version>1.1</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.4-beta1</version>
-		</dependency>
-		
+    		<version>1.1.1</version>
+		</dependency>		
 		<dependency>
 			<groupId>javax.xml</groupId>
 			<artifactId>jaxp-api</artifactId>

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.openGDSMobileApplicationServer.airQuality.AirQualityService;
-import com.openGDSMobileApplicationServer.util.Util;
 
 @Controller
 public class WebAirQualityController {

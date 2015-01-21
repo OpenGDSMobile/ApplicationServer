@@ -3,7 +3,6 @@ package com.openGDSMobileApplicationServer.PublicData;
 
 import java.net.URL;
 
-import org.codehaus.jackson.JsonParser;
 import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
 import org.json.simple.JSONObject;

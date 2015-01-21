@@ -6,11 +6,6 @@ import java.util.List;
 import it.geosolutions.geoserver.rest.GeoServerRESTPublisher;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader; 
 
-import org.codehaus.jackson.JsonFactory; 
-import org.codehaus.jackson.annotate.JsonMethod;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.stereotype.Repository;
 
 
@@ -24,9 +19,6 @@ public class GeoServerManagerDAOImp implements GeoServerManagerDAO {
 	GeoServerRESTPublisher publisher; 
 	GeoServerRESTReader reader ;
 	
-	JsonFactory jsonfactory;
-	ObjectMapper mapper;
-
 	GeoServerManagerDAOImp() throws MalformedURLException{
 		super();
 		publisher = new GeoServerRESTPublisher(RESTURL, RESTUSER, RESTPW);
