@@ -140,13 +140,7 @@
 			</exclusions>
 		</dependency>  
 		
-		<!--Ajax -->	
-		<!--<dependency>
-			<groupId>de.grundid.opendatalab</groupId>
-			<artifactId>geojson-jackson</artifactId>
-			<version>1.2</version>
-		</dependency>
-		-->
+		<!--Ajax -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
@@ -158,6 +152,7 @@
 			<version>1.9.12</version>
 		</dependency>
 		
+		<!-- XML JSON parser -->
 		<dependency>
     		<groupId>com.googlecode.json-simple</groupId>
     		<artifactId>json-simple</artifactId>
@@ -173,6 +168,13 @@
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
 			<version>2.0.5</version>
+		</dependency>
+		
+		<!-- R in Java -->
+		<dependency>
+			<groupId>org.nuiton.thirdparty</groupId>
+			<artifactId>JRI</artifactId>
+			<version>0.9-6</version>
 		</dependency>
 		
 	</dependencies>
