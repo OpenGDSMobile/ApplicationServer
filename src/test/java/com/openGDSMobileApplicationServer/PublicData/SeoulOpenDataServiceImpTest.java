@@ -3,30 +3,26 @@ package com.openGDSMobileApplicationServer.PublicData;
 import static org.junit.Assert.*;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.junit.Test;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class SeoulOpenDataServiceImpTest {
+public class SeoulOpenDataServiceImpTest extends SqlSessionDaoSupport{
 
+	
 	@Test
-	public void jriTest() {
-		//fail("Not yet implemented");
-		//{envType=PM10, timeValue=01:00, dateValue=2015-01-01, serviceName=TimeAverageAirQuality, keyValue=6473565a72696e7438326262524174}
-		System.out.println("Test");
-		String[] Rargs = {"--vanilla"};
-		URL url = getClass().getResource("/rScript/testR.R");
-		Rengine rengine = new Rengine(Rargs, false, null);
+	public void databaseTest() {
+		List<HashMap<String, Object>> testTableList = new ArrayList<HashMap<String,Object>>();
+	//	testTableList = sess.selectList("ump.attrTable");
+		System.out.println(getSqlSession());
 		
-		rengine.eval("source('"+ url.getPath() + "')");
-		//REXP rn = rengine.eval("as.integer(a<-testR())");
-		//REXP rn = rengine.eval("a<-mbaFunc())");
-		rengine.eval("sink('" + url.getPath() + "/jpgList.xml')");
-		rengine.eval("cat('<?xml version=\"1.0\" encoding='utf-8' ?>\n')");
-		rengine.eval("sink()");
-		//System.out.println(rn);
-		rengine.end();
 		
 	}
 
