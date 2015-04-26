@@ -2,6 +2,7 @@ package com.openGDSMobileApplicationServer.AttributeTable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -16,17 +17,17 @@ public class AttributeTableDAOImp implements AttributeTableDAO {
 	SqlSessionTemplate sess;
 	
 	@Override
-	public String selectAttr(String tableName) {
+	public List<LinkedHashMap<String, Object>> selectAttr(HashMap<String, Object> tableName) {
 		// TODO Auto-generated method stub
-		System.out.println(tableName);
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("tableName", tableName);
-		List<HashMap<String, Object>> testTableList = new ArrayList<HashMap<String,Object>>();
-		testTableList = sess.selectList("spatialMapper.attrTable", map);
+		List<LinkedHashMap<String, Object>> tableContentList = new ArrayList<LinkedHashMap<String,Object>>();
+		try{
+			tableContentList = sess.selectList("spatialMapper.attrTable", tableName);
+		}catch(Exception e){
+			tableContentList = null;
+		}
+		System.out.println(tableContentList);
 		
-		System.out.println(testTableList);
-		
-		return null;
+		return tableContentList;
 	}
 
 }
