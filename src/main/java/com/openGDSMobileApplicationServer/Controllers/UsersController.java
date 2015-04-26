@@ -64,5 +64,4 @@ public class UsersController {
 		else
 			return "join";
 	}
-
 }

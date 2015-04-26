@@ -108,5 +108,4 @@ public class SeoulOpenDataServiceImp implements PublicDataService{
 		System.out.println(result);
 		return result;
 	}
-	
 }
