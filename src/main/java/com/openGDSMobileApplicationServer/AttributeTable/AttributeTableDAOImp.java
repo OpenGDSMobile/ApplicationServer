@@ -18,7 +18,6 @@ public class AttributeTableDAOImp implements AttributeTableDAO {
 	
 	@Override
 	public List<LinkedHashMap<String, Object>> selectAttr(HashMap<String, Object> tableName) {
-		// TODO Auto-generated method stub
 		List<LinkedHashMap<String, Object>> tableContentList = new ArrayList<LinkedHashMap<String,Object>>();
 		try{
 			tableContentList = sess.selectList("spatialMapper.attrTable", tableName);

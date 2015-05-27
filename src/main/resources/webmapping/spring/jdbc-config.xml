@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
 
-	<context:property-placeholder location="classpath:/spring/jdbc.properties"/>
+	<context:property-placeholder location="classpath:/webmapping/spring/jdbc.properties"/>
 	
 	<!-- PostgreSQL JDBC setting -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -21,11 +21,10 @@
 	<!-- mybatis setting(SqlSessionFactory Setting) -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:/spring/mybatis_config.xml" />
+		<property name="configLocation" value="classpath:/webmapping/spring/mybatis_config.xml" />
 		<property name="mapperLocations">
 			<list>
-				<value>classpath:/spring/userQuery.xml</value>
-				<value>classpath:/spring/spatialQuery.xml</value>
+				<value>classpath:/webmapping/sqlmap/spatialQuery.xml</value>
 			</list>
 		</property>
 	</bean> 

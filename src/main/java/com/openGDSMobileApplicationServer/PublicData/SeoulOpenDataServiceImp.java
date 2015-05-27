@@ -10,20 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.openGDSMobileApplicationServer.airQuality.AirQualityDataDAO;
- 
-
-
 @Service("Seoul")
 public class SeoulOpenDataServiceImp implements PublicDataService{ 
 
 	@Autowired
 	@Qualifier("seoulPublicDAO")
 	PublicDataDAO publicDataobj;   
-	
-	@Autowired
-	@Qualifier("airQualityData")
-	AirQualityDataDAO airQualityDataobj; 
 	
 	@Override
 	public String requestPublicData(Map<String,Object> data) {  

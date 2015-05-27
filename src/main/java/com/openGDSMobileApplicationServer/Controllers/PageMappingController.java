@@ -12,10 +12,9 @@ public class PageMappingController {
 		
 		return "demoClient/index";
 	}
-	@RequestMapping("/openData.do")
-	public String openData(){
+	@RequestMapping("/APIPage.do")
+	public String APIPage(){
 		
-		return "WEB-INF/openData/index.html";
+		return "APIDoc/index";
 	}
-
 }
