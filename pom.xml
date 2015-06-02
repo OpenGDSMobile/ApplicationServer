@@ -132,31 +132,14 @@
 					<groupId>org.slf4j</groupId>
 				</exclusion>
 			</exclusions>
-		</dependency>  
-		<!--Ajax -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>1.9.12</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.12</version>
-		</dependency>
-		
+		</dependency>		
 		<!-- XML JSON parser -->
 		<dependency>
     		<groupId>com.googlecode.json-simple</groupId>
     		<artifactId>json-simple</artifactId>
     		<version>1.1.1</version>
-		</dependency>		
-		<dependency>
-			<groupId>javax.xml</groupId>
-			<artifactId>jaxp-api</artifactId>
-			<version>1.4.2</version>
 		</dependency>
-		<dependency>
+		 <dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
 			<version>2.0.5</version>
