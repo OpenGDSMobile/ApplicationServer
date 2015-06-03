@@ -31,7 +31,7 @@ public class GeoServerManagerController {
 			message.put("data", null);
 			return message;
 		} 
-	}  
+	}
 	
 	@RequestMapping(value="/getLayerNames.do")
 	public @ResponseBody Map<String, Object> getLayerNames(@RequestBody String data){ 
@@ -40,7 +40,7 @@ public class GeoServerManagerController {
 			Map<String,Object> Mapdata = Util.convertJsonToObject(data);
 			message.put("result", "OK");
 			message.put("message", null); 
-			message.put("data", geoServerManagerObj.getLayerNames(Mapdata.get("WorkspaceName").toString())); 
+			message.put("data", geoServerManagerObj.getLayerNames(Mapdata.get("wsName").toString())); 
 			return message;			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

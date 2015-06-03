@@ -1974,6 +1974,41 @@ OGDSM.externalConnection.prototype.dataPortalEnvironmentLoad = function (addr, a
     });
 };
 
+
+
+/**
+ * geoServer 데이터 리스트 요청
+ * @method getLayersGeoServer
+ * @param {String} addr - 서버 주소
+ * @param {String} wsName - 워크스페이스 이름
+ * @param {Function} callback - 성공 콜백 함수
+ */
+OGDSM.externalConnection.prototype.getLayersGeoServer = function (addr, wsName, callback) {
+    'use strict';
+    var parm = { wsName : wsName };
+    $.mobile.loading('show', {
+        text : 'Loading',
+        textVisible : 'true',
+        theme : 'c',
+        textonlt : 'false'
+    });
+    $.ajax({
+        type : 'POST',
+        url : addr,
+        data : JSON.stringify(parm),
+        contentType : 'application/json;charset=UTF-8',
+        dataType : 'json',
+        success : function (msg) {
+            var resultData = msg.data;        	
+            $.mobile.loading('hide');
+            callback(resultData);
+        },
+        
+        error : function (e) {
+            console.log(e);
+        }
+    });
+};
 /*jslint devel: true, vars : true */
 /*global $, jQuery, ol, OGDSM*/
 OGDSM.namesapce('eGovFrameUI');
