@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.openGDSMobileApplicationServer.service.GeoServerManager;
 import com.openGDSMobileApplicationServer.service.GeoServerManagerService;
 
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+
 @Service
-public class GeoServerManagerServiceImp implements GeoServerManagerService {
+public class GeoServerManagerServiceImp extends EgovAbstractServiceImpl implements GeoServerManagerService {
 
 	@Autowired
 	@Qualifier("geodao")

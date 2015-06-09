@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import com.openGDSMobileApplicationServer.service.AttributeTable;
 import com.openGDSMobileApplicationServer.service.AttributeTableService;
 
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+
 
 @Service
-public class AttributeTableServiceImp implements AttributeTableService {
+public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements AttributeTableService {
 
 
 	@Autowired

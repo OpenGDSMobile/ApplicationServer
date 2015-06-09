@@ -10,9 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import com.openGDSMobileApplicationServer.service.PublicData;
 
+import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+
 
 @Repository("PortalDAO") 
-public class PublicDataPortalDAO implements PublicData {
+public class PublicDataPortalDAO extends EgovAbstractDAO implements PublicData {
  
 
 	PublicDataPortalDAO(){ 

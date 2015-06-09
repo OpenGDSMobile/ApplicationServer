@@ -11,9 +11,11 @@ import org.springframework.stereotype.Repository;
 
 import com.openGDSMobileApplicationServer.service.PublicData;
 
+import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+
 
 @Repository("seoulPublicDAO") 
-public class SeoulOpenDataDAO implements PublicData {
+public class SeoulOpenDataDAO extends EgovAbstractDAO implements PublicData {
 
 	 
 	URL url;

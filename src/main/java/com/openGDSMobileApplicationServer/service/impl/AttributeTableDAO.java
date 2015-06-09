@@ -11,9 +11,11 @@ import org.springframework.stereotype.Repository;
 
 import com.openGDSMobileApplicationServer.service.AttributeTable;
 
+import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+
 
 @Repository("attrDAO")
-public class AttributeTableDAO implements AttributeTable {
+public class AttributeTableDAO extends EgovAbstractDAO implements AttributeTable {
 
 	@Autowired
 	SqlSessionTemplate sess;

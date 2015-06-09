@@ -10,9 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import com.openGDSMobileApplicationServer.service.GeoServerManager;
 
+import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+
 
 @Repository("geodao")
-public class GeoServerManagerDAO implements GeoServerManager {
+public class GeoServerManagerDAO extends EgovAbstractDAO implements GeoServerManager {
  
 	static String RESTURL = "http://127.0.0.1/geoserver";
 	static String RESTUSER = "admin";

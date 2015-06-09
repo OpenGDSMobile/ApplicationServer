@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 import com.openGDSMobileApplicationServer.service.PublicData;
 import com.openGDSMobileApplicationServer.service.PublicDataService;
 
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+
 
 @Service("Portal")
-public class PublicDataPortalServiceImp implements PublicDataService {
+public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implements PublicDataService {
 
 	@Autowired
 	@Qualifier("PortalDAO")

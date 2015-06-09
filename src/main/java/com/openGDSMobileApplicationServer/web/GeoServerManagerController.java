@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.openGDSMobileApplicationServer.GeoServerManager.GeoServerManagerService;
+import com.openGDSMobileApplicationServer.service.GeoServerManagerService;
 import com.openGDSMobileApplicationServer.util.Util;
 
 @Controller

@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import com.openGDSMobileApplicationServer.service.PublicData;
 import com.openGDSMobileApplicationServer.service.PublicDataService;
 
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+
 @Service("Seoul")
-public class SeoulOpenDataServiceImp implements PublicDataService{ 
+public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements PublicDataService{ 
 
 	@Autowired
 	@Qualifier("seoulPublicDAO")

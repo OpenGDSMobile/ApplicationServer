@@ -29,7 +29,7 @@
     	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:/webmapping/spring/*-config.xml</param-value>
+		<param-value>classpath:/webmapping/spring/context-*.xml</param-value>
 	</context-param>
 	
 	<listener>
@@ -41,7 +41,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/webmapping/mvc-config.xml</param-value>
+			<param-value>/WEB-INF/config/webmapping/context-*.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
