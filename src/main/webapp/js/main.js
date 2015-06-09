@@ -1,10 +1,10 @@
+/*jslint devel: true, vars: true, plusplus: true*/
+/*global $, jQuery, ol, OGDSM*/
+
 var openGDSMObj;
-var serverAddr = 'http://113.198.80.60:8089/mobile';
+var serverAddr = 'http://113.198.80.60/OpenGDSMobileApplicationServer1.0';
 var geoServerAddr = 'http://113.198.80.9';
 
-function test(){
-    openGDSMObj.removeMap('seoul_sig');
-}
 //배경지도 라디오 버튼 사용자 인터페이스 생성 함수
 function mapSelectUI(openGDSMObj) {
     'use strict';
@@ -70,7 +70,7 @@ function createSeoulPublicAreaEnvUI() {
     'use strict';
     $('#setting').empty();
     var ui = new OGDSM.eGovFrameUI();
-    var envIds = ui.seoulEnvironment('setting', {path : '../images/'});
+    var envIds = ui.seoulEnvironment('setting');
     var processBtn = ui.autoButton('setting', 'vworldProcess', 'Process', '#', {
         theme : 'a'
     });
@@ -133,7 +133,7 @@ function createPublicPortalUI() {
     'use strict';
     $('#setting').empty();
     var ui = new OGDSM.eGovFrameUI();
-    var envIds = ui.dataProtalEnvironment('setting', {path : '../images/'});
+    var envIds = ui.dataPortalEnvironment('setting');
     var processBtn = ui.autoButton('setting', 'vworldProcess', 'Process', '#', {
         theme : 'a'
     });
@@ -220,4 +220,3 @@ $(function () {
     $('#dataSelect').attr('height', $(window).height() - 200);
     /***************************************************/
 });
-

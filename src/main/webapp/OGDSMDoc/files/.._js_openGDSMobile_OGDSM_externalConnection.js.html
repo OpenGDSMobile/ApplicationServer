@@ -348,12 +348,11 @@
                         
                         /**
                          * 데이터 포털 환경 데이터 요청
-                         * @method seoulEnvironmentLoad
+                         * @method dataPortalEnvironmentLoad
                          * @param {String} addr - 주소
                          * @param {String} apiKey - API 키
                          * @param {String} envType - 환경 정보 이름
-                         * @param {date} date - 날짜
-                         * @param {time} time - 시간
+                         * @param {date} area - 지역
                          * @param {function} callback - 성공 콜백 함수
                          */
                         OGDSM.externalConnection.prototype.dataPortalEnvironmentLoad = function (addr, apiKey, envType, area, callback) {
@@ -413,13 +412,14 @@
                                 data : JSON.stringify(parm),
                                 contentType : &#x27;application/json;charset=UTF-8&#x27;,
                                 dataType : &#x27;json&#x27;,
-                                sucess : function (msg) {
-                                    callback(msg);
+                                success : function (msg) {
+                                    var resultData = msg.data;        	
+                                    $.mobile.loading(&#x27;hide&#x27;);
+                                    callback(resultData);
                                 },
                                 
                                 error : function (e) {
                                     console.log(e);
-                                    $.mobile.loading(&#x27;hide&#x27;);
                                 }
                             });
                         };
