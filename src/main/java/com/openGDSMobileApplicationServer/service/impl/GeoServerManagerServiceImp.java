@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.openGDSMobileApplicationServer.service.GeoServerManager;
 import com.openGDSMobileApplicationServer.service.GeoServerManagerService;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -17,7 +16,7 @@ public class GeoServerManagerServiceImp extends EgovAbstractServiceImpl implemen
 
 	@Autowired
 	@Qualifier("geodao")
-	GeoServerManager geo_manager;
+	GeoServerManagerDAO geo_manager;
 	
 	@Override
 	public boolean createWorkspace(String name) {

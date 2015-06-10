@@ -9,18 +9,16 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.openGDSMobileApplicationServer.service.AttributeTable;
-
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
 
 @Repository("attrDAO")
-public class AttributeTableDAO extends EgovAbstractDAO implements AttributeTable {
+public class AttributeTableDAO extends EgovAbstractDAO {
 
 	@Autowired
 	SqlSessionTemplate sess;
 	
-	@Override
+	
 	public List<LinkedHashMap<String, Object>> selectAttr(HashMap<String, Object> tableName) {
 		List<LinkedHashMap<String, Object>> tableContentList = new ArrayList<LinkedHashMap<String,Object>>();
 		try{

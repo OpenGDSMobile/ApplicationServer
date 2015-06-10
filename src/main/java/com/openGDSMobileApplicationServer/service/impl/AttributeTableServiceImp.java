@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.openGDSMobileApplicationServer.service.AttributeTable;
 import com.openGDSMobileApplicationServer.service.AttributeTableService;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -20,7 +19,7 @@ public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements
 
 	@Autowired
 	@Qualifier("attrDAO")
-	AttributeTable at; 
+	AttributeTableDAO at; 
 	
 	@Override
 	public List<LinkedHashMap<String, Object>> createAttr(HashMap<String, Object> tableName) {

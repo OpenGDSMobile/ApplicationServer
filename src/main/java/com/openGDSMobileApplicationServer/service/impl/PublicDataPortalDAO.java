@@ -14,7 +14,7 @@ import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
 
 @Repository("PortalDAO") 
-public class PublicDataPortalDAO extends EgovAbstractDAO implements PublicData {
+public class PublicDataPortalDAO extends EgovAbstractDAO implements PublicData{
  
 
 	PublicDataPortalDAO(){ 
@@ -25,7 +25,7 @@ public class PublicDataPortalDAO extends EgovAbstractDAO implements PublicData {
 		
 		return null;
 	}
-
+	
 	@Override
 	public Document getXMLPublicData(String path) {
 		try {
