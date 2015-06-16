@@ -10,12 +10,12 @@ import org.json.simple.JSONValue;
 import org.springframework.stereotype.Repository; 
 
 import com.openGDSMobileApplicationServer.service.PublicData;
-
-import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+ 
+import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
 
 
 @Repository("seoulPublicDAO") 
-public class SeoulOpenDataDAO extends EgovAbstractDAO implements PublicData {
+public class SeoulOpenDataDAO implements PublicData {
 
 	 
 	URL url;

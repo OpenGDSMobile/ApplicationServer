@@ -9,11 +9,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
 
 
 @Repository("attrDAO")
-public class AttributeTableDAO extends EgovAbstractDAO {
+public class AttributeTableDAO extends EgovAbstractMapper {
 
 	@Autowired
 	SqlSessionTemplate sess;
@@ -26,7 +26,7 @@ public class AttributeTableDAO extends EgovAbstractDAO {
 		}catch(Exception e){
 			tableContentList = null;
 		}
-		System.out.println(tableContentList);
+		//System.out.println(tableContentList);
 		
 		return tableContentList;
 	}

@@ -7,15 +7,15 @@ import it.geosolutions.geoserver.rest.GeoServerRESTPublisher;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader; 
 
 import org.springframework.stereotype.Repository;
-
-import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+ 
+import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
 
 
 @Repository("geodao")
-public class GeoServerManagerDAO extends EgovAbstractDAO {
+public class GeoServerManagerDAO{
  
 	static String RESTURL = "http://127.0.0.1/geoserver";
-	static String RESTUSER = "admin";
+	static String RESTUSER = "root";
 	static String RESTPW = "geoserver";
 	
 	GeoServerRESTPublisher publisher; 

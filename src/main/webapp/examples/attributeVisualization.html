@@ -24,6 +24,7 @@
         <script type="text/javascript" src="./js/d3/d3.js"></script>                                       <!-- D3.js -->
         <script type="text/javascript" src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script> <!-- Data Table jQuery Plug-in-->
         <script type="text/javascript" src="./js/OpenGDSMobileLib/openGDSMobileClient1.2.min.js"></script> <!-- OpenGDS Mobile -->
+        <script type="text/javascript" src="./examples/globalValues.js"></script>
 
         <script type="text/javascript" src="./js/syntaxhighlighter/shCore.js"></script>
         <script type="text/javascript" src="./js/syntaxhighlighter/shBrushXml.js"></script>
@@ -92,7 +93,6 @@
         <script>
             SyntaxHighlighter.all();
             var obj = null;
-            var serverAddr = 'http://113.198.80.9/MobileWebMapping';
             function mapAttrUI() {
                 var ui = new OGDSM.eGovFrameUI();
                 var radioObj = ui.autoRadioBox('dataViewCheckBox', 'dataViewSelect', ['공간정보', '속성정보'], ['map', 'attr'], {horizontal : true});
@@ -118,9 +118,8 @@
                 g = Math.floor(Math.random() * 256),
                 b = Math.floor(Math.random() * 256);
 	            var color = 'rgb(' + r + ',' + g + ',' + b + ')';
-	            var addr = 'http://113.198.80.9';
 	            var externalServer = new OGDSM.externalConnection();
-	            externalServer.geoServerWFSLoad(obj, addr, 'opengds', 'seoul_sig', {color : color});
+	            externalServer.geoServerWFSLoad(obj, geoServerAddr, 'opengds', 'seoul_sig', {color : color});
             });
         </script>
     </head>
@@ -160,6 +159,7 @@
         &lt;script type="text/javascript" src="js/ol3/ol.js"&gt;&lt;/script&gt;                                      <!-- OpenLayers 3 -->
         &lt;script type="text/javascript" src="js/d3/d3.js"&gt;&lt;/script&gt;                                       <!-- D3.js -->
         &lt;script type="text/javascript" src="js/OpenGDSMobileLib/openGDSMobileClient1.2.min.js"&gt;&lt;/script&gt; <!-- OpenGDS Mobile -->
+        &lt;script type="text/javascript" src="./examples/globalValues.js"&gt;&lt;/script&gt;
         &lt;script&gt;
             ... (script 내용)
         &lt;/script&gt;
@@ -231,7 +231,6 @@
                 <p style="margin-left:25px;">script 내용</p>
                 <pre class="brush:js;">
             var obj = null;
-            var serverAddr = 'http://113.198.80.9/MobileWebMapping'
             function mapAttrUI() {
                 var ui = new OGDSM.eGovFrameUI();
                 var radioObj = ui.autoRadioBox('dataViewCheckBox', 'dataViewSelect', ['공간정보', '속성정보'], ['map', 'attr'], {horizontal : true});
@@ -257,15 +256,11 @@
                 g = Math.floor(Math.random() * 256),
                 b = Math.floor(Math.random() * 256);
 	            var color = 'rgb(' + r + ',' + g + ',' + b + ')';
-	            var addr = 'http://113.198.80.9';
 	            var externalServer = new OGDSM.externalConnection();
-	            externalServer.geoServerWFSLoad(obj, addr, 'opengds', 'seoul_sig', {color : color});
+	            externalServer.geoServerWFSLoad(obj, geoServerAddr, 'opengds', 'seoul_sig', {color : color});
             });
                 </pre>
             </div>
-            
-            
-            
         </div>
 	</body>
 </html>

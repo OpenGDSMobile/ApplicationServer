@@ -21,7 +21,8 @@
         <script type="text/javascript" src="./js/ol3/ol.js"></script>                                      <!-- OpenLayers 3 -->
         <script type="text/javascript" src="./js/d3/d3.js"></script>                                       <!-- D3.js -->
         <script type="text/javascript" src="./js/OpenGDSMobileLib/openGDSMobileClient1.2.min.js"></script> <!-- OpenGDS Mobile -->
-
+		<script type="text/javascript" src="./examples/globalValues.js"></script>
+		
         <script type="text/javascript" src="./js/syntaxhighlighter/shCore.js"></script>
         <script type="text/javascript" src="./js/syntaxhighlighter/shBrushXml.js"></script>
         <script type="text/javascript" src="./js/syntaxhighlighter/shBrushJScript.js"></script>
@@ -45,8 +46,6 @@
             var obj = null;
             function DatPortalUI() {
                 $('#setting').empty();
-                var serverAddr = 'http://113.198.80.9/MobileWebMapping';
-                var geoServerAddr = 'http://113.198.80.9';
                 var ui = new OGDSM.eGovFrameUI();
                 var envIds = ui.dataPortalEnvironment('setting', {path : './images/openGDSMobile/'});
                 var processBtn = ui.autoButton('setting', 'vworldProcess', '시각화', '#', {
@@ -147,6 +146,7 @@
         &lt;script type="text/javascript" src="js/ol3/ol.js"&gt;&lt;/script&gt;                                      <!-- OpenLayers 3 -->
         &lt;script type="text/javascript" src="js/d3/d3.js"&gt;&lt;/script&gt;                                       <!-- D3.js -->
         &lt;script type="text/javascript" src="js/OpenGDSMobileLib/openGDSMobileClient1.2.min.js"&gt;&lt;/script&gt; <!-- OpenGDS Mobile -->
+        &lt;script type="text/javascript" src="./examples/globalValues.js"&gt;&lt;/script&gt;
         &lt;style&gt;
             ... (CSS 내용)
         &lt;/style&gt;
@@ -205,8 +205,6 @@
             var obj = null;
             function DatPortalUI() {
                 $('#setting').empty();
-                var serverAddr = 'http://113.198.80.9';
-                var geoServerAddr = 'http://113.198.80.9';
                 var ui = new OGDSM.eGovFrameUI();
                 var envIds = ui.dataPortalEnvironment('setting', {path : '../images/openGDSMobile/'});
                 var processBtn = ui.autoButton('setting', 'vworldProcess', '시각화', '#', {

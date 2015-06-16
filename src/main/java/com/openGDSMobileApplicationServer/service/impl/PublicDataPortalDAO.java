@@ -9,12 +9,12 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Repository; 
 
 import com.openGDSMobileApplicationServer.service.PublicData;
-
-import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+ 
+import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
 
 
 @Repository("PortalDAO") 
-public class PublicDataPortalDAO extends EgovAbstractDAO implements PublicData{
+public class PublicDataPortalDAO  implements PublicData{
  
 
 	PublicDataPortalDAO(){ 
