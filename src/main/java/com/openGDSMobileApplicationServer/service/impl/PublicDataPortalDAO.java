@@ -16,7 +16,8 @@ import com.openGDSMobileApplicationServer.service.PublicData;
 public class PublicDataPortalDAO  implements PublicData{
  
 
-	PublicDataPortalDAO(){ 
+	PublicDataPortalDAO(){
+		
 	}
 	
 	@Override
