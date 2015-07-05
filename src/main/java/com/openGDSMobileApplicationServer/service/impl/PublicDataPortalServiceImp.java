@@ -1,5 +1,6 @@
 package com.openGDSMobileApplicationServer.service.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -39,16 +40,69 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 				serviceName = String.valueOf(data.get(tmp));
 			}			
 		}  
-		if(serviceName.equals("ArpltnInforInqireSvc")){
-			serviceURL=processEnvironmentURL(data);
+		if(serviceName.equals("NuclearPowerPlantRealtimeLevelofRadiation")){
+			serviceURL=processNuclearPowerPlantRealtimeLevelofRadiationServiceURL(data);
 			Document doc = publicDataobj.getXMLPublicData(serviceURL);
-			result = processEnvironmentData(data, doc);
-			System.out.println(result);
+			result = processNuclearPowerPlantRealtimeLevelofRadiationServiceData(data, doc);
+			//result = "";
 			return result;  
 		}    
-		
 		return null;
 	}  
+	
+	//Nuclear Power Plant Realtime Level of Radiation Request URL
+	public String processNuclearPowerPlantRealtimeLevelofRadiationServiceURL(Map<String,Object> data){ 
+		String[] keys = {"NPP_name","keyValue"};
+		String[] keyValue=new String[]{"", ""};
+		Set<String> dataKeyNames = data.keySet();
+		Iterator<String> it = dataKeyNames.iterator(); 
+		while(it.hasNext()){ 
+			String tmp = it.next();
+			for(int i=0; i<keyValue.length; i++){ 
+				if(keys[i].equals(tmp)){
+					keyValue[i] = String.valueOf(data.get(tmp));
+				}
+			} 
+		}  
+		String portalEnvURL = "http://www.khnp.co.kr/environ/service/realtime/radiorate?genName="
+		+keyValue[0]+"&ServiceKey="+keyValue[1];
+		System.out.println(portalEnvURL); 
+		return portalEnvURL;
+	}
+	
+	//Nuclear Power Plant Realtime Level of Radiation Data(XML) Parsing :)
+	public String processNuclearPowerPlantRealtimeLevelofRadiationServiceData(Map<String,Object> data, Document doc){
+		Element loc_root = doc.getRootElement(); 
+		String result = "{\"row\":[";
+		
+		List<Element> loc_bodyNodes = loc_root.getChildren("body");
+		for(Element bodyNode : loc_bodyNodes){
+			List<Element> itemsNodes = bodyNode.getChildren("items");
+			for(Element itemNode : itemsNodes){
+				List<Element> itemValues = itemNode.getChildren("item");
+				for(Element itemValue : itemValues){
+					List<Element> nodes = itemValue.getChildren();
+					for(Element node : nodes){
+						if(node.getName().equals("expl"))
+							result +="{\"expl\":\"" + node.getValue() + "\",";
+						if(node.getName().equals("name"))
+							result +="\"name\":\"" + node.getValue() + "\",";
+						if(node.getName().equals("time"))
+							result +="\"time\":\"" + node.getValue() + "\",";
+						if(node.getName().equals("value"))
+							result +="\"value\":\"" + node.getValue() + "\"},";
+					}
+				}
+			}
+		}
+		
+		result = result.substring(0,result.length()-1);
+		result +="]}";  
+		System.out.println(result);
+		return result;
+	}
+	
+	
 	public String processEnvironmentURL(Map<String,Object> data){ 
 		String[] keys = {"serviceName","areaType","keyValue","envType"};
 		String[] keyValue=new String[]{"","","",""};
@@ -68,6 +122,7 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		System.out.println(portalEnvURL); 
 		return portalEnvURL;
 	}
+	
 	public String processEnvironmentData(Map<String,Object> data, Document doc){
 		String[] keys = {"serviceName","areaType","keyValue","envType"};
 		String[] keyValue=new String[]{"","","",""};
