@@ -44,9 +44,14 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 			serviceURL=processNuclearPowerPlantRealtimeLevelofRadiationServiceURL(data);
 			Document doc = publicDataobj.getXMLPublicData(serviceURL);
 			result = processNuclearPowerPlantRealtimeLevelofRadiationServiceData(data, doc);
-			//result = "";
 			return result;  
-		}    
+		}   
+		else if(serviceName.equals("GreenGasEmissionReport")){
+			serviceURL=processGreenGasEmissionReportServiceURL(data);
+			Document doc = publicDataobj.getXMLPublicData(serviceURL);
+			result = processGreenGasEmissionReportServiceData(data, doc);
+			return result;  
+		}
 		return null;
 	}  
 	
@@ -72,11 +77,11 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 	
 	//Nuclear Power Plant Realtime Level of Radiation Data(XML) Parsing :)
 	public String processNuclearPowerPlantRealtimeLevelofRadiationServiceData(Map<String,Object> data, Document doc){
-		Element loc_root = doc.getRootElement(); 
+		Element root = doc.getRootElement(); 
 		String result = "{\"row\":[";
 		
-		List<Element> loc_bodyNodes = loc_root.getChildren("body");
-		for(Element bodyNode : loc_bodyNodes){
+		List<Element> bodyNodes = root.getChildren("body");
+		for(Element bodyNode : bodyNodes){
 			List<Element> itemsNodes = bodyNode.getChildren("items");
 			for(Element itemNode : itemsNodes){
 				List<Element> itemValues = itemNode.getChildren("item");
@@ -102,6 +107,63 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		return result;
 	}
 	
+	//Green Gas Emission Report Request URL
+	public String processGreenGasEmissionReportServiceURL(Map<String,Object> data){ 
+		String[] keys = {"startDate","endDate","keyValue"};
+		String[] keyValue=new String[]{"","",""};
+		Set<String> dataKeyNames = data.keySet();
+		Iterator<String> it = dataKeyNames.iterator(); 
+		while(it.hasNext()){ 
+			String tmp = it.next();
+			for(int i=0; i<keyValue.length; i++){ 
+				if(keys[i].equals(tmp)){
+					keyValue[i] = String.valueOf(data.get(tmp));
+				}
+			} 
+		}  
+		
+		//http://www.kdhc.co.kr/openapi-data/service/kdhcCarbon/carbon?startDate=201007&endDate=201009&pageNo=1&rowOfNums=10&serviceKey=인증키
+		String portalEnvURL = "http://www.kdhc.co.kr/openapi-data/service/kdhcCarbon/carbon?startDate="
+							  +keyValue[0]+"&endDate="+keyValue[1]+"&ServiceKey="+keyValue[2]+"&numOfRows=100";
+		System.out.println(portalEnvURL);
+		return portalEnvURL;
+	}
+
+	//Green Gas Emission Report Data(XML) Parsing :)
+	public String processGreenGasEmissionReportServiceData(Map<String,Object> data, Document doc){
+		Element root = doc.getRootElement(); 
+		String result = "{\"row\":[";
+
+		List<Element> bodyNodes = root.getChildren("body");
+		for(Element bodyNode : bodyNodes){
+			List<Element> itemsNodes = bodyNode.getChildren("items");
+			for(Element itemNode : itemsNodes){
+				List<Element> itemValues = itemNode.getChildren("item");
+				for(Element itemValue : itemValues){
+					List<Element> nodes = itemValue.getChildren();
+					for(Element node : nodes){
+						if(node.getName().equals("basYm"))
+							result +="{\"basYm\":\"" + node.getValue() + "\",";
+						if(node.getName().equals("brNm"))
+							result +="\"brNm\":\"" + node.getValue() + "\",";
+						if(node.getName().equals("tco2eqUnit"))
+							result +="\"tco2eqUnit\":\"" + node.getValue() + "\",";
+						if(node.getName().equals("totEmTco2eq"))
+							result +="\"totEmTco2eq\":\"" + node.getValue() + "\"},";
+					}
+				}
+			}
+		}
+
+		result = result.substring(0,result.length()-1);
+		result +="]}";  
+		System.out.println(result);
+		return result;
+	}
+	
+	
+	
+	
 	
 	public String processEnvironmentURL(Map<String,Object> data){ 
 		String[] keys = {"serviceName","areaType","keyValue","envType"};
@@ -122,6 +184,9 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		System.out.println(portalEnvURL); 
 		return portalEnvURL;
 	}
+	
+	
+	
 	
 	public String processEnvironmentData(Map<String,Object> data, Document doc){
 		String[] keys = {"serviceName","areaType","keyValue","envType"};

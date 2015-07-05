@@ -4,8 +4,6 @@ package com.openGDSMobileApplicationServer.web;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -58,7 +56,6 @@ public class PublicDataController {
 		try {
 			Map<String,Object> data = Util.convertJsonToObject(JSONData); 
 			System.out.println(data);
-			System.out.println("checkcheck");
 			
 			message.put("result", "OK");
 			message.put("message", null); 
@@ -71,5 +68,5 @@ public class PublicDataController {
 			message.put("data", null);
 			return message;
 		} 
-	} 
+	}
 }

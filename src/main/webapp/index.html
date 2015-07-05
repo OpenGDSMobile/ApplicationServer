@@ -46,8 +46,34 @@
             }
             
             
+			function dataPortal2() {
+            	
+            	//data.go.kr : 온실가스배출량 조회 서비스
+                var paramData = {};
+                paramData['keyValue'] = 'VwIZROE4vwdx%2FffoawR%2F25OtAxTe3OChcBcBsnAQyKdtHfroNv8qRCKb82rEwgyMHvNgRRTIhrTVpO012mVkKA%3D%3D';
+                paramData['serviceName'] = "GreenGasEmissionReport";
+                paramData['startDate']   = "201411";  //yyyymm 200701 ~ 201412 까지만 데이터 존재, 같은 값 사용 
+                paramData['endDate']     = "201411";  //yyyymm 200701 ~ 201412 까지만 데이터 존재, 같은 값 사용 
+                
+                $.ajax({
+                	type : 'POST',
+                	url : serverAddr,
+                	data : JSON.stringify(paramData),
+                	contentType : "application/json;charset=UTF-8",
+                	dataType : 'json',
+                	success : function(msg){
+                		resultData = JSON.parse(msg.data);
+                		console.log(msg);
+                		$('#result').text(JSON.stringify(resultData));
+                	},
+                	error : function (e){
+                		console.log(e);	
+                		$('#result').text(e);
+                	}
+                });  
+            }
             
-            dataPortal();
+            dataPortal2();
         </script>
     </head>
     <body>
