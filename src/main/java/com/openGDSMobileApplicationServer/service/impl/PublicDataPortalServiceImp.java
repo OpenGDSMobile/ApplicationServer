@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service; 
@@ -29,7 +30,7 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		String url=""; 
 	
 	@Override
-	public Object requestPublicData(Map<String, Object> data) { 
+	public Object requestPublicData(JSONObject data) { 
 		String serviceName = null; 
 		Set<String> keys = data.keySet();
 		Iterator<String> it = keys.iterator();

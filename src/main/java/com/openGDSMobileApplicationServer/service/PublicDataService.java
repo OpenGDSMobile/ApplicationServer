@@ -2,7 +2,9 @@ package com.openGDSMobileApplicationServer.service;
 
 import java.util.Map; 
 
+import org.json.simple.JSONObject;
+
 public interface PublicDataService {
 
-	Object requestPublicData(Map<String,Object> data);
+	Object requestPublicData(JSONObject data);
 }

@@ -4,6 +4,7 @@ package com.openGDSMobileApplicationServer.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -29,15 +30,15 @@ public class PublicDataController {
 	
 	@RequestMapping(headers="Content-Type=application/json", 
 			value="/SeoulOpenData.do",method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> seoulOpenData(@RequestBody String JSONData){ 
+	public @ResponseBody Map<String, Object> seoulOpenData(@RequestBody JSONObject JSONData){ 
 		Map<String, Object> message = new HashMap<String, Object>();
 		
 		try {
-			Map<String,Object> data = Util.convertJsonToObject(JSONData); 
-			System.out.println(data);
+		//	Map<String,Object> data = Util.convertJsonToObject(JSONData); 
+		//	System.out.println(data);
 			message.put("result", "OK");
 			message.put("message", null); 
-			message.put("data", seoulOpenDataObj.requestPublicData(data));
+			message.put("data", seoulOpenDataObj.requestPublicData(JSONData));
 			return message;			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block 
@@ -50,16 +51,16 @@ public class PublicDataController {
 	
 	@RequestMapping(headers="Content-Type=application/json", 
 			value="/PublicDataPortal.do",method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> publicDataPortal(@RequestBody String JSONData){ 
+	public @ResponseBody Map<String, Object> publicDataPortal(@RequestBody JSONObject JSONData){ 
 		Map<String, Object> message = new HashMap<String, Object>();
 		
 		try {
-			Map<String,Object> data = Util.convertJsonToObject(JSONData); 
-			System.out.println(data);
+		//	Map<String,Object> data = Util.convertJsonToObject(JSONData); 
+		//	System.out.println(data);
 			
 			message.put("result", "OK");
 			message.put("message", null); 
-			message.put("data", publicDataPortalObj.requestPublicData(data));
+			message.put("data", publicDataPortalObj.requestPublicData(JSONData));
 			return message;			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block 
@@ -69,4 +70,25 @@ public class PublicDataController {
 			return message;
 		} 
 	}
+	
+	@RequestMapping(headers="Content-Type=application/json", 
+			value="/PublicDataPortal_test.do",method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> publicDataPortalTest(@RequestBody JSONObject JSONData){ 
+		Map<String, Object> message = new HashMap<String, Object>();		
+		try { 
+			System.out.println(JSONData);			
+			message.put("result", "OK");
+			message.put("message", null); 
+			message.put("data", publicDataPortalObj.requestPublicData(JSONData));
+			return message;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block 
+			message.put("result", "ERROR");
+			message.put("message", e.getMessage());
+			message.put("data", null);
+			return message; 
+		}
+		
+	}
+	
 }

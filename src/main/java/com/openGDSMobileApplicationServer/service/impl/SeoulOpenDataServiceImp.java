@@ -23,7 +23,7 @@ public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements 
 	PublicData publicDataobj;   
 	
 	@Override
-	public String requestPublicData(Map<String,Object> data) {  
+	public String requestPublicData(JSONObject data) {  
 		String serviceName = null; 
 		String serviceURL = null;
 		String result = null;
