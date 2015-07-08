@@ -52,6 +52,12 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 			result = processGreenGasEmissionReportServiceData(data, doc);
 			return result;  
 		}
+		else if(serviceName.equals("ArpltnInforInqireSvc")){
+			serviceURL=processEnvironmentURL(data);
+			Document doc = publicDataobj.getXMLPublicData(serviceURL);
+			result = processEnvironmentData(data, doc);
+			return result;			
+		}
 		return null;
 	}  
 	
