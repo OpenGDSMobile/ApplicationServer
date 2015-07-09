@@ -12,17 +12,16 @@
         <script type="text/javascript" src="./js/egovframework/mbl/cmm/EgovMobile-1.3.2.js"></script>      <!-- eGov Mobile -->
 
         <script>
-        	var serverAddr = "http://localhost:8080/mobile/PublicDataPortal_test.do";
+        	var serverAddr = "http://113.198.80.60:8081/mobile/SeoulOpenData.do";
             var obj = null;
-            
             
             function dataPortal() {
             	
             	//data.go.kr : 원자력발전소 실시간 주변 방사선량
                 var paramData = {};
-                paramData['keyValue'] = 'VwIZROE4vwdx%2FffoawR%2F25OtAxTe3OChcBcBsnAQyKdtHfroNv8qRCKb82rEwgyMHvNgRRTIhrTVpO012mVkKA%3D%3D';
                 paramData['serviceName'] = "NuclearPowerPlantRealtimeLevelofRadiation";
-                paramData['NPP_name'] = "WS"; 
+                paramData['genName'] = "WS";
+                paramData['ServiceKey'] = 'VwIZROE4vwdx%2FffoawR%2F25OtAxTe3OChcBcBsnAQyKdtHfroNv8qRCKb82rEwgyMHvNgRRTIhrTVpO012mVkKA%3D%3D';
                 //NPP is Nuclear Power Plant 
                 //WS:월성, KR:고리, YK:한빛, UJ:한울
                 
@@ -36,6 +35,7 @@
                 	success : function(msg){
                 		resultData = JSON.parse(msg.data);
                 		console.log(msg);
+                		console.log(resultData);
                 		$('#result').text(JSON.stringify(resultData));
                 	},
                 	error : function (e){
@@ -45,15 +45,15 @@
                 });  
             }
             
-            
+
 			function dataPortal2() {
-            	
             	//data.go.kr : 온실가스배출량 조회 서비스
                 var paramData = {};
-                paramData['keyValue'] = 'VwIZROE4vwdx%2FffoawR%2F25OtAxTe3OChcBcBsnAQyKdtHfroNv8qRCKb82rEwgyMHvNgRRTIhrTVpO012mVkKA%3D%3D';
                 paramData['serviceName'] = "GreenGasEmissionReport";
-                paramData['startDate']   = "201411";  //yyyymm 200701 ~ 201412 까지만 데이터 존재, 같은 값 사용 
+                paramData['startDate']   = "201411";  //yyyymm 200701 ~ 201412 까지만 데이터 존재, 같은 값 사용
                 paramData['endDate']     = "201411";  //yyyymm 200701 ~ 201412 까지만 데이터 존재, 같은 값 사용 
+                paramData['serviceKey'] = "VwIZROE4vwdx%2FffoawR%2F25OtAxTe3OChcBcBsnAQyKdtHfroNv8qRCKb82rEwgyMHvNgRRTIhrTVpO012mVkKA%3D%3D";
+                paramData['numOfRows'] = "100";
                 
                 $.ajax({
                 	type : 'POST',
@@ -64,6 +64,7 @@
                 	success : function(msg){
                 		resultData = JSON.parse(msg.data);
                 		console.log(msg);
+                		console.log(resultData);
                 		$('#result').text(JSON.stringify(resultData));
                 	},
                 	error : function (e){
@@ -72,8 +73,60 @@
                 	}
                 });  
             }
-            
-            dataPortal();
+			function dataPortal3() {
+                var paramData = {};
+                paramData['serviceName'] = "ArpltnInforInqireSvc"; 
+                paramData['serviceKey'] = "kCxEhXiTf1qmDBlQFOOmw%2BemcPSxQXn5V5%2Fx8EthoHdbSojIdQvwX%2BHtWFyuJaIco0nUJtu12e%2F9acb7HeRRRA%3D%3D";
+                paramData['numOfRows'] = "100";
+                paramData['envType'] = "pm10Value";
+                paramData['sidoName'] = encodeURIComponent("서울");
+                
+                $.ajax({
+                	type : 'POST',
+                	url : serverAddr,
+                	data : JSON.stringify(paramData),
+                	contentType : "application/json;charset=UTF-8",
+                	dataType : 'json',
+                	success : function(msg){
+                		resultData = JSON.parse(msg.data);
+                		console.log(msg);
+                		console.log(resultData);
+                		$('#result').text(JSON.stringify(resultData));
+                	},
+                	error : function (e){
+                		console.log(e);	
+                		$('#result').text(e);
+                	}
+                });  
+            }
+			function dataPortal4() {
+                var paramData = {}; 
+                paramData['serviceKey'] = "6473565a72696e7438326262524174";
+                paramData['returnType'] = "json";
+                paramData['serviceName'] = "TimeAverageAirQuality"; 
+                paramData['amount'] = "1/100";
+                paramData['dateTimeValue'] = '201501011100';
+                paramData['envType'] = "pm10"; 
+                console.log(paramData);
+                $.ajax({
+                	type : 'POST',
+                	url : serverAddr,
+                	data : JSON.stringify(paramData),
+                	contentType : "application/json;charset=UTF-8",
+                	dataType : 'json',
+                	success : function(msg){
+                		resultData = JSON.parse(msg.data);
+                		console.log(msg);
+                		console.log(resultData);
+                		$('#result').text(JSON.stringify(resultData));
+                	},
+                	error : function (e){
+                		console.log(e);	
+                		$('#result').text(e);
+                	}
+                });  
+            }
+			dataPortal4();
         </script>
     </head>
     <body>

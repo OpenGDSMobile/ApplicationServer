@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,87 +24,71 @@ public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements 
 	@Qualifier("seoulPublicDAO")
 	PublicData publicDataobj;   
 	
+	private String serviceName = null;
+	private String serviceURL = null;
+	private String[] resultJSONKeys = null;
+	Logger log = LogManager.getLogger("org.springframework");
+	
 	@Override
-	public String requestPublicData(JSONObject data) {  
-		String serviceName = null; 
-		String serviceURL = null;
-		String result = null;
-		Set<String> keys = data.keySet();
-		Iterator<String> it = keys.iterator();
-		JSONObject jo = null;
-		
+	public String requestPublicData(JSONObject data) {
+		Iterator<?> it = data.keySet().iterator();
+		log.info(data);
 		while(it.hasNext()){
-			String tmp = it.next();
+			String tmp = (String) it.next();
 			if(tmp.equals("serviceName")){
 				serviceName = String.valueOf(data.get(tmp));
 			}			
 		} 
 		if(serviceName.equals("TimeAverageAirQuality") 
 				|| serviceName.equals("RealtimeRoadsideStation")){
-			serviceURL=processEnvironmentURL(data);
-			jo = publicDataobj.getJSONPublicData(serviceURL);
-			result = processEnvironmentData(data, jo);
+			String baseURL = "http://openapi.seoul.go.kr:8088/";
+			String[] urlOrder = 
+					new String []{"serviceKey", "returnType", "serviceName", "amount", "dateTimeValue"};
+			serviceURL=processServiceURL(data, urlOrder, baseURL);
+			JSONObject jsonObj = publicDataobj.getJSONPublicData(serviceURL);
+			
+			resultJSONKeys = new String[]{"MSRSTE_NM", (String) data.get("envType") };
+			return processJSONbySeoulData(jsonObj, resultJSONKeys).toJSONString();
 		}
-		try {
-			return result;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		} 
+		return null; 
 	}
 	
-	public String processEnvironmentURL(Map<String,Object> data){ 
-		String[] keys = {"serviceName","keyValue","dateValue","timeValue","envType"};
-		String[] keysValue = new String[]{"","","","",""}; 
-		String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
-		String amount = "1/100"; 
-		Set<String> dataKeyNames = data.keySet();
-		Iterator<String> it = dataKeyNames.iterator();  
-		while(it.hasNext()){ 
-			String tmp = it.next();
-			for(int i=0; i<keys.length; i++){
-				if(keys[i].equals(tmp)){
-					keysValue[i] = String.valueOf(data.get(tmp));
+	public String processServiceURL(JSONObject data, String[] urlOrder,String baseURL){
+		String url = baseURL;
+		int order = 0;
+		for (int i=0; i<urlOrder.length; i++){
+			Iterator<?> it = data.keySet().iterator();
+			while(it.hasNext()){
+				String key = (String) it.next();
+				if (urlOrder[order].equals(key)){
+					url += data.get(key) + "/";
+					break;
 				}
-			} 
+			}			
+			order++;
 		}
-		keysValue[2] = keysValue[2].replaceAll(match, "");
-		keysValue[3] = keysValue[3].replaceAll(match, "");
-		String seoulEnvURL ="http://openapi.seoul.go.kr:8088/"+keysValue[1]+"/json/"+
-				keysValue[0]+"/"+amount+"/"+keysValue[2]+keysValue[3];  
-		System.out.println(seoulEnvURL);
-		return seoulEnvURL;
+		log.info(url);
+		return url;
 	}
-	
-
-	public String processEnvironmentData(Map<String,Object> data, JSONObject jo){
-		String[] keys = {"serviceName","keyValue","dateValue","envType","timeValue"};
-		String[] keysValue = new String[]{"","","","",""};
-		Set<String> dataKeyNames = data.keySet();
-		Iterator<String> it = dataKeyNames.iterator();  
-		while(it.hasNext()){ 
-			String tmp = it.next();
-			for(int i=0; i<keys.length; i++){
-				if(keys[i].equals(tmp)){
-					keysValue[i] = String.valueOf(data.get(tmp));
-				}
-			} 
+		
+	@SuppressWarnings("unchecked")
+	public JSONObject processJSONbySeoulData(JSONObject data, String[] keys){
+		JSONObject source = (JSONObject) data.get(serviceName);
+		log.info(source);
+		source = (JSONObject) source.get("row");
+		JSONObject result = new JSONObject();
+		JSONArray list = new JSONArray();
+		
+		for(int i=0; i<source.size(); i++){
+			JSONObject contents = (JSONObject) source.get(i);
+			JSONObject obj = new JSONObject();
+			for(int j=0; j<keys.length; j++){
+				obj.put(keys[j], contents.get(keys[j]));				
+			}
+			list.add(obj);
 		}
-		
-		String result = "{\"row\":[";
-		
-		JSONObject root = (JSONObject) jo.get(keysValue[0]);
-		JSONArray row = (JSONArray) root.get("row");
-		
-		for(int i=0; i< row.size(); i++){
-			JSONObject obj = (JSONObject) row.get(i);
-			result += "{\"MSRSTE_NM\":\""+obj.get("MSRSTE_NM").toString() +"\",";
-			result += "\""+keysValue[3]+"\":\""+obj.get(keysValue[3]).toString()+"\"},";
-		}
-
-		result = result.substring(0,result.length()-1);
-		result +="]}";  
-		System.out.println(result);
+		result.put("row", list);
+		log.info(result);
 		return result;
 	}
 }
