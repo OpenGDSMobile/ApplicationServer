@@ -12,7 +12,7 @@
         <script type="text/javascript" src="./js/egovframework/mbl/cmm/EgovMobile-1.3.2.js"></script>      <!-- eGov Mobile -->
 
         <script>
-        	var serverAddr = "http://113.198.80.60:8081/mobile/SeoulOpenData.do";
+        	var serverAddr = "http://localhost:8080/mobile/SeoulOpenData.do";
             var obj = null;
             
             function dataPortal() {
@@ -106,7 +106,7 @@
                 paramData['serviceName'] = "TimeAverageAirQuality"; 
                 paramData['amount'] = "1/100";
                 paramData['dateTimeValue'] = '201501011100';
-                paramData['envType'] = "pm10"; 
+                paramData['envType'] = "PM10"; 
                 console.log(paramData);
                 $.ajax({
                 	type : 'POST',
