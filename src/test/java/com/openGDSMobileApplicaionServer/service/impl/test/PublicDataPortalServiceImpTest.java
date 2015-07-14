@@ -1,4 +1,4 @@
-package com.openGDSMobileApplicaionServer.service.impl;
+package com.openGDSMobileApplicaionServer.service.impl.test;
 
 import static org.junit.Assert.*;
 

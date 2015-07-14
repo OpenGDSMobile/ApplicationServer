@@ -8,14 +8,12 @@ import it.geosolutions.geoserver.rest.GeoServerRESTReader;
 
 import org.springframework.stereotype.Repository;
  
-import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
-
 
 @Repository("geodao")
 public class GeoServerManagerDAO{
  
 	static String RESTURL = "http://127.0.0.1/geoserver";
-	static String RESTUSER = "root";
+	static String RESTUSER = "admin";
 	static String RESTPW = "geoserver";
 	
 	GeoServerRESTPublisher publisher; 
@@ -25,6 +23,7 @@ public class GeoServerManagerDAO{
 		super();
 		publisher = new GeoServerRESTPublisher(RESTURL, RESTUSER, RESTPW);
 		reader= new GeoServerRESTReader(RESTURL, RESTUSER, RESTPW);  
+		System.out.println(reader.existGeoserver());
 	}
 			
 	public boolean geoserverCreateWorkspace(String name) {
@@ -34,8 +33,7 @@ public class GeoServerManagerDAO{
 	
 	public List<String> getGeoserverLayerNames(String workspace) {
 		// TODO Auto-generated method stub 
-		System.out.println(reader.getLayers().getNames());
-		return reader.getLayers().getNames();
+		return reader.getDatastores(workspace).getNames();
 	}
 
 }
