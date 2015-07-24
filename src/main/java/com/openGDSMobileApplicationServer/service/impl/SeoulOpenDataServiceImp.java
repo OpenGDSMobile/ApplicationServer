@@ -39,8 +39,7 @@ public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements 
 				serviceName = String.valueOf(data.get(tmp));
 			}			
 		} 
-		if(serviceName.equals("TimeAverageAirQuality") 
-				|| serviceName.equals("RealtimeRoadsideStation")){
+		if(serviceName.equals("TimeAverageAirQuality") || serviceName.equals("RealtimeRoadsideStation")){
 			String baseURL = "http://openapi.seoul.go.kr:8088/";
 			String[] urlOrder = 
 					new String []{"serviceKey", "returnType", "serviceName", "amount", "dateTimeValue"};
@@ -74,13 +73,11 @@ public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements 
 	@SuppressWarnings("unchecked")
 	public JSONObject processJSONbySeoulData(JSONObject data, String[] keys){
 		JSONObject source = (JSONObject) data.get(serviceName);
-		log.info(source);
-		source = (JSONObject) source.get("row");
+		JSONArray rowList = (JSONArray) source.get("row");
 		JSONObject result = new JSONObject();
 		JSONArray list = new JSONArray();
-		
-		for(int i=0; i<source.size(); i++){
-			JSONObject contents = (JSONObject) source.get(i);
+		for(int i=0; i<rowList.size(); i++){
+			JSONObject contents = (JSONObject) rowList.get(i);
 			JSONObject obj = new JSONObject();
 			for(int j=0; j<keys.length; j++){
 				obj.put(keys[j], contents.get(keys[j]));				
@@ -88,6 +85,7 @@ public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements 
 			list.add(obj);
 		}
 		result.put("row", list);
+		log.info(source);
 		log.info(result);
 		return result;
 	}

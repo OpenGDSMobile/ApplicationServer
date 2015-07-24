@@ -127,6 +127,7 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 			}
 		}
 		result.put("row", list);
+		
 		log.info(result);
 		return result;
 	}
