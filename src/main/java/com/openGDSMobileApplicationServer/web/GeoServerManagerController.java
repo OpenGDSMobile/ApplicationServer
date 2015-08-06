@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.openGDSMobileApplicationServer.service.GeoServerManagerService;
-import com.openGDSMobileApplicationServer.util.Util;
 
 @Controller
 public class GeoServerManagerController { 
@@ -37,10 +36,10 @@ public class GeoServerManagerController {
 	public @ResponseBody Map<String, Object> getLayerNames(@RequestBody String data){ 
 		Map<String, Object> message = new HashMap<String, Object>();
 		try {
-			Map<String,Object> Mapdata = Util.convertJsonToObject(data);
+	//		Map<String,Object> Mapdata = Util.convertJsonToObject(data);
 			message.put("result", "OK");
 			message.put("message", null); 
-			message.put("data", geoServerManagerObj.getLayerNames(Mapdata.get("wsName").toString())); 
+	//		message.put("data", geoServerManagerObj.getLayerNames(Mapdata.get("wsName").toString())); 
 			return message;			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

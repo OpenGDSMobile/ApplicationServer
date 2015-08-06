@@ -11,7 +11,7 @@
 
 	<util:properties id="pgProperties" location="classpath:/webmapping/property/jdbc.properties" />
 	<!-- PostgreSQL JDBC setting -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dataSource-postgresql" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="#{pgProperties['jdbc.driverClassName']}" />
 		<property name="url" value="#{pgProperties['jdbc.url']}" />
 		<property name="username" value="#{pgProperties['jdbc.username']}" />
@@ -19,7 +19,7 @@
 	</bean>	 
 	
 	<!-- SqlSessionTemplate Setting --> 
-	<bean class="org.mybatis.spring.SqlSessionTemplate">
+	<bean id="sqlSession-postgresql" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSession" />
 	</bean>	
 </beans>

@@ -1,4 +1,4 @@
-OpenGDS Application Server 1.0
+OpenGDS Mobile Application Server 1.2
 =================
 > + Public Data Request/Response and GeoServer Connect Java Module
 > + Experimental Web Server System
@@ -11,4 +11,4 @@ How to Install?
 
 Dependent libraries
 ================
-> Read... pom.xml
+> pom.xml

@@ -126,12 +126,36 @@
                 	}
                 });  
             }
-			dataPortal4();
+			function test() {
+	        	var serverAddr = "http://113.198.80.60:8081/mobile/geojson.do";
+                var paramData = {}; 
+                paramData['jsonName'] = "GU";
+                console.log(paramData);
+                $.ajax({
+                	type : 'POST',
+                	url : serverAddr,
+                	data : JSON.stringify(paramData),
+                	contentType : "application/json;charset=UTF-8",
+                	dataType : 'json',
+                	success : function(msg){
+                		resultData = JSON.parse(msg.data);
+                		console.log(msg);
+                		console.log(resultData);
+                	},
+                	error : function (e){
+                		console.log(e);	
+                		$('#result').text(e);
+                	}
+                });  
+            }
+			/* dataPortal4(); */
+			test();
         </script>
     </head>
     <body>
+        <a href="webMappingDemo.do" rel="external">통합 데모 사이트 바로가기</a>
+        
     	<div id="result">
     	</div>
-    
     </body>
 </html>

@@ -6,6 +6,8 @@ import java.util.List;
 import it.geosolutions.geoserver.rest.GeoServerRESTPublisher;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader; 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
  
 
@@ -18,12 +20,12 @@ public class GeoServerManagerDAO{
 	
 	GeoServerRESTPublisher publisher; 
 	GeoServerRESTReader reader ;
+	Logger log = LogManager.getLogger("org.springframework");
 	
 	GeoServerManagerDAO() throws MalformedURLException{
 		super();
 		publisher = new GeoServerRESTPublisher(RESTURL, RESTUSER, RESTPW);
-		reader= new GeoServerRESTReader(RESTURL, RESTUSER, RESTPW);  
-		System.out.println(reader.existGeoserver());
+		reader= new GeoServerRESTReader(RESTURL, RESTUSER, RESTPW);
 	}
 			
 	public boolean geoserverCreateWorkspace(String name) {
