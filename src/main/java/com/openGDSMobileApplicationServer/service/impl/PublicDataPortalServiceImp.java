@@ -60,7 +60,7 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		}
 		/**
 		 * JSON Object
-		 * {serviceName:"GreenGasEmissionReport", startDate: ??, endDate: ??, keyValue: ??}
+		 * {serviceName:"GreenGasEmissionReport", startDate: ??, endDate: ??, ServiceKey: ??}
 		 **/
 		else if(serviceName.equals("GreenGasEmissionReport")){
 			baseURL = "http://www.kdhc.co.kr/openapi-data/service/kdhcCarbon/carbon?";

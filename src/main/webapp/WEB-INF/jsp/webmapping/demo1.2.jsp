@@ -20,7 +20,7 @@
 
     <!-- Proj, OpenLayers3, D3 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/proj4js/2.2.2/proj4.js" charset="utf-8"></script>                         <!-- Proj4js -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/ol3/ol.js" charset="utf-8"></script>                                      <!-- OpenLayers 3 -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/ol3/3.4/ol.js" charset="utf-8"></script>                                      <!-- OpenLayers 3 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/d3/d3.js" charset="utf-8"></script>                                       <!-- D3.js -->
 
 	<script>
@@ -33,7 +33,7 @@
 	</script>
 
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/OpenGDSMobileLib/openGDSMobileClient1.2.js" charset="utf-8"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js" charset="utf-8"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/main1.2.js" charset="utf-8"></script>
 	
 	<style>
         html, body{

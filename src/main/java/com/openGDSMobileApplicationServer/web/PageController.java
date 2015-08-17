@@ -20,9 +20,13 @@ public class PageController {
 	@Autowired
 	GeoJsonService geoJsonObj; 
 
-	@RequestMapping(value="/webMappingDemo.do")
-	public String webMappingDemo(){ 
-		return "webmapping/demo";
+	@RequestMapping(value="/webMappingDemo1.2.do")
+	public String webMappingDemo12(){ 
+		return "webmapping/demo1.2";
+	}
+	@RequestMapping(value="/webMappingDemo1.3.do")
+	public String webMappingDemo13(){ 
+		return "webmapping/demo1.3";
 	}
 	
 	
