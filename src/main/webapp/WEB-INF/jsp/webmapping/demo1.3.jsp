@@ -5,26 +5,26 @@
 	<title>Mobile Web Application for Geospatial Data Using OpenGDS Mobile</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	
-    <!-- dependency library CSS-->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/egovframework/mbl/cmm/jquery.mobile-1.3.2.css" >   <!-- jQuery Mobile -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/egovframework/mbl/cmm/EgovMobile-1.3.2.css">      <!-- eGov Mobile -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/ol3/ol.css">                      <!-- OpenLayers 3 -->
+	<%-- <base href="${pageContext.request.contextPath}"> --%>
+	    <!-- dependency library CSS-->
+	<link rel="stylesheet" href="./css/egovframework/mbl/cmm/jquery.mobile-1.3.2.css" >   <!-- jQuery Mobile -->
+	<link rel="stylesheet" href="./css/egovframework/mbl/cmm/EgovMobile-1.3.2.css">      <!-- eGov Mobile -->
+    <link type="text/css" rel="stylesheet" href="./css/ol3/ol.css">                      <!-- OpenLayers 3 -->
 
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">      <!-- Data Table Plug-in -->
 
     <!-- dependency library JS-->
     <!-- egovFramework  KOREA-->
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/egovframework/mbl/cmm/jquery-1.9.1.min.js" charset="utf-8"></script>      <!-- jQuery -->
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/egovframework/mbl/cmm/jquery.mobile-1.3.2.min.js" charset="utf-8"></script> <!-- jQuery Mobile -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/egovframework/mbl/cmm/EgovMobile-1.3.2.js" charset="utf-8"></script>      <!-- eGov Mobile -->
+	<script type="text/javascript" src="./js/egovframework/mbl/cmm/jquery-1.9.1.min.js" charset="utf-8"></script>      <!-- jQuery -->
+	<script type="text/javascript" src="./js/egovframework/mbl/cmm/jquery.mobile-1.3.2.min.js" charset="utf-8"></script> <!-- jQuery Mobile -->
+    <script type="text/javascript" src="./js/egovframework/mbl/cmm/EgovMobile-1.3.2.js" charset="utf-8"></script>      <!-- eGov Mobile -->
     <script type="text/javascript" src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js" charset="utf-8"></script> <!-- Data Table jQuery Plug-in-->
 
     <!-- Proj, OpenLayers3, D3 -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/proj4js/2.2.2/proj4.js" charset="utf-8"></script>                         <!-- Proj4js -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/ol3/ol.js" charset="utf-8"></script>                                      <!-- OpenLayers 3 -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/d3/d3.js" charset="utf-8"></script>                                       <!-- D3.js -->
-
+    <script type="text/javascript" src="./js/proj4js/2.2.2/proj4.js" charset="utf-8"></script>                         <!-- Proj4js -->
+    <script type="text/javascript" src="./js/ol3/ol.js" charset="utf-8"></script>                                      <!-- OpenLayers 3 -->
+    <script type="text/javascript" src="./js/d3/d3.js" charset="utf-8"></script>                                       <!-- D3.js -->
+	
 	<script>
 		var contextPath ='${pageContext.request.contextPath}';
 		var addr = 'http://' + '${pageContext.request.serverName}';
@@ -32,10 +32,11 @@
 		var serverAddr = addr + ':' + port + contextPath;
 		var geoServerAddr = addr;
 		geoServerAddr = 'http://113.198.80.9';
+		
 	</script>
 
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/OpenGDSMobileLib/openGDSMobileClient1.3.js" charset="utf-8"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/main1.3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js" charset="utf-8"></script>
 	
 	<style>
         html, body{
@@ -228,7 +229,7 @@
 		</div>
 <!-- Public Data Select -->
 		<div data-role="popup" id="dataSelect" data-overlay-theme="a">
-		  <div id="range">
+		  <div id="range"  class="range">
               			<table style="margin:0 auto">
               				<tr>
               					<td style="background:#0090ff; margin:0; padding:0">　</td>
@@ -287,18 +288,21 @@
                 <li><a href="#" onclick="wfsLoad('seoul_env_position', 'name')">환경 센서위치(서울열린데이터광장)</a></li>
                 <li><a href="#" onclick="wfsLoad('city_wer_mse_esb_loca_w','point')">도시 기상 관측망(서울열린데이터광장)</a></li>
                 <li><a href="#" onclick="wfsLoad('sejong_population_wgs84')">인구 데이터(세종특별시2013.1.-2014.2.)</a></li>
+                <li><a href="#" onclick="kMapLoad('SIDO')">전국 지도(시도 단위)</a></li>
+                <li><a href="#" onclick="kMapLoad('GU')">전국 지도(구 단위)</a></li>
+                <li><a href="#" onclick="kMapLoad('DONG')">전국 지도(동 단위)</a></li>
                 <li data-theme="z" data-role="list-divider">오픈 API</li>
-                <li><a href="#setting" data-rel="popup" data-position-to="window"
-                       onclick="createSeoulPublicAreaEnvUI()">서울시 실시간 대기환경(서울열린데이터광장)</a></li>
-                <li><a href="#setting" data-rel="popup" data-position-to="window"
-                       onclick="createPublicPortalUI('airKorea')">전국 실시간 대기환경(공공데이터포털: 에어코리아)</a></li>
-                <li><a href="#setting" data-rel="popup" data-position-to="window"
-                       onclick="createPublicPortalUI('nuclear')">원자력발전소 실시간 주변 방사선량(공공데이터포털: 한국수력원자력)</a></li>
-                <li><a href="#setting" data-rel="popup" data-position-to="window"
-                       onclick="createPublicPortalUI('greengas')">온실가스배출량 조회 서비스(공공데이터포털: 한국지역난방공사)</a></li>
+                <li><a href="#" onclick="popupCloseEvent('seoul', 'env')">
+                    서울시 실시간 대기환경(서울열린데이터광장)</a></li>
+                <li><a href="#" onclick="popupCloseEvent('public', 'airKorea')">
+                    전국 실시간 대기환경(공공데이터포털: 에어코리아)</a></li>
+                <li><a href="#" onclick="popupCloseEvent('public', 'nuclear')">
+                    원자력발전소 실시간 주변 방사선량(공공데이터포털: 한국수력원자력)</a></li>
+                <li><a href="#" onclick="popupCloseEvent('public', 'greengas')">
+                    온실가스배출량 조회 서비스(공공데이터포털: 한국지역난방공사)</a></li>
             </ul>
         </div>
-    </div> 
+    </div>
 </body>
 </html>
 

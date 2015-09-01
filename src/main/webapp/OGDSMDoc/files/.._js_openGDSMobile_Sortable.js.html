@@ -41,6 +41,7 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/OGDSM.html">OGDSM</a></li>
                                 <li><a href="../classes/OGDSM.attributeTable.html">OGDSM.attributeTable</a></li>
+                                <li><a href="../classes/OGDSM.chartVisualization.html">OGDSM.chartVisualization</a></li>
                                 <li><a href="../classes/OGDSM.eGovFrameUI.html">OGDSM.eGovFrameUI</a></li>
                                 <li><a href="../classes/OGDSM.externalConnection.html">OGDSM.externalConnection</a></li>
                                 <li><a href="../classes/OGDSM.mapLayerList.html">OGDSM.mapLayerList</a></li>
@@ -48,6 +49,8 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/OGDSM.applyOptions.html">OGDSM.applyOptions</a></li>
+                                <li><a href="../modules/OGDSM.indexedDB.html">OGDSM.indexedDB</a></li>
                                 <li><a href="../modules/OGDSM.jsontoArray.html">OGDSM.jsontoArray</a></li>
                                 <li><a href="../modules/OGDSM.namespace.html">OGDSM.namespace</a></li>
                             </ul>
@@ -87,7 +90,7 @@
                         
                         <div class="file">
                             <pre class="code prettyprint linenums">
-                        /**!
+                        /*
                          * OGDSM Layer list sorting open source
                          * Sortable
                          * author	RubaXa   &lt;trash@rubaxa.org&gt;
@@ -804,7 +807,7 @@
                         		},
                         
                         
-                        		/**
+                        		/*
                         		 * Serializes the item into an array of string.
                         		 * @returns {String[]}
                         		 */
@@ -826,7 +829,7 @@
                         		},
                         
                         
-                        		/**
+                        		/*
                         		 * Sorts the elements according to the array.
                         		 * @param  {String[]}  order  order of the items
                         		 */
@@ -850,7 +853,7 @@
                         		},
                         
                         
-                        		/**
+                        		/*
                         		 * Save the current sorting
                         		 */
                         		save: function () {
@@ -859,7 +862,7 @@
                         		},
                         
                         
-                        		/**
+                        		/*
                         		 * For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
                         		 * @param   {HTMLElement}  el
                         		 * @param   {String}       [selector]  default: &#x60;options.draggable&#x60;
@@ -870,7 +873,7 @@
                         		},
                         
                         
-                        		/**
+                        		/*
                         		 * Set/get option
                         		 * @param   {string} name
                         		 * @param   {*}      [value]
@@ -887,7 +890,7 @@
                         		},
                         
                         
-                        		/**
+                        		/*
                         		 * Destroy
                         		 */
                         		destroy: function () {
@@ -1040,14 +1043,14 @@
                         	}
                         
                         
-                        	/** @returns {HTMLElement|false} */
+                        	/* @returns {HTMLElement|false} */
                         	function _ghostInBottom(el, evt) {
                         		var lastEl = el.lastElementChild, rect = lastEl.getBoundingClientRect();
                         		return (evt.clientY - (rect.top + rect.height) &gt; 5) &amp;&amp; lastEl; // min delta
                         	}
                         
                         
-                        	/**
+                        	/*
                         	 * Generate id
                         	 * @param   {HTMLElement} el
                         	 * @returns {String}
@@ -1065,7 +1068,7 @@
                         		return sum.toString(36);
                         	}
                         
-                        	/**
+                        	/*
                         	 * Returns the index of an element within its parent
                         	 * @param el
                         	 * @returns {number}
@@ -1124,7 +1127,7 @@
                         	Sortable.version = &#x27;1.1.1&#x27;;
                         
                         
-                        	/**
+                        	/*
                         	 * Create sortable instance
                         	 * @param {HTMLElement}  el
                         	 * @param {Object}      [options]

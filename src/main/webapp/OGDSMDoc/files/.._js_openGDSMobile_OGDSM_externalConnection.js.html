@@ -41,6 +41,7 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/OGDSM.html">OGDSM</a></li>
                                 <li><a href="../classes/OGDSM.attributeTable.html">OGDSM.attributeTable</a></li>
+                                <li><a href="../classes/OGDSM.chartVisualization.html">OGDSM.chartVisualization</a></li>
                                 <li><a href="../classes/OGDSM.eGovFrameUI.html">OGDSM.eGovFrameUI</a></li>
                                 <li><a href="../classes/OGDSM.externalConnection.html">OGDSM.externalConnection</a></li>
                                 <li><a href="../classes/OGDSM.mapLayerList.html">OGDSM.mapLayerList</a></li>
@@ -48,6 +49,8 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/OGDSM.applyOptions.html">OGDSM.applyOptions</a></li>
+                                <li><a href="../modules/OGDSM.indexedDB.html">OGDSM.indexedDB</a></li>
                                 <li><a href="../modules/OGDSM.jsontoArray.html">OGDSM.jsontoArray</a></li>
                                 <li><a href="../modules/OGDSM.namespace.html">OGDSM.namespace</a></li>
                             </ul>
@@ -87,7 +90,7 @@
                         
                         <div class="file">
                             <pre class="code prettyprint linenums">
-                        /** GeoServer, Public data, VWorld Connect Class **/
+                        /* GeoServer, Public data, VWorld Connect Class */
                         /*jslint devel: true, vars : true */
                         /*global $, jQuery, ol, OGDSM*/
                         OGDSM.namesapce(&#x27;externalConnection&#x27;);
@@ -109,25 +112,27 @@
                         
                         /**
                          * GeoServer WFS 데이터 요청 (OpenLayers3 ol.source.GeoJSON)
-                         * @method geoServerWFSLoad
+                         * @method geoServerGeoJsonLoad
                          * @param {OGDSM Obj} obj - OpenGDS Mobile 시각화 객체
                          * @param {String} addr - 주소
                          * @param {String} workspace - 워크스페이스
                          * @param {String} layerName - 레이어 이름
-                         * @param {JSON Object} options - 옵션 JSON 객체 키 값{type=&#x27;polygon&#x27;, color=&#x27;rgba(0, 0, 0, 0.0)&#x27;, callback=function () {}}&lt;br&gt;
-                          type(String) : 레이어 타입( polygon | point)&lt;br&gt;
+                         * @param {JSON Object} options - 옵션 JSON 객체 키 값&lt;br&gt;
+                          {color:&#x27;rgba(0, 0, 0, 0.0)&#x27;, callback:function () {}}&lt;br&gt;
                           color(String) : 색상 rgba&lt;br&gt;
-                          callback(Function) : 요청 후 색상 변경시 콜백 함수
+                          label(String) : 라벨&lt;br&gt;
+                          callback(Function) : 콜백 함수 function (resultData) {...}
                          */
-                        OGDSM.externalConnection.prototype.geoServerWFSLoad = function (obj, addr, workspace, layerName, options) {
+                        OGDSM.externalConnection.prototype.geoServerGeoJsonLoad = function (obj, addr, workspace, layerName, options) {
                             &#x27;use strict&#x27;;
                             options = (typeof (options) !== &#x27;undefined&#x27;) ? options : {};
-                            var fullAddr = addr + &#x27;/geoserver/wfs?service=WFS&amp;version=1.1.0&amp;request=GetFeature&amp;typeNames=&#x27; + workspace + &#x27;:&#x27; + layerName +
-                                &#x27;&amp;outputFormat=json&amp;srsname=&#x27; + obj.baseProj;
+                            console.log(layerName);
+                            var fullAddr = addr + &#x27;/geoserver/wfs?service=WFS&amp;version=1.1.0&amp;request=GetFeature&amp;typeNames=&#x27; + workspace + &#x27;:&#x27; +
+                                layerName.split(&#x27;--&#x27;)[0] + &#x27;&amp;outputFormat=json&amp;srsname=&#x27; + obj.baseProj;
                             var objStyles, name;
                             var defaults = {
-                                type : &#x27;polygon&#x27;,
                                 color : &#x27;rgba(0, 0, 0, 0.0)&#x27;,
+                                label : null,
                                 callback : function (wfslayer) {}
                             };
                             for (name in defaults) {
@@ -137,40 +142,13 @@
                                     }
                                 }
                         	}
-                            if (defaults.type === &#x27;polygon&#x27;) {
-                                objStyles = [
-                                    new ol.style.Style({
-                                        fill : new ol.style.Fill({
-                                            color : defaults.color
-                                        }),
-                                        stroke : new ol.style.Stroke({
-                                            color : &#x27;rgba(0, 0, 0, 1.0)&#x27;,
-                                            width : 1
-                                        })
-                                    })];
-                            } else if (defaults.type === &#x27;point&#x27;) {
-                                objStyles = [
-                                    new ol.style.Style({
-                                        image : new ol.style.Circle({
-                                            radius : 5,
-                                            fill : new ol.style.Fill({
-                                                color : defaults.color
-                                            }),
-                                            stroke : new ol.style.Stroke({
-                                                color : &#x27;rgba(0, 0, 0, 1.0)&#x27;,
-                                                width : 1
-                                            })
-                                        })
-                                    })
-                                ];
-                            }
                             $.mobile.loading(&#x27;show&#x27;, {
                                 text : &#x27;Loading&#x27;,
                                 textVisible : &#x27;true&#x27;,
                                 theme : &#x27;c&#x27;,
                                 textonlt : &#x27;false&#x27;
                             });
-                            layerName = layerName.replace(/[ \{\}\[\]\/?.,;:|\)*~&#x60;!^\-+┼&lt;&gt;@\#$%&amp;\&#x27;\&quot;\\\(\=]/gi,&#x27;&#x27;);
+                            layerName = layerName.replace(/[ \{\}\[\]\/?.,;:|\)*~&#x60;!\+┼&lt;&gt;@\#$%&amp;\&#x27;\&quot;\\\(\=]/gi);
                             $.ajax({
                                 type : &#x27;POST&#x27;,
                                 url : fullAddr,
@@ -179,11 +157,60 @@
                                 success : function (msg) {
                                     var wfsLayer = new ol.layer.Vector({
                                         title : layerName,
-                                        source : new ol.source.GeoJSON({
-                                            object: msg
+                                        source : new ol.source.Vector({
+                                            features : (new ol.format.GeoJSON()).readFeatures(msg)
                                         }),
-                                        style : objStyles
+                                        style : (function () {
+                                            var styleFill = new ol.style.Fill({
+                                                color : defaults.color
+                                            });
+                                            var styleStroke = new ol.style.Stroke({
+                                                color : &#x27;rgba(0, 0, 0, 1.0)&#x27;,
+                                                width : 1
+                                            });
+                                            var styleCircle = new ol.style.Circle({
+                                                radius : 10,
+                                                fill : styleFill,
+                                                stroke : styleStroke
+                                            });
+                                            return function (feature, resolution) {
+                                                var type = feature.getGeometry().getType();
+                                                var styleText = null;
+                                                if (defaults.label !== null) {
+                                                    styleText = new ol.style.Text({
+                                                        font : &#x27;12px Calibri, sans-serif&#x27;,
+                                                        text : feature.get(defaults.label),
+                                                        fill : new ol.style.Fill({
+                                                            color : &#x27;#000&#x27;
+                                                        }),
+                                                        stroke : new ol.style.Stroke({
+                                                            color : &#x27;#fff&#x27;,
+                                                            width : 3
+                                                        })
+                                                    });
+                                                    feature.set(&#x27;label&#x27;, defaults.label);
+                                                }
+                                                //console.log(defaults.label);
+                                                feature.set(&#x27;styleFill&#x27;, styleFill);
+                                                feature.set(&#x27;styleStroke&#x27;, styleStroke);
+                                                feature.set(&#x27;styleCircle&#x27;, styleCircle);
+                                                feature.set(&#x27;styleText&#x27;, styleText);
+                                                if (type === &#x27;MultiPolygon&#x27;) {
+                                                    return [new ol.style.Style({
+                                                        fill : styleFill,
+                                                        stroke : styleStroke,
+                                                        text : styleText
+                                                    })];
+                                                } else if (type === &#x27;Point&#x27;) {
+                                                    return [new ol.style.Style({
+                                                        image : styleCircle,
+                                                        text : styleText
+                                                    })];
+                                                }
+                                            };
+                                        }())
                                     });
+                                    wfsLayer.set(&#x27;styleFill&#x27;, defaults.color);
                                     obj.addMap(wfsLayer, defaults.type);
                                     $.mobile.loading(&#x27;hide&#x27;);
                                     defaults.callback(wfsLayer);
@@ -199,11 +226,13 @@
                          * @param {String} addr - 주소
                          * @param {String} ws - 워크스페이스
                          * @param {String} layerName - 레이어 이름
-                         * @param {JSON Object} options - 옵션 JSON 객체 키 값{type=&#x27;polygon&#x27;, epsg=&#x27;epsg3857&#x27;}&lt;br&gt;
+                         * @param {JSON Object} options - 옵션 JSON 객체 키 값&lt;br&gt;
+                          {type:&#x27;polygon&#x27;, epsg:&#x27;epsg3857&#x27;}&lt;br&gt;
                           type(String) : 레이어 타입( polygon | point)&lt;br&gt;
                           epsg(String) : EPSG String&lt;br&gt;
                          * @return {ol.layer.Vector} vectorSource - OpenLayers3 백터 객체
                          */
+                        /*
                         OGDSM.externalConnection.prototype.geoServerWFS = function (addr, ws, layerName, options) {
                             options = (typeof (options) !== &#x27;undefined&#x27;) ? options : {};
                             var vectorSource, styles, resultData, name;
@@ -271,6 +300,7 @@
                             });
                             return resultData;
                         };
+                        */
                         /**
                          * VWorld WMS 데이터 요청
                          * @method vworldWMSLoad
@@ -302,25 +332,15 @@
                         };
                         
                         /**
-                         * 서울 열린 데이터 광장 환경 데이터 요청
-                         * @method seoulEnvironmentLoad
-                         * @param {String} addr - 주소
-                         * @param {String} apiKey - api 키
-                         * @param {String} envType - 환경 정보 이름
-                         * @param {date} date - 날짜
-                         * @param {time} time - 시간
-                         * @param {function} callback - 성공 콜백 함수
+                         * 공공 데이터 요청 인터페이스
+                         * @method publicDataInterface
+                         * @param {String} addr - 어플리케이션 서버 요청 주소
+                         * @param {JSON Object} jsonData - 데이터 요청 파라미터 {serviceName : ??(필수), serviceKey ??(필수), ...}
+                         * @param {function} callback - 콜백 함수 function (resultData) {...}
+                         *
                          */
-                        OGDSM.externalConnection.prototype.seoulEnvironmentLoad = function (addr, apiKey, envType, date, time, callback) {
+                        OGDSM.externalConnection.prototype.publicDataInterface = function (addr, jsonData, callback) {
                             &#x27;use strict&#x27;;
-                            var parm = &#x27;{&quot;serviceName&quot;:&quot;TimeAverageAirQuality&quot;,&#x27; +
-                                &#x27;&quot;keyValue&quot;:&quot;&#x27; + apiKey + &#x27;&quot;,&#x27; +
-                                &#x27;&quot;dateValue&quot;:&quot;&#x27; + date + &#x27;&quot;, &#x27; +
-                                &#x27;&quot;envType&quot;:&#x27; + &#x27;&quot;&#x27; + envType + &#x27;&quot;,&#x27; +
-                                &#x27;&quot;timeValue&quot;:&quot;&#x27; + time + &#x27;&quot;} &#x27;;
-                            var resultData;
-                            parm = JSON.parse(parm);
-                            console.log(parm);
                             $.mobile.loading(&#x27;show&#x27;, {
                                 text : &#x27;Loading&#x27;,
                                 textVisible : &#x27;true&#x27;,
@@ -330,18 +350,47 @@
                             $.ajax({
                                 type : &#x27;POST&#x27;,
                                 url : addr,
-                                data : JSON.stringify(parm),
+                                data : JSON.stringify(jsonData),
                                 contentType : &quot;application/json;charset=UTF-8&quot;,
                                 dataType : &#x27;json&#x27;,
-                                success : function (msg) {
-                                    resultData = JSON.parse(msg.data);
+                                success : function (jsonResult) {
                                     $.mobile.loading(&#x27;hide&#x27;);
-                                    callback(resultData);
+                                    if (jsonResult.result === &#x27;OK&#x27;) {
+                                        callback(JSON.parse(jsonResult.data));
+                                    } else {
+                                        alert(&quot;데이터를 불러오는데 실패하였습니다&quot;);
+                                    }
                                 },
-                                error : function (e) {
-                                    console.log(e);
+                                error : function (error) {
                                     $.mobile.loading(&#x27;hide&#x27;);
+                                    console.error(error);
                                 }
+                            });
+                        };
+                        
+                        
+                        /**
+                         * 서울 열린 데이터 광장 환경 데이터 요청
+                         * @method seoulEnvironmentLoad
+                         * @param {String} addr - 주소
+                         * @param {String} apiKey - api 키
+                         * @param {String} envType - 환경 정보 이름
+                         * @param {date} date - 날짜 (YYYYMMDD)
+                         * @param {time} time - 시간 (HH00)
+                         * @param {function} callback - 콜백 함수 function (resultData) {...}
+                         */
+                        OGDSM.externalConnection.prototype.seoulEnvironmentLoad = function (addr, apiKey, envType, date, time, callback) {
+                            &#x27;use strict&#x27;;
+                            var jsonData = {};
+                            jsonData.serviceKey = apiKey;
+                            jsonData.returnType = &#x27;json&#x27;;
+                            jsonData.serviceName = &#x27;TimeAverageAirQuality&#x27;;
+                            jsonData.amount = &#x27;1/100&#x27;;
+                            jsonData.dateTimeValue = date + time;
+                            jsonData.envType = envType;
+                        
+                            this.publicDataInterface(addr, jsonData, function (resultData) {
+                                callback(resultData);
                             });
                         };
                         
@@ -352,50 +401,74 @@
                          * @param {String} addr - 주소
                          * @param {String} apiKey - API 키
                          * @param {String} envType - 환경 정보 이름
-                         * @param {date} area - 지역
-                         * @param {function} callback - 성공 콜백 함수
+                         * @param {String} area - 지역
+                         * @param {function} callback - 콜백 함수 function (resultData) {...}
                          */
                         OGDSM.externalConnection.prototype.dataPortalEnvironmentLoad = function (addr, apiKey, envType, area, callback) {
                             &#x27;use strict&#x27;;
-                            var parm = &#x27;{&quot;serviceName&quot;:&quot;ArpltnInforInqireSvc&quot;,&#x27; +
-                                    &#x27; &quot;keyValue&quot;:&quot;&#x27; + apiKey + &#x27;&quot;,&#x27; +
-                                    &#x27;&quot;areaType&quot;:&#x27; + &#x27;&quot;&#x27; + encodeURIComponent(area) + &#x27;&quot;,&#x27; +
-                                    &#x27;&quot;envType&quot;:&#x27; + &#x27;&quot;&#x27; + envType + &#x27;&quot;}&#x27;;
-                            var resultData;
-                            parm = JSON.parse(parm);
-                            console.log(parm);
-                            $.mobile.loading(&#x27;show&#x27;, {
-                                text : &#x27;Loading&#x27;,
-                                textVisible : &#x27;true&#x27;,
-                                theme : &#x27;c&#x27;,
-                                textonlt : &#x27;false&#x27;
-                            });
-                            $.ajax({
-                                type : &#x27;POST&#x27;,
-                                url : addr,
-                                data : JSON.stringify(parm),
-                                contentType : &quot;application/json;charset=UTF-8&quot;,
-                                dataType : &#x27;json&#x27;,
-                                success : function (msg) {
-                                    resultData = JSON.parse(msg.data);
-                                    $.mobile.loading(&#x27;hide&#x27;);
-                                    callback(resultData);
-                                },
-                                error : function (e) {
-                                    console.log(e);
-                                    $.mobile.loading(&#x27;hide&#x27;);
-                                }
+                            var jsonData = {};
+                            jsonData.serviceName = &#x27;ArpltnInforInqireSvc&#x27;;
+                            jsonData.numOfRows = &#x27;100&#x27;;
+                            jsonData.serviceKey = apiKey;
+                            jsonData.envType = envType;
+                            jsonData.sidoName = encodeURIComponent(area);
+                        
+                            this.publicDataInterface(addr, jsonData, function (resultData) {
+                                callback(resultData);
                             });
                         };
                         
                         
+                        /**
+                         * 데이터 포털 온실가스배출량 조회 서비스
+                         * @method greenGasEmissionLoad
+                         * @param {String} addr - 주소
+                         * @param {String} apiKey - API 키
+                         * @param {String} startDate - 시작 날짜 (YYYYMM 200701 ~ 201412 까지만 데이터 존재)
+                         * @param {String} endDate - 종료 날짜 (YYYYMM 200701 ~ 201412 까지만 데이터 존재)
+                         * @param {function} callback - 성공 콜백 함수
+                         */
+                        OGDSM.externalConnection.prototype.greenGasEmissionLoad = function (addr, apiKey, startDate, endDate, callback) {
+                            &#x27;use strict&#x27;;
+                            var jsonData = {};
+                            jsonData.serviceName = &#x27;GreenGasEmissionReport&#x27;;
+                            jsonData.numOfRows = &#x27;100&#x27;;
+                            jsonData.serviceKey = apiKey;
+                            jsonData.startDate = startDate;
+                            jsonData.endDate = endDate;
+                        
+                            this.publicDataInterface(addr, jsonData, function (resultData) {
+                                callback(resultData);
+                            });
+                        };
+                        
+                        
+                        /**
+                         * 원자력발전소 실시간 주변 방사선량
+                         * @method realTimeLevelofRadiationLoad
+                         * @param {String} addr - 주소
+                         * @param {String} apiKey - API 키
+                         * @param {String} genName - 원자력 발전소 이름 (WS, KR, YK, Plant)
+                         * @param {function} callback - 성공 콜백 함수
+                         */
+                        OGDSM.externalConnection.prototype.realTimeLevelofRadiationLoad = function (addr, apiKey, genName, callback) {
+                            &#x27;use strict&#x27;;
+                            var jsonData = {};
+                            jsonData.serviceName = &#x27;NuclearPowerPlantRealtimeLevelofRadiation&#x27;;
+                            jsonData.serviceKey = apiKey;
+                            jsonData.startDate = genName;
+                        
+                            this.publicDataInterface(addr, jsonData, function (resultData) {
+                                callback(resultData);
+                            });
+                        };
                         
                         /**
                          * geoServer 데이터 리스트 요청
                          * @method getLayersGeoServer
                          * @param {String} addr - 서버 주소
                          * @param {String} wsName - 워크스페이스 이름
-                         * @param {Function} callback - 성공 콜백 함수
+                         * @param {Function} callback - 콜백 함수 function (resultData) {...}
                          */
                         OGDSM.externalConnection.prototype.getLayersGeoServer = function (addr, wsName, callback) {
                             &#x27;use strict&#x27;;
@@ -413,16 +486,16 @@
                                 contentType : &#x27;application/json;charset=UTF-8&#x27;,
                                 dataType : &#x27;json&#x27;,
                                 success : function (msg) {
-                                    var resultData = msg.data;        	
+                                    var resultData = msg.data;
                                     $.mobile.loading(&#x27;hide&#x27;);
                                     callback(resultData);
                                 },
-                                
-                                error : function (e) {
-                                    console.log(e);
+                                error : function (error) {
+                                    console.error(error);
                                 }
                             });
                         };
+                        
                             </pre>
                         </div>
                     </div>

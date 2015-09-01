@@ -41,6 +41,7 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/OGDSM.html">OGDSM</a></li>
                                 <li><a href="../classes/OGDSM.attributeTable.html">OGDSM.attributeTable</a></li>
+                                <li><a href="../classes/OGDSM.chartVisualization.html">OGDSM.chartVisualization</a></li>
                                 <li><a href="../classes/OGDSM.eGovFrameUI.html">OGDSM.eGovFrameUI</a></li>
                                 <li><a href="../classes/OGDSM.externalConnection.html">OGDSM.externalConnection</a></li>
                                 <li><a href="../classes/OGDSM.mapLayerList.html">OGDSM.mapLayerList</a></li>
@@ -48,6 +49,8 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/OGDSM.applyOptions.html">OGDSM.applyOptions</a></li>
+                                <li><a href="../modules/OGDSM.indexedDB.html">OGDSM.indexedDB</a></li>
                                 <li><a href="../modules/OGDSM.jsontoArray.html">OGDSM.jsontoArray</a></li>
                                 <li><a href="../modules/OGDSM.namespace.html">OGDSM.namespace</a></li>
                             </ul>
@@ -94,14 +97,16 @@
                             &quot;use strict&quot;;
                             var mapObj;
                             /**
-                            * 오픈레이어3 지도 시각화 객체
-                            * @class OGDSM.visualization
-                            * @constructor
-                            * @param {String} mapDiv - 지도 DIV 아이디 이름
-                            * @param {JSON Object} options - 옵션 JSON 객체 키 값{layerListDiv=null, attrTableDiv=null, attrAddr=&#x27;&#x27;}&lt;br&gt;
-                          layerListDiv : 레이어 관리 리스트 DIV 아이디 이름&lt;br&gt;
-                          attrTableDiv : 속성 시각화 DIV 아이디 이름&lt;br&gt;
-                          attrAddr : 속성 시각화 서버 주소&lt;br&gt;
+                             * 오픈레이어3 지도 시각화 객체
+                             * @class OGDSM.visualization
+                             * @constructor
+                             * @param {String} mapDiv - 지도 DIV 아이디 이름
+                             * @param {JSON Object} options - 옵션 JSON 객체 키 값&lt;br&gt;
+                            {layerListDiv:null, attrTableDiv:null, attrAddr:&#x27;&#x27;, indexedDB:true}&lt;br&gt;
+                            layerListDiv : 레이어 관리 리스트 DIV&lt;br&gt;
+                            attrTableDiv : 속성 시각화 DIV 아이디 이름&lt;br&gt;
+                            attrAddr : 속성 시각화 서버 주소&lt;br&gt;
+                            indexedDB : 속성 정보 모바일 데이터베이스 저장 / 수정&lt;br&gt;
                             */
                             OGDSM.visualization = function (mapDiv, options) {
                                 options = (typeof (options) !== &#x27;undefined&#x27;) ? options : {};
@@ -113,7 +118,8 @@
                                 var defaults = {
                                     layerListDiv : null,
                                     attrTableDiv : null,
-                                    attrAddr : &#x27;&#x27;
+                                    attrAddr : &#x27;&#x27;,
+                                    indexedDB : true
                                 };
                         
                                 for (name in defaults) {
@@ -127,13 +133,17 @@
                                 $(window).on(&#x27;resize&#x27;, function () {
                                     OGDSM.visualization.updateLayoutSetting();
                                 });
-                                if (defaults.layerListDiv !== null) {
-                                    this.layerListObj = new OGDSM.mapLayerList(this, defaults.layerListDiv);
-                                }
                                 if (defaults.attrTableDiv !== null) {
-                                    this.attrTableObj = new OGDSM.attributeTable(defaults.attrTableDiv, defaults.attrAddr);
+                                    this.attrTableObj = new OGDSM.attributeTable(defaults.attrTableDiv, defaults.attrAddr, this, defaults.indexedDB);
+                                }
+                                if (defaults.layerListDiv !== null) {
+                                    this.layerListObj = new OGDSM.mapLayerList(this, defaults.layerListDiv, {
+                                        attrObj : this.attrTableObj
+                                    });
                                 }
                                 // Orientation...
+                        
+                        
                             };
                             OGDSM.visualization.prototype = {
                                 constructor : OGDSM.visualization,
@@ -175,6 +185,14 @@
                                         }
                                     }
                                     return -1;
+                                },
+                                /**
+                                 * 속성정보 객체
+                                 * @method getAttrObj
+                                 * @return {attributeTable Object} 속성정보 객체
+                                 */
+                                getAttrObj : function () {
+                                    return this.attrTableObj;
                                 }
                             };
                             return OGDSM.visualization;
@@ -227,6 +245,7 @@
                             this.mapObj = map;
                             this.baseProj = baseProj;
                             this.changeBaseMap(mapType);
+                            this.mapObj.updateSize();
                             return this.mapObj;
                         };
                         
@@ -354,33 +373,83 @@
                                 this.mapObj.updateSize();
                             }
                         };
+                        
+                        
                         /**
                          * WMS 및 WFS 맵 레이어 추가
                          * @method addMap
                          * @param {ol Map Object} data - 오픈레이어3 지도 객체
-                         * @param {String} type - WFS 객체 타입 [default=polygon | point]
                          */
-                        OGDSM.visualization.prototype.addMap = function (data, type) {
+                        OGDSM.visualization.prototype.addMap = function (data) {
                             &#x27;use strict&#x27;;
                             var chkData = this.layerCheck(data.get(&#x27;title&#x27;));
+                            var interaction;
                             if (chkData === false) {
                                 this.getMap().addLayer(data);
+                                this.mapObj.removeInteraction(this.mapObj.getInteractions());
+                                /*interaction*/
+                                interaction = new ol.interaction.Select({
+                                    layers : function (layer) {
+                                        return true;
+                                    },
+                                    style : (function () {
+                                        var styleStroke = new ol.style.Stroke({
+                                            color : &#x27;rgba(255, 0, 0, 1.0)&#x27;,
+                                            width : 3
+                                        });
+                                        return function (feature, resolution) {
+                                            var type = feature.getGeometry().getType();
+                                            var styleCircle = new ol.style.Circle({
+                                                radius : 10,
+                                                fill : feature.get(&#x27;styleCircle&#x27;).getFill(),
+                                                stroke : styleStroke
+                                            });
+                                            if (type === &#x27;MultiPolygon&#x27;) {
+                                                return [new ol.style.Style({
+                                                    fill : feature.get(&#x27;styleFill&#x27;),
+                                                    stroke : styleStroke,
+                                                    text : feature.get(&#x27;styleText&#x27;)
+                                                })];
+                                            } else if (type === &#x27;Point&#x27;) {
+                                                return [new ol.style.Style({
+                                                    image : styleCircle,
+                                                    text : feature.get(&#x27;styleText&#x27;)
+                                                })];
+                                            }
+                                        };
+                                    }())
+                                });
+                                this.mapObj.addInteraction(interaction);
+                                this.mapObj.removeLayer(interaction);
+                                //console.log(interaction.deselected(null));
+                                /*layer list On*/
                                 if (typeof (this.layerListObj) !== &#x27;undefined&#x27;) {
                                     var color;
+                                    var geometryObj = data.getSource().getFeatures()[0].getGeometry();
+                                    var geoType = geometryObj.getType();
                                     if (typeof data.getStyle !== &#x27;undefined&#x27;) {
-                                        if (type === &#x27;polygon&#x27;) {
-                                            color = data.getStyle()[0].getFill().getColor();
-                                        } else if (type === &#x27;point&#x27;) {
-                                            color = data.getStyle()[0].getImage().getFill().getColor();
-                                        }
-                        
+                                        color = data.get(&#x27;styleFill&#x27;);
                                     } else {
                                         color =  &#x27;rgb(0, 0, 0)&#x27;;
                                     }
-                                    this.layerListObj.listManager(data, data.get(&#x27;title&#x27;), color, type);
+                                    this.layerListObj.addList(data, data.get(&#x27;title&#x27;), color, geoType);
                                 }
+                                /*attribute On*/
                                 if (typeof (this.attrTableObj) !== &#x27;undefined&#x27;) {
+                                    var attrTableObj = this.attrTableObj;
                                     this.attrTableObj.addAttribute(data.get(&#x27;title&#x27;));
+                                    this.attrTableObj.setolSelectObj(interaction);
+                                    interaction.getFeatures().on(&#x27;add&#x27;, function (event) {
+                                        attrTableObj.unSelectAttribute(data.get(&#x27;title&#x27;));
+                                        var obj = event.target.item(0);
+                                        var label = event.target.item(0).get(&#x27;label&#x27;);
+                                        var selectValue = event.target.item(0).get(label);
+                                        var trNumber = attrTableObj.searchAttribute(data.get(&#x27;title&#x27;), label, selectValue);
+                                        attrTableObj.selectAttribute(data.get(&#x27;title&#x27;), trNumber);
+                                    });
+                                    interaction.getFeatures().on(&#x27;remove&#x27;, function (event) {
+                                        attrTableObj.unSelectAttribute(data.get(&#x27;title&#x27;));
+                                    });
                                 }
                             } else {
                                 console.log(&quot;Layer is existence&quot;);
@@ -423,7 +492,7 @@
                             if (obj !== false) {
                                 this.getMap().removeLayer(obj);
                                 if (typeof (this.layerListObj) !== &#x27;undefined&#x27;) {
-                                    this.layerListObj.removelist(layerName);
+                                    this.layerListObj.removeList(layerName);
                                 }
                             }
                         };
@@ -464,7 +533,10 @@
                                 opt : 0.5,
                                 attr : null,
                                 range : null,
-                                xyData : null
+                                data : null,
+                                rootKey : null,
+                                labelKey : null,
+                                valueKey : null
                             };
                         
                             for (name in defaults) {
@@ -478,6 +550,7 @@
                                 console.error(&#x27;Not Map Layer&#x27;);
                                 return -1;
                             }
+                            var data = defaults.data[defaults.rootKey];
                             map.setStyle(function (f, r) {
                                 var i,
                                     j,
@@ -485,10 +558,10 @@
                                     text = r &lt; 5000 ? f.get(defaults.attr) : &#x27;&#x27;;
                                 if (!styleCache[text]) {
                                     if (Array.isArray(colors)) {
-                                        for (i = 0; i &lt; defaults.xyData[1].length; i += 1) {
-                                            if (text === defaults.xyData[1][i]) {
+                                        for (i = 0; i &lt; data.length; i += 1) {
+                                            if (text === data[i][defaults.labelKey]) {
                                                 for (j = 0; j &lt; defaults.range.length; j += 1) {
-                                                    if (defaults.xyData[0][i] &lt;= defaults.range[j]) {
+                                                    if (data[i][defaults.valueKey] &lt;= defaults.range[j]) {
                                                         color = colors[j];
                                                         break;
                                                     }
@@ -535,95 +608,6 @@
                                 return styleCache[text];
                             });
                             map.setOpacity(defaults.opt);
-                        };
-                        /**
-                         * 가로 막대 차트 시각화
-                         * @method barChart
-                         * @param {String} divId - 막대 차트 시각화할 DIV 아이디 이름
-                         * @param {Array} data - 데이터 값 2차원 배열 (0 : x, 1 : y)
-                         * @param {Array} range - 데이터 범위 1차원 배열
-                         * @param {Array} color - 데이터 색 범위 1차원 배열 [default=#000000 (range와 배열 길이 같아야함)]
-                         */
-                        OGDSM.visualization.prototype.barChart = function (divId, data, range, color) {
-                            &#x27;use strict&#x27;;
-                            range = (typeof (range) !== &#x27;undefined&#x27;) ? range : [];
-                            color = (typeof (color) !== &#x27;undefined&#x27;) ? color : [&#x27;#000000&#x27;];
-                            var barHeight = 18,
-                                minusWidth = 0,
-                                rootDiv = $(&#x27;#&#x27; + divId),
-                                maxData = d3.max(data[0]),
-                                barChartDiv = null,
-                                x = null,
-                                y = null,
-                                z = null;
-                            rootDiv.empty();
-                            barChartDiv = d3.select(&quot;#&quot; + divId).append(&#x27;svg&#x27;)
-                                .attr(&#x27;id&#x27;, &#x27;barchart&#x27;)
-                                .attr(&#x27;width&#x27;, rootDiv.width())
-                                .attr(&#x27;height&#x27;, barHeight * data[0].length);
-                            x = d3.scale.linear().domain([0, maxData]).range([0, rootDiv.width() - 50]);
-                            barChartDiv.selectAll(&quot;rect&quot;).data(data[0]).enter()
-                                .append(&quot;rect&quot;)
-                                .attr(&quot;x&quot;, 0)
-                                .attr(&quot;y&quot;, function (d, i) {
-                                    return i * barHeight;
-                                })
-                                .attr(&#x27;width&#x27;, function (d) {
-                                    if (d === &#x27;-&#x27; || d === &#x27;0&#x27;) {
-                                        return x(20);
-                                    }
-                        			return x(d) - minusWidth;
-                                })
-                                .attr(&#x27;height&#x27;, barHeight - 2)
-                        		.attr(&#x27;fill&#x27;, function (d, i) {
-                                    if (d === &#x27;-&#x27; || d === &#x27;0&#x27;) {
-                                        return &#x27;#AAAAAA&#x27;;
-                                    }
-                                    if (range.length !== 0) {
-                                        for (z = 0; z &lt; range.length; z += 1) {
-                                            if (data[0][i] &lt;= range[z]) {
-                                                return color[z];
-                                            }
-                                        }
-                                    }
-                                    return color[color.length];
-                                });
-                            
-                            barChartDiv.selectAll(&#x27;g&#x27;).data(data[1])
-                                .enter()
-                                .append(&#x27;text&#x27;)
-                                .attr(&#x27;x&#x27;, 0)
-                                .attr(&#x27;y&#x27;, function (d, i) {
-                                    return i * barHeight + barHeight - 5;
-                                })
-                                .attr(&#x27;font-weight&#x27;, &#x27;bold&#x27;)
-                                .attr(&#x27;font-size&#x27;, &#x27;0.8em&#x27;)
-                                .text(function (d) {
-                                    return d;
-                                });
-                            
-                        	barChartDiv.selectAll(&#x27;g&#x27;).data(data[0])
-                                .enter()
-                                .append(&#x27;text&#x27;)
-                                .attr(&#x27;x&#x27;, function (d) {
-                                    if (d === &#x27;-&#x27; || d === &#x27;0&#x27;) {
-                                        return x(10);
-                                    }
-                        			return x(d) - minusWidth;
-                                })
-                                .attr(&#x27;y&#x27;, function (d, i) {
-                                    return i * barHeight + barHeight - 5;
-                                })
-                                .attr(&#x27;dy&#x27;, &#x27;.15em&#x27;)
-                                .attr(&#x27;fill&#x27;, &#x27;black&#x27;)
-                                .attr(&#x27;font-size&#x27;, &#x27;0.8em&#x27;)
-                                .attr(&#x27;font-weight&#x27;, &#x27;bold&#x27;)
-                                .text(function (d) {
-                                    if (d === &#x27;-&#x27; || d === &#x27;0&#x27;) {
-                                        return &#x27;점검중&#x27;;
-                                    }
-                                    return d;
-                                });
                         };
                         
                             </pre>
