@@ -37,5 +37,10 @@ public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements
 		log.info(resultData);
 		return resultData;
 	}
-
+	
+	@Override
+	public void editAttr() {
+	
+		log.info("test");
+	}
 }

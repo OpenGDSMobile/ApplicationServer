@@ -7,6 +7,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
         <property name="java-output-path" value="/ApplicationServer/build/classes"/>
-        <property name="context-root" value="mobile"/>
+        <property name="context-root" value="ApplicationServer"/>
     </wb-module>
 </project-modules>

@@ -10,5 +10,5 @@ public interface AttributeTableService {
 	
 //	List<LinkedHashMap<String, Object>> createAttr(HashMap<String, Object> tableName);
 	List<LinkedHashMap<String, Object>> createAttr(JSONObject tableName);
-
+	void editAttr();
 }

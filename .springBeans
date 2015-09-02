@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.6.3.201411271034-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.6.4.201503051146-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>src/main/resources/webmapping/spring/context-datasource.xml</config>
+		<config>src/main/webapp/WEB-INF/config/webmapping/context-websocket.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/config/webmapping/context-servlet.xml</config>
-		<config>src/main/resources/webmapping/spring/context-sqlMap.xml</config>
+		<config>src/main/resources/webmapping/spring/context-mybatis.xml</config>
+		<config>src/main/resources/webmapping/spring/context-transaction.xml</config>
+		<config>src/main/resources/webmapping/spring/context-common.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>
