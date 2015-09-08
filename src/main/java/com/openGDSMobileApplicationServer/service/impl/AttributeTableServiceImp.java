@@ -12,23 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.openGDSMobileApplicationServer.service.AttributeTableService;
+import com.openGDSMobileApplicationServer.service.TableService;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 
-@Service
-public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements AttributeTableService {
+@Service("AttributeTables")
+public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements TableService {
 
 
 	@Autowired
-	@Qualifier("attrDAO")
-	AttributeTableDAO at; 
+	@Qualifier("OpenGDSMobileDAO")
+	OpenGDSMobileTableDAO at; 
 	Logger log = LogManager.getLogger("org.springframework");
-	
+
 	@Override
-	public List<LinkedHashMap<String, Object>> createAttr(JSONObject tableName) {
-		List<LinkedHashMap<String, Object>> resultData = at.selectAttr(tableName);
+	public List<LinkedHashMap<String, Object>> searchTable(JSONObject tableName) {
+		List<LinkedHashMap<String, Object>> resultData = at.attributeSelectTableInfo(tableName);
 		ListIterator<LinkedHashMap<String, Object>> listItr = resultData.listIterator();
 		while(listItr.hasNext()){
 			LinkedHashMap<String, Object> tmp = listItr.next();
@@ -37,10 +37,5 @@ public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements
 		log.info(resultData);
 		return resultData;
 	}
-	
-	@Override
-	public void editAttr() {
-	
-		log.info("test");
-	}
+
 }

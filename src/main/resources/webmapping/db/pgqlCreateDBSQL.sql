@@ -7,3 +7,10 @@ CREATE DATABASE OPENGDSMOBILE_DB
        CONNECTION LIMIT = -1;
        
 CREATE EXTENSION postgis;
+
+
+CREATE TABLE "REALTIMEINFO"
+(
+  subject character varying(50),
+  userid character varying(50)
+)

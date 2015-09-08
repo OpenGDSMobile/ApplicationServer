@@ -1,5 +1,6 @@
 package com.openGDSMobileApplicationServer.web;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,23 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.openGDSMobileApplicationServer.service.AttributeTableService;
-
+import com.openGDSMobileApplicationServer.service.GeoJsonService;
 
 @Controller
-public class AttributeTableController {
-	
+public class GeoJsonController {
+
 	@Autowired
-	AttributeTableService ats;
+	GeoJsonService geoJsonObj; 
 	
-	@RequestMapping(headers="Content-Type=application/json", value="/attrTable.do", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> attrSearchTable(@RequestBody JSONObject JSONData){
+	
+	@RequestMapping(headers="Content-Type=application/json", value="/geojson.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> geoJSONLoad(@RequestBody JSONObject JSONData){
 		Map<String, Object> message = new HashMap<String, Object>();
-		
+		JSONObject resultObj = geoJsonObj.getLocation(JSONData);
 		try {
 			message.put("result", "OK");
-			message.put("message", null); 
-			message.put("data", ats.createAttr(JSONData));
+			message.put("message", "OK"); 
+			message.put("data", resultObj.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,4 +38,17 @@ public class AttributeTableController {
 	}
 	
 
+	
+	
+	
+
+	@RequestMapping(value="/webMappingDemo1.2.do")
+	public String webMappingDemo12(){ 
+		return "webmapping/demo1.2";
+	}
+	@RequestMapping(value="/webMappingDemo1.3.do")
+	public String webMappingDemo13(){ 
+		return "webmapping/demo1.3";
+	}
+	
 }

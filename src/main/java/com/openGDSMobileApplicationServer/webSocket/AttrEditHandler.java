@@ -11,13 +11,12 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.openGDSMobileApplicationServer.service.AttributeTableService;
+import com.openGDSMobileApplicationServer.service.TableService;
 
 public class AttrEditHandler extends TextWebSocketHandler{
 	Logger log = LogManager.getLogger("org.springframework");
 	private Map<String, WebSocketSession> users = new ConcurrentHashMap<>();
-	@Autowired
-	AttributeTableService ats;
+	
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session,
