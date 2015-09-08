@@ -29,29 +29,39 @@ public class RealtimeInfoTableServiceImp implements TableService {
 	public List<LinkedHashMap<String, Object>> searchTable(JSONObject type) {
 		List<LinkedHashMap<String, Object>> tmpData = null;
 		List<LinkedHashMap<String, Object>> resultData = null;
-		List<String> sub = new ArrayList<String>();
-		
+		List<String> sub = null;
+		int cnt = 0;
 		if (type.get("column") == "all") {
 			tmpData = at.realtimeSelectTableInfo();
 			
 		} else {
 			tmpData = at.realtimeSelectTableInfo(type);
-			ListIterator<LinkedHashMap<String, Object>> listItr = tmpData.listIterator();
-			if (type.get("column") == "subject") {
-	//			resultData = new List<LinkedHashMap<String, Object>>(new HashSet<String>(tmpData));
-				while(listItr.hasNext()){
-					LinkedHashMap<String, Object> tmp = listItr.next();
-					String subject = (String) tmp.get(type.get("column"));
-					sub.add(subject);
-					log.info(subject);
+			if (tmpData != null){
+				ListIterator<LinkedHashMap<String, Object>> listItr = tmpData.listIterator();
+				if (type.get("column").equals("subject")) {
+					while(listItr.hasNext()){
+						LinkedHashMap<String, Object> tmp = listItr.next();
+						String subject = (String) tmp.get(type.get("column"));
+						if (sub == null) {
+							sub = new ArrayList<String>();
+							sub.add(subject);
+							resultData = new ArrayList<LinkedHashMap<String, Object>>();
+							resultData.add(cnt, tmp);
+							cnt++;
+						}
+						for (String s : sub) {
+							if (!s.equals(subject)) {
+								sub.add(subject);
+								resultData.add(cnt, tmp);
+								cnt++;
+							}
+						}
+					}
 				}
 			}
-			
-			
 		}
-		
-		log.info(tmpData);
-		return null;
+		log.info(resultData);
+		return resultData;
 	}	
 	
 	public void insertUser(JSONObject data){
