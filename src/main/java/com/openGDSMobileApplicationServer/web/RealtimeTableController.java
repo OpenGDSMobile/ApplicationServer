@@ -35,6 +35,35 @@ public class RealtimeTableController {
 		
 		return message;
 	}
+	
+	@RequestMapping(headers="Content-Type=application/json", value="/realtimeInfoInsert.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> realtimeInsertTable(@RequestBody JSONObject JSONData){
+		Map<String, Object> message = new HashMap<String, Object>();
+		try {
+			message.put("result", "OK");
+			message.put("message", null); 
+			message.put("data", ts.insertData(JSONData));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		return message;
+	}
+	
+	@RequestMapping(headers="Content-Type=application/json", value="/realtimeInfoDelete.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> realtimeDeleteTable(@RequestBody JSONObject JSONData){
+		Map<String, Object> message = new HashMap<String, Object>();
+		try {
+			message.put("result", "OK");
+			message.put("message", null); 
+			message.put("data", ts.insertData(JSONData));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		return message;
+		
+	}
 
 	
 }

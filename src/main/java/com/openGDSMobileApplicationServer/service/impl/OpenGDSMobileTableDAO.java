@@ -35,7 +35,7 @@ public class OpenGDSMobileTableDAO extends EgovAbstractMapper {
 	public List<LinkedHashMap<String, Object>> realtimeSelectTableInfo(JSONObject type) {
 		List<LinkedHashMap<String, Object>> tableContentList = new ArrayList<LinkedHashMap<String,Object>>();
 		try{
-			tableContentList = sess.selectList("OpenGDSMobileMapper.reamTimeTableColum", type);
+			tableContentList = sess.selectList("OpenGDSMobileMapper.realTimeTableColum", type);
 		}catch(Exception e){
 			tableContentList = null;
 		}
@@ -44,11 +44,18 @@ public class OpenGDSMobileTableDAO extends EgovAbstractMapper {
 	public List<LinkedHashMap<String, Object>> realtimeSelectTableInfo() {
 		List<LinkedHashMap<String, Object>> tableContentList = new ArrayList<LinkedHashMap<String,Object>>();
 		try{
-			tableContentList = sess.selectList("OpenGDSMobileMapper.reamTimeTable");
+			tableContentList = sess.selectList("OpenGDSMobileMapper.realtimeTable");
 		}catch(Exception e){
 			tableContentList = null;
 		}
 		return tableContentList;
+	}
+	
+	public int realtimeInsertTableInfo(JSONObject type) {
+		return sess.insert("OpenGDSMobileMapper.realTimeTableInsert", type);
+	}
+	public int realtimeDeleteTableInfo(JSONObject type) {
+		return sess.delete("OpenGDSMobileMapper.realTimeTableDelete", type);
 	}
 
 }

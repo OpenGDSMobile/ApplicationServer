@@ -38,4 +38,17 @@ public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements
 		return resultData;
 	}
 
+
+	@Override
+	public int insertData(JSONObject insertData) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteData(JSONObject deleteData) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

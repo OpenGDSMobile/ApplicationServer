@@ -63,10 +63,18 @@ public class RealtimeInfoTableServiceImp implements TableService {
 		log.info(resultData);
 		return resultData;
 	}	
-	
-	public void insertUser(JSONObject data){
+
+	/*Success return 1*/
+	@Override
+	public int insertData(JSONObject insertData) {
+		return at.realtimeInsertTableInfo(insertData);
 		
-		
+	}
+
+	@Override
+	public int deleteData(JSONObject deleteData) {
+		// TODO Auto-generated method stub
+		return at.realtimeDeleteTableInfo(deleteData);
 	}
 
 

@@ -12,5 +12,6 @@ CREATE EXTENSION postgis;
 CREATE TABLE "REALTIMEINFO"
 (
   subject character varying(50),
-  userid character varying(50)
+  userid character varying(50) NOT NULL,
+  CONSTRAINT "REALTIMEINFO_pkey" PRIMARY KEY (userid)
 )
