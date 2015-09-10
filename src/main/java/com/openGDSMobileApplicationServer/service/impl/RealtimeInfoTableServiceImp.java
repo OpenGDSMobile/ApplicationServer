@@ -64,7 +64,7 @@ public class RealtimeInfoTableServiceImp implements TableService {
 		return resultData;
 	}	
 
-	/*Success return 1*/
+	/*성공 1, 아이디가 있는 경우 -1, 그 외 0*/
 	@Override
 	public int insertData(JSONObject insertData) {
 		return at.realtimeInsertTableInfo(insertData);

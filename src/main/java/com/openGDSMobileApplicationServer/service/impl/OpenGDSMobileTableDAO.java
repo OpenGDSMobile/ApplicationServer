@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ public class OpenGDSMobileTableDAO extends EgovAbstractMapper {
 	@Autowired
 	@Qualifier("sqlSession-postgresql")
 	SqlSessionTemplate sess;
+	Logger log = LogManager.getLogger("ERROR");
 	
 	
 	public List<LinkedHashMap<String, Object>> attributeSelectTableInfo(JSONObject tableName) {
@@ -52,7 +55,15 @@ public class OpenGDSMobileTableDAO extends EgovAbstractMapper {
 	}
 	
 	public int realtimeInsertTableInfo(JSONObject type) {
-		return sess.insert("OpenGDSMobileMapper.realTimeTableInsert", type);
+		try{
+			return sess.insert("OpenGDSMobileMapper.realTimeTableInsert", type);
+		} catch(Exception e){
+			if (e.getCause().getMessage().contains("duplicate key value violates unique constraint")) {
+				log.debug(e.getCause().getMessage());
+				return -1;	
+			}
+			return 0;
+		}
 	}
 	public int realtimeDeleteTableInfo(JSONObject type) {
 		return sess.delete("OpenGDSMobileMapper.realTimeTableDelete", type);
