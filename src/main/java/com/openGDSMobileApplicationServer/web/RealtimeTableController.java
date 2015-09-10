@@ -56,7 +56,7 @@ public class RealtimeTableController {
 		try {
 			message.put("result", "OK");
 			message.put("message", null); 
-			message.put("data", ts.insertData(JSONData));
+			message.put("data", ts.deleteData(JSONData));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
