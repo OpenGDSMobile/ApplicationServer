@@ -1,10 +1,13 @@
 package com.openGDSMobileApplicationServer.webSocket;
 
+import java.io.StringWriter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -39,9 +42,16 @@ public class AttrEditHandler extends TextWebSocketHandler{
 			TextMessage message) throws Exception {
 		super.handleTextMessage(session, message);
 		log.info("send : " + message.getPayload());
+		StringWriter outputWriter = new StringWriter();
+		outputWriter.write(message.getPayload());
+		
+		JSONArray jsonArray = new JSONArray();
+		//JSONObject jsonobj = new JSONObject(message.getPayload());
 		//ats.editAttr();
+		log.info(jsonArray);
 		for (WebSocketSession s : users.values()) {
 			s.sendMessage(message);
+			
 		}
 	}
 }
