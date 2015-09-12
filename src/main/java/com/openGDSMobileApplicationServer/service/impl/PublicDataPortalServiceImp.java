@@ -7,8 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service; 
@@ -103,7 +103,6 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		return url;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public JSONObject processXmlbyPublicData(Document src, String[] keys){
 		Element root = src.getRootElement();
 		JSONObject result = new JSONObject();
@@ -122,7 +121,7 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 						String contentValue = content.getChildText(keys[j]);
 						jsonObj.put(contentKey, contentValue);
 					}
-					list.add(jsonObj);
+					list.put(jsonObj);
 				}
 			}
 		}

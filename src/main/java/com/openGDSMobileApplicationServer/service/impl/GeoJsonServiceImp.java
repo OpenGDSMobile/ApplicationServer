@@ -1,6 +1,6 @@
 package com.openGDSMobileApplicationServer.service.impl;
 
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

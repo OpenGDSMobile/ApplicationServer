@@ -5,7 +5,7 @@ import java.net.URL;
 
 import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import org.springframework.stereotype.Repository; 
 
 import com.openGDSMobileApplicationServer.service.PublicData;

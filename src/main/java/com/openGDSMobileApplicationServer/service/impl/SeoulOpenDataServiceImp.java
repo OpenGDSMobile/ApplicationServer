@@ -1,13 +1,11 @@
 package com.openGDSMobileApplicationServer.service.impl;
  
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -47,7 +45,8 @@ public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements 
 			JSONObject jsonObj = publicDataobj.getJSONPublicData(serviceURL);
 			
 			resultJSONKeys = new String[]{"MSRSTE_NM", (String) data.get("envType") };
-			return processJSONbySeoulData(jsonObj, resultJSONKeys).toJSONString();
+		
+			return processJSONbySeoulData(jsonObj, resultJSONKeys).toString();
 		}
 		return null; 
 	}
@@ -70,19 +69,20 @@ public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements 
 		return url;
 	}
 		
-	@SuppressWarnings("unchecked")
 	public JSONObject processJSONbySeoulData(JSONObject data, String[] keys){
+		log.info(data);
 		JSONObject source = (JSONObject) data.get(serviceName);
 		JSONArray rowList = (JSONArray) source.get("row");
+		log.info(rowList);
 		JSONObject result = new JSONObject();
 		JSONArray list = new JSONArray();
-		for(int i=0; i<rowList.size(); i++){
+		for(int i=0; i<rowList.length(); i++){
 			JSONObject contents = (JSONObject) rowList.get(i);
 			JSONObject obj = new JSONObject();
 			for(int j=0; j<keys.length; j++){
 				obj.put(keys[j], contents.get(keys[j]));				
 			}
-			list.add(obj);
+			list.put(obj);
 		}
 		result.put("row", list);
 		log.info(source);

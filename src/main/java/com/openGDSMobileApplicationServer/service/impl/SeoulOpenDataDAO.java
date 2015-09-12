@@ -1,24 +1,22 @@
 package com.openGDSMobileApplicationServer.service.impl;
  
 
-import java.io.InputStreamReader;
-import java.net.URL;
+import java.net.URI;
 
 import org.jdom2.Document;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.springframework.stereotype.Repository; 
 
 import com.openGDSMobileApplicationServer.service.PublicData;
- 
-import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
+
 
 
 @Repository("seoulPublicDAO") 
 public class SeoulOpenDataDAO implements PublicData {
 
 	 
-	URL url;
+	URI url;
 	
 	SeoulOpenDataDAO(){
 		url = null;
@@ -27,9 +25,9 @@ public class SeoulOpenDataDAO implements PublicData {
 	@Override
 	public JSONObject getJSONPublicData(String path) {
 		try {
-			url = new URL(path);
-			InputStreamReader isr = new InputStreamReader(url.openConnection().getInputStream(),"UTF-8");
-			JSONObject jo = (JSONObject) JSONValue.parseWithException(isr);
+			url = new URI(path);
+			JSONTokener tokener = new JSONTokener(url.toURL().openStream());
+			JSONObject jo = new JSONObject(tokener);
 			return jo;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

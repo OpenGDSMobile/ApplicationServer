@@ -4,7 +4,7 @@ package com.openGDSMobileApplicationServer.web;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.simple.*;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -28,9 +28,9 @@ public class PublicDataController {
 	
 	@RequestMapping(headers="Content-Type=application/json", 
 			value="/SeoulOpenData.do",method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> seoulOpenData(@RequestBody JSONObject JSONData){ 
+	public @ResponseBody Map<String, Object> seoulOpenData(@RequestBody String str){ 
 		Map<String, Object> message = new HashMap<String, Object>();
-		
+		JSONObject JSONData = new JSONObject(str);
 		try {
 			message.put("result", "OK");
 			message.put("message", null); 
@@ -47,8 +47,10 @@ public class PublicDataController {
 	
 	@RequestMapping(headers="Content-Type=application/json", 
 			value="/PublicDataPortal.do",method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> publicDataPortal(@RequestBody JSONObject JSONData){ 
-		Map<String, Object> message = new HashMap<String, Object>();		
+	public @ResponseBody Map<String, Object> publicDataPortal(@RequestBody String str){ 
+		Map<String, Object> message = new HashMap<String, Object>();
+		JSONObject JSONData = new JSONObject(str);
+		
 		try { 			
 			message.put("result", "OK");
 			message.put("data", publicDataPortalObj.requestPublicData(JSONData).toString());

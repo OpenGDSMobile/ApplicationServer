@@ -4,7 +4,7 @@
 
 <mapper namespace="OpenGDSMobileMapper">	
 	<select id="attrTable" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
-		select * from ${tableName} 
+		select * from ${tableName}
 		<!-- where name='구로구' -->
 		<!-- select * from seoul_env_position -->
 	</select>	

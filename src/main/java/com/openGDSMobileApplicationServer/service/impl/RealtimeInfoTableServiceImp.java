@@ -1,14 +1,13 @@
 package com.openGDSMobileApplicationServer.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -55,6 +54,17 @@ public class RealtimeInfoTableServiceImp implements TableService {
 								resultData.add(cnt, tmp);
 								cnt++;
 							}
+						}
+					}
+				} else if (type.get("column").equals("userid")) {
+					while(listItr.hasNext()) {
+						LinkedHashMap<String, Object> tmp = listItr.next();
+						String userid = (String) tmp.get(type.get("column"));
+						if (userid.equals(type.get("userid"))) {
+							sub = new ArrayList<String>();
+							sub.add(userid);
+							resultData = new ArrayList<LinkedHashMap<String, Object>>();
+							resultData.add(0, tmp);
 						}
 					}
 				}

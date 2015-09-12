@@ -1,36 +1,39 @@
 package com.openGDSMobileApplicationServer.service.impl;
 
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.net.URL;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Repository;
+
 
 @Repository("geojsondao")
 public class GeoJsonDAO {
 	
-	
 	public JSONObject getGeoJSON(String location){
-		URL xmlLocation = this.getClass().getResource("/webmapping/geoBasedData/" + location + ".json");
-		JSONParser parser = new JSONParser();
-		Object obj = null;
+		URL tpLocation = this.getClass().getResource("/webmapping/geoBasedData/" + location + ".json");
+		String jsonString = readFile(tpLocation.getPath());
+		JSONObject obj = new JSONObject(jsonString);
+		return obj;
+	}
+	
+	public String readFile(String filename) {
+		String result = "";
 		try {
-			obj = parser.parse(new FileReader(xmlLocation.getPath()));
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} 
-		return (JSONObject) obj;
+			BufferedReader br = new BufferedReader(new FileReader(filename));
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+			while(line != null) {
+				sb.append(line);
+				line = br.readLine();
+			}
+			result = sb.toString();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+		
 	}
 
 }
