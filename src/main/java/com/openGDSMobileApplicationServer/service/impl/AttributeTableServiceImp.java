@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -49,6 +50,27 @@ public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements
 	public int deleteData(JSONObject deleteData) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+	@Override
+	public String searchTableCount(JSONObject type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<LinkedHashMap<String, Object>> updateTable(JSONArray editObj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<LinkedHashMap<String, Object>> searchTableWhere(JSONObject type) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

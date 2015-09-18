@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +24,7 @@ public class RealtimeInfoTableServiceImp implements TableService {
 	@Qualifier("OpenGDSMobileDAO")
 	OpenGDSMobileTableDAO at;
 	Logger log = LogManager.getLogger("org.springframework");
+	
 	
 	@Override
 	public List<LinkedHashMap<String, Object>> searchTable(JSONObject type) {
@@ -72,8 +74,13 @@ public class RealtimeInfoTableServiceImp implements TableService {
 		}
 		log.info(resultData);
 		return resultData;
-	}	
-
+	}
+	@Override
+	public String searchTableCount(JSONObject type) {
+		System.out.println(at.realtimeSelectTableInfoCount(type));
+		return at.realtimeSelectTableInfoCount(type).get("count").toString();
+		//return at.realtimeSelectTableInfoCount(type);		
+	}
 	/*성공 1, 아이디가 있는 경우 -1, 그 외 0*/
 	@Override
 	public int insertData(JSONObject insertData) {
@@ -85,6 +92,19 @@ public class RealtimeInfoTableServiceImp implements TableService {
 	public int deleteData(JSONObject deleteData) {
 		// TODO Auto-generated method stub
 		return at.realtimeDeleteTableInfo(deleteData);
+	}
+
+	@Override
+	public List<LinkedHashMap<String, Object>> updateTable(JSONArray editObj) {
+		// TODO Auto-generated method stub
+		
+		
+		return null;
+	}
+	@Override
+	public List<LinkedHashMap<String, Object>> searchTableWhere(JSONObject type) {
+		// TODO Auto-generated method stub
+		return at.realtimeSelectTableWhereSubject(type);
 	}
 
 

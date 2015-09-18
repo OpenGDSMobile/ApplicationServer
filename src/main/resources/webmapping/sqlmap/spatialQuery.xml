@@ -10,14 +10,20 @@
 	</select>	
 	<select id="realTimeTable" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
 		select * from "REALTIMEINFO"
-	</select>		
+	</select>	
 	<select id="realTimeTableColum" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
 		select ${column} from "REALTIMEINFO"
 	</select>
+	<select id="realTimeTableWhereSubject" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+		select session from "REALTIMEINFO" where subject = '${subject}' 
+	</select>
+	<select id="realTimeTableColumWhere" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select COUNT(*) from "REALTIMEINFO" WHERE session = '${session}'
+	</select>
 	<insert id="realTimeTableInsert" parameterType="java.util.HashMap" >
-		insert into "REALTIMEINFO" (subject, userid) values ('${subject}', '${userid}')
+		insert into "REALTIMEINFO" (subject, userid, session) values ('${subject}', '${userId}', '${session}')
 	</insert>
 	<delete id="realTimeTableDelete" parameterType="java.util.HashMap" >
-		delete from "REALTIMEINFO" where userid = '${userid}'
+		delete from "REALTIMEINFO" where session = '${session}'
 	</delete>
 </mapper>
