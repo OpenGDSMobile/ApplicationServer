@@ -37,7 +37,7 @@ public class AttrEditHandler extends TextWebSocketHandler{
 		JSONObject searchColumn = new JSONObject();
 		searchColumn.put("session", session.getId());
 		ts.deleteData(searchColumn);
-	//	users.remove(session.getId());
+		users.remove(session.getId());
 	}
 
 	@Override
@@ -56,8 +56,6 @@ public class AttrEditHandler extends TextWebSocketHandler{
 		
 		JSONObject searchColumn = new JSONObject();
 		searchColumn.put("session", session.getId());
-		log.info(searchColumn);
-		System.out.println(ts.searchTableCount(searchColumn));
 		if(ts.searchTableCount(searchColumn).equals("0")) {
 			JSONObject jsonObj = new JSONObject(message.getPayload());
 			jsonObj.put("session", session.getId());

@@ -77,9 +77,7 @@ public class RealtimeInfoTableServiceImp implements TableService {
 	}
 	@Override
 	public String searchTableCount(JSONObject type) {
-		System.out.println(at.realtimeSelectTableInfoCount(type));
 		return at.realtimeSelectTableInfoCount(type).get("count").toString();
-		//return at.realtimeSelectTableInfoCount(type);		
 	}
 	/*성공 1, 아이디가 있는 경우 -1, 그 외 0*/
 	@Override

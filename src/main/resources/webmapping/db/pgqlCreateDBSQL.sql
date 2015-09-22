@@ -13,5 +13,6 @@ CREATE TABLE "REALTIMEINFO"
 (
   subject character varying(50),
   userid character varying(50) NOT NULL,
+  session character(50),
   CONSTRAINT "REALTIMEINFO_pkey" PRIMARY KEY (userid)
 )
