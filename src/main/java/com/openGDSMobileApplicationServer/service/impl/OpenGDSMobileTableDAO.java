@@ -43,6 +43,16 @@ public class OpenGDSMobileTableDAO extends EgovAbstractMapper {
 		return tableContentList;
 	}
 
+	public int attributeUpdateTable(JSONObject updateContent) {
+		HashMap<String, Object> hashMapTableName = (HashMap<String, Object>) toMap(updateContent);
+		try{
+			sess.selectList("OpenGDSMobileMapper.updateAttrTable", hashMapTableName);
+		}catch(Exception e){
+			tableContentList = null;
+		}		
+		return 0;
+	}
+
 	public List<LinkedHashMap<String, Object>> realtimeSelectTableInfo(JSONObject type) {
 		HashMap<String, Object> hashMapTableName = (HashMap<String, Object>) toMap(type);		
 		List<LinkedHashMap<String, Object>> tableContentList = new ArrayList<LinkedHashMap<String,Object>>();
@@ -57,7 +67,6 @@ public class OpenGDSMobileTableDAO extends EgovAbstractMapper {
 	public HashMap<String, Object> realtimeSelectTableInfoCount(JSONObject type) {
 		HashMap<String, Object> hashMapTableName = (HashMap<String, Object>) toMap(type);
 		try{
-			//return sess.selectOne("OpenGDSMobileMapper.realTimeTableColumWhere", hashMapTableName);
 			return sess.selectOne("OpenGDSMobileMapper.realTimeTableColumWhere", hashMapTableName);
 		}catch(Exception e){
 			return null;
@@ -89,7 +98,7 @@ public class OpenGDSMobileTableDAO extends EgovAbstractMapper {
 	
 	public int realtimeInsertTableInfo(JSONObject type) {
 		HashMap<String, Object> hashMapTableName = (HashMap<String, Object>) toMap(type);	
-		
+		System.out.println(hashMapTableName);
 		try{
 			return sess.insert("OpenGDSMobileMapper.realTimeTableInsert", hashMapTableName);
 		} catch(Exception e){
@@ -104,6 +113,10 @@ public class OpenGDSMobileTableDAO extends EgovAbstractMapper {
 		HashMap<String, Object> hashMapTableName = (HashMap<String, Object>) toMap(type);	
 		return sess.delete("OpenGDSMobileMapper.realTimeTableDelete", hashMapTableName);
 	}
+	
+	
+	
+	
 	
 	
 	
@@ -139,5 +152,6 @@ public class OpenGDSMobileTableDAO extends EgovAbstractMapper {
             return json;
         }
     }
+
 
 }

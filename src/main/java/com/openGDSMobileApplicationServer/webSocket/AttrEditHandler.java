@@ -1,8 +1,10 @@
 package com.openGDSMobileApplicationServer.webSocket;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,7 +31,7 @@ public class AttrEditHandler extends TextWebSocketHandler{
 	@Qualifier("realtimeTable")
 	TableService ts;
 	
-	@Override
+	@Override	//WebSocket Close : session id delete / DB table content delete
 	public void afterConnectionClosed(WebSocketSession session,
 			CloseStatus status) throws Exception {
 		super.afterConnectionClosed(session, status);
@@ -40,7 +42,7 @@ public class AttrEditHandler extends TextWebSocketHandler{
 		users.remove(session.getId());
 	}
 
-	@Override
+	@Override	//WebSocket Connect : session id Save
 	public void afterConnectionEstablished(WebSocketSession session)
 			throws Exception {
 		super.afterConnectionEstablished(session);
@@ -48,7 +50,7 @@ public class AttrEditHandler extends TextWebSocketHandler{
 		users.put(session.getId(), session);
 	}
 
-	@Override
+	@Override	// client send message 
 	protected void handleTextMessage(WebSocketSession session,
 			TextMessage message) throws Exception {
 		super.handleTextMessage(session, message);
@@ -64,29 +66,25 @@ public class AttrEditHandler extends TextWebSocketHandler{
 			JSONArray jsonArr = new JSONArray(message.getPayload());
 			String subject = jsonArr.getJSONObject(0).get("tableName").toString();
 			searchColumn.put("subject", subject);
-			//List<LinkedHashMap<String, Object>> resultList= ts.updateTable(jsonArr);
-			log.info(jsonArr);
+			
+			ts.updateTable(jsonArr);
+			
 			List<LinkedHashMap<String, Object>> sessionid= ts.searchTableWhere(searchColumn);
 			log.info(sessionid);
-			/*for(int i=0; i<sessionid.size(); i++) {
-				System.out.println(sessionid.get(i).get("session"));
-				WebSocketSession s = users.get(sessionid.get(i).get("session").toString());
-				s.sendMessage(message);
-			}*/
-			//ObjectMapper om = new ObjectMapper();
-			//List<EditValuesVO> editList = om.readValue(message.getPayload(), 
-			//		om.getTypeFactory().constructCollectionType(List.class, EditValuesVO.class)); 
-			//log.info(editList);
-			// Update Data.....
-			//WebSocketSession ... sendMessage
 			for (WebSocketSession s : users.values()) {
-				s.sendMessage(message);
+				String id = s.getId();
+				ListIterator<LinkedHashMap<String, Object>> listItr = sessionid.listIterator();
+				while(listItr.hasNext()){
+					LinkedHashMap<String, Object> tmp = listItr.next();
+					String searchId = tmp.get("session").toString().trim();
+					System.out.println(searchId + "eee");
+					if (id.equals(searchId)) {
+						s.sendMessage(message);
+						break;
+					}
+				}
 			}
 		}
-		
-	//	for (WebSocketSession s : users.values()) {
-	//		s.sendMessage(message);	
-	//	}
 	}
 	
 	protected UserListVO searchUser(String id){

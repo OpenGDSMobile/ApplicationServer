@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.openGDSMobileApplicationServer.service.TableService;
+import com.openGDSMobileApplicationServer.webSocket.EditValuesVO;
 
 
 @Service("realtimeTable")
@@ -83,7 +84,6 @@ public class RealtimeInfoTableServiceImp implements TableService {
 	@Override
 	public int insertData(JSONObject insertData) {
 		return at.realtimeInsertTableInfo(insertData);
-		
 	}
 
 	@Override
@@ -95,8 +95,9 @@ public class RealtimeInfoTableServiceImp implements TableService {
 	@Override
 	public List<LinkedHashMap<String, Object>> updateTable(JSONArray editObj) {
 		// TODO Auto-generated method stub
-		
-		
+		for(int i=0; i<editObj.length(); i++) {
+			at.attributeUpdateTable(editObj.getJSONObject(i));
+		}
 		return null;
 	}
 	@Override

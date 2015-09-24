@@ -4,10 +4,14 @@
 
 <mapper namespace="OpenGDSMobileMapper">	
 	<select id="attrTable" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
-		select * from ${tableName}
+		SELECT * FROM ${tableName}
 		<!-- where name='구로구' -->
 		<!-- select * from seoul_env_position -->
-	</select>	
+	</select>
+	<update id="updateAttrTable" parameterType="java.util.HashMap">
+		UPDATE ${tableName} SET ${column}='${dstData}' WHERE ${column}='${srcData}';
+	</update>
+	
 	<select id="realTimeTable" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
 		select * from "REALTIMEINFO"
 	</select>	

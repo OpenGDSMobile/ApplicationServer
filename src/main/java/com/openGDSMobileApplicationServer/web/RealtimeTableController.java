@@ -25,7 +25,6 @@ public class RealtimeTableController {
 	public @ResponseBody Map<String, Object> realtimeSearchTable(@RequestBody String str){
 		Map<String, Object> message = new HashMap<String, Object>();
 		JSONObject JSONData = new JSONObject(str);
-		System.out.println(str);
 		try {
 			message.put("result", "OK");
 			message.put("message", null);
