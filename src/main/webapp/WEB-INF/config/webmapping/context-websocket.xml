@@ -10,6 +10,9 @@
 
 	<websocket:handlers>
 		<websocket:mapping handler="attrEditHandler" path="/attr-ws.do"/>
+		<websocket:handshake-interceptors>
+			<bean class="com.openGDSMobileApplicationServer.webSocket.HandshakeInterceptor"/>
+		</websocket:handshake-interceptors>
 	</websocket:handlers>
 
 	<bean id="attrEditHandler" class="com.openGDSMobileApplicationServer.webSocket.AttrEditHandler"></bean>

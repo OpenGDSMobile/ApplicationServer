@@ -47,6 +47,7 @@ public class AttrEditHandler extends TextWebSocketHandler{
 			throws Exception {
 		super.afterConnectionEstablished(session);
 		log.info("Connected:" + session.getId());
+		System.out.println(session.getHandshakeHeaders());
 		users.put(session.getId(), session);
 	}
 
