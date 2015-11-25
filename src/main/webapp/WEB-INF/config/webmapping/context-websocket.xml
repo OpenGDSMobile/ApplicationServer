@@ -17,5 +17,4 @@
 
 	<bean id="attrEditHandler" class="com.openGDSMobileApplicationServer.webSocket.AttrEditHandler"></bean>
 	
-	<!-- <mvc:default-servlet-handler/> -->
 </beans>
