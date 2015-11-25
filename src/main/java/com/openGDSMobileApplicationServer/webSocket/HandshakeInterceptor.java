@@ -23,7 +23,6 @@ public class HandshakeInterceptor extends HttpSessionHandshakeInterceptor{
 			ServerHttpResponse arg1, 
 			WebSocketHandler arg2,
 			Map<String, Object> arg3) throws Exception {
-		// TODO Auto-generated method stub
 		System.out.println(arg0.getHeaders().get("Sec-WebSocket-Extensions"));
 		arg0.getHeaders().remove("Sec-WebSocket-Extensions");
 		return super.beforeHandshake(arg0, arg1, arg2, arg3);
