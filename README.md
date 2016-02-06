@@ -1,4 +1,4 @@
-OpenGDS Mobile Application Server 1.2
+OpenGDS Mobile Application Server 1.3
 =================
 > + Public Data Request/Response and GeoServer Connect Java Module
 > + Experimental Web Server System
