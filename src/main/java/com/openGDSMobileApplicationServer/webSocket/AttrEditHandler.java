@@ -1,7 +1,5 @@
 package com.openGDSMobileApplicationServer.webSocket;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -23,9 +21,7 @@ import com.openGDSMobileApplicationServer.service.TableService;
 
 public class AttrEditHandler extends TextWebSocketHandler{
 	Logger log = LogManager.getLogger("org.springframework");
-	private Map<String, WebSocketSession> users = new ConcurrentHashMap<>();
-	private List<UserListVO> curUserList = new ArrayList<UserListVO>();
-	
+	private Map<String, WebSocketSession> users = new ConcurrentHashMap<>();	
 
 	@Autowired
 	@Qualifier("realtimeTable")
@@ -86,16 +82,5 @@ public class AttrEditHandler extends TextWebSocketHandler{
 				}
 			}
 		}
-	}
-	
-	protected UserListVO searchUser(String id){
-		UserListVO findUser = null;
-		for (UserListVO u : curUserList) {
-			if(u.getWsId().equals(id)) {
-				findUser = u;
-				break;
-			}
-		}		
-		return findUser;
 	}
 }
