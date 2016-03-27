@@ -184,8 +184,7 @@
                         </systemProperties>
                     </configuration> -->  
                     <configuration>
-                    	<!-- <url>http://113.198.80.9:8080/manager/text</url> -->
-                    	<url>http://113.198.80.60:8080/manager/text</url>
+                    	<url>http://localhost:8081/manager/text</url>
                     	<server>TomcatServer</server>
                     	<path>/ApplicationServer</path> 
                     </configuration>
