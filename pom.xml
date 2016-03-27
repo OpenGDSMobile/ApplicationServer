@@ -186,7 +186,9 @@
                     <configuration>
                     	<url>http://localhost:8081/manager/text</url>
                     	<server>TomcatServer</server>
-                    	<path>/ApplicationServer</path> 
+                    	<path>/ApplicationServer</path>
+                    	<username>intruder</username>
+                    	<password>intruderPass</password>
                     </configuration>
                 </plugin>
                 <plugin>
