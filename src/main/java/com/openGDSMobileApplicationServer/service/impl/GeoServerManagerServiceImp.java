@@ -25,5 +25,9 @@ public class GeoServerManagerServiceImp extends EgovAbstractServiceImpl implemen
 	@Override
 	public List<String> getLayerNames(String workspace) {
 		return geo_manager.getGeoserverLayerNames(workspace);
-	} 
+	}
+	@Override
+	public boolean removeWorkspace(String name) {
+		return geo_manager.geoserverRemoveWorkspace(name);
+	}
 }
