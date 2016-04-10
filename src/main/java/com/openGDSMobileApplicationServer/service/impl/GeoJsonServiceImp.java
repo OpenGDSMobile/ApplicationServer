@@ -17,6 +17,7 @@ public class GeoJsonServiceImp implements GeoJsonService {
 	public JSONObject getLocation(JSONObject obj) {
 		// TODO Auto-generated method stub
 		String location = (String) obj.get("jsonName");
+		System.out.println(obj.toString());
 		JSONObject geojsonObj = geojson.getGeoJSON(location);
 		return geojsonObj;
 	}
