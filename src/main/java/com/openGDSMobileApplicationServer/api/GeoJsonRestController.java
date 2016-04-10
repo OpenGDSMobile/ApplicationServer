@@ -31,7 +31,6 @@ public class GeoJsonRestController {
 			message.put("message", "OK"); 
 			message.put("data", resultObj.toString());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		return message;
@@ -47,7 +46,6 @@ public class GeoJsonRestController {
 			message.put("message", "OK"); 
 			message.put("data", resultObj.toString());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		return message;

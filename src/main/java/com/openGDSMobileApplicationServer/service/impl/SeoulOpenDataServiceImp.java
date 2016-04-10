@@ -48,7 +48,7 @@ public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements 
 		
 			return processJSONbySeoulData(jsonObj, resultJSONKeys).toString();
 		}
-		return null; 
+		return ""; 
 	}
 	
 	public String processServiceURL(JSONObject data, String[] urlOrder,String baseURL){
