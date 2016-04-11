@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class RealtimeInfoTableServiceImpTest {
-
+/*
 	@Test
 	public void testSearchTable() {
 		fail("Not yet implemented");
@@ -35,5 +35,5 @@ public class RealtimeInfoTableServiceImpTest {
 	public void testSearchTableWhere() {
 		fail("Not yet implemented");
 	}
-
+*/
 }

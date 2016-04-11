@@ -1,109 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns:ivy="antlib:org.apache.ivy.ant" basedir="." default="build" name="ApplicationServer">
-    <property environment="env"/>
-    <property name="junit.output.dir" value="build/junit"/>
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.7"/>
-    <property name="source" value="1.7"/>
-	
+<!-- ====================================================================== -->
+<!-- Ant build file (http://ant.apache.org/) for Ant 1.6.2 or above.        -->
+<!-- ====================================================================== -->
 
-	<target name="resolve" description="retrieve dependencies with ivy">
-		<echo message="Getting dependencies..." />
-		<ivy:retrieve />
+<project name="ApplicationServer" default="package" basedir=".">
 
-		<ivy:cachepath pathid="compile.path" conf="compile" />
-		<ivy:cachepath pathid="runtime.path" conf="runtime" />
-		<ivy:cachepath pathid="test.path" conf="test" />
+  <!-- ====================================================================== -->
+  <!-- Import maven-build.xml into the current project                        -->
+  <!-- ====================================================================== -->
 
-	</target>
-	
-	<!-- install ivy if you don't have ivyide-->
-	<target name="ivy" description="Install ivy">
-		<mkdir dir="${user.home}/.ant/lib" />
-		<get dest="${user.home}/.ant/lib/ivy.jar" 
-		src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.4.0-rc1/ivy-2.4.0-rc1.jar" />
-	</target>
-	<!-- ivy end -->
-	
-    <path id="ApplicationServer.classpath">
-        <pathelement location="target/classes"/>
-        <pathelement location="target/test-classes"/>
-    </path>
-    <target name="init">
-        <mkdir dir="target/classes"/>
-        <mkdir dir="target/test-classes"/>
-        <copy includeemptydirs="false" todir="target/classes">
-            <fileset dir="src/main/java">
-                <exclude name="**/*.java"/>
-                <exclude name="com/openGDSMobileApplicationServer/web/"/>
-            </fileset>
-        </copy>
-        <copy includeemptydirs="false" todir="target/classes">
-            <fileset dir="src/main/resources">
-                <exclude name="**/*.java"/>
-                <exclude name="**"/>
-            </fileset>
-        </copy>
-        <copy includeemptydirs="false" todir="target/test-classes">
-            <fileset dir="src/test/java">
-                <exclude name="**/*.java"/>
-                <exclude name="com/openGDSMobileApplicationServer/webSocket/"/>
-                <exclude name="com/openGDSMobileApplicationServer/api/RealtimeTableRestControllerTest.java"/>
-                <exclude name="com/openGDSMobileApplicationServer/service/impl/RealtimeInfoTableServiceImpTest.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="clean">
-        <delete dir="target/classes"/>
-        <delete dir="target/test-classes"/>
-    </target>
-    <target depends="init" name="build">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="target/classes" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src/main/java"/>
-            <src path="src/main/resources"/>
-            <exclude name="com/openGDSMobileApplicationServer/web/"/>
-            <exclude name="**"/>
-            <classpath refid="ApplicationServer.classpath"/>
-        </javac>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="target/test-classes" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src/test/java"/>
-            <exclude name="com/openGDSMobileApplicationServer/webSocket/"/>
-            <exclude name="com/openGDSMobileApplicationServer/api/RealtimeTableRestControllerTest.java"/>
-            <exclude name="com/openGDSMobileApplicationServer/service/impl/RealtimeInfoTableServiceImpTest.java"/>
-            <classpath refid="ApplicationServer.classpath"/>
-        </javac>
-    </target>
-    <target name="JUnitTest">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="com.openGDSMobileApplicationServer.api.AllTests" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.api.AttrTablesRestControllerTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.api.GeoJsonRestControllerTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.api.GeoServerManagerRestControllerTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.api.PublicDataRestControllerTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.AllTests" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.AttributeTableServiceImpTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.GeoJsonDAOTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.GeoJsonServiceImpTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.GeoServerManagerDAOTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.GeoServerManagerServiceImpTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.OpenGDSMobileTableDAOTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.PublicDataPortalDAOTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.PublicDataPortalServiceImpTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.SeoulOpenDataDAOTest" todir="${junit.output.dir}"/>
-            <test name="com.openGDSMobileApplicationServer.service.impl.SeoulOpenDataServiceImpTest" todir="${junit.output.dir}"/>
-            <classpath refid="run.ApplicationServer (3).classpath"/>
-        </junit>
-    </target>
-    <target name="junitreport">
-        <junitreport todir="${junit.output.dir}">
-            <fileset dir="${junit.output.dir}">
-                <include name="TEST-*.xml"/>
-            </fileset>
-            <report format="frames" todir="${junit.output.dir}"/>
-        </junitreport>
-    </target>
+  <import file="maven-build.xml"/>
+  
+  <!-- ====================================================================== -->
+  <!-- Help target                                                            -->
+  <!-- ====================================================================== -->
+
+  <target name="help">
+    <echo message="Please run: $ant -projecthelp"/>
+  </target>
+
 </project>

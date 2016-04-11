@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,7 +22,7 @@ import com.openGDSMobileApplicationServer.service.PublicDataService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
-		"file:src/main/webapp/WEB-INF/config/webmapping/context-*.xml",
+		"file:src/main/webapp/WEB-INF/config/webmapping/context-servlet.xml",
 		"file:src/main/resources/webmapping/spring/context-*.xml"
 })
 public class SeoulOpenDataServiceImpTest {
