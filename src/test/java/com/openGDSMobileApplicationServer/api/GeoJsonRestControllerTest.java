@@ -43,6 +43,7 @@ public class GeoJsonRestControllerTest {
 	GeoJsonRestController geoJsonRestController;
 	
     private MockMvc mockMvc;
+	String TEST_VALUE = "{\"jsonName\" : \"SIDO\"}";
 	
 	@Before
 	public void setup() throws Exception{
@@ -59,20 +60,23 @@ public class GeoJsonRestControllerTest {
 
 	@Test
 	public void testGetGeoJsonPost() throws Exception {
-		when(geoJsonService.getLocation(isA(JSONObject.class))).thenReturn(new JSONObject());
+		when(geoJsonService.getLocation(isA(JSONObject.class)))
+			.thenReturn(new JSONObject());
 		
 		mockMvc.perform(post("/api/getGeoJson.do")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.param("jsonName", "SIDO"))
+				.content(TEST_VALUE))
 			.andExpect(status().isOk())
 			.andDo(print());
 	}
 	@Test
 	public void testGetGeoJsonGet() throws Exception {
-		when(geoJsonService.getLocation(isA(JSONObject.class))).thenReturn(new JSONObject());
+		when(geoJsonService.getLocation(isA(JSONObject.class)))
+			.thenReturn(new JSONObject());
 
 		mockMvc.perform(get("/api/getGeoJson.do")
-				.param("jsonName", "SIDO"))
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TEST_VALUE))
 			.andExpect(status().isOk())
 			.andDo(print());
 		

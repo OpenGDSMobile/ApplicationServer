@@ -32,16 +32,19 @@ import com.openGDSMobileApplicationServer.service.PublicDataService;
 })
 @WebAppConfiguration
 public class PublicDataRestControllerTest {
-	//************************String str****************************************//
 	@Mock
 	@Qualifier("Portal")
 	PublicDataService publicDataPortalObj; 
+	@Mock
+	@Qualifier("Seoul")
+	PublicDataService seoulOpenDataObj; 
 
 	@InjectMocks
 	PublicDataRestController publicDataRestController;
 	
     private MockMvc mockMvc;
 
+    String TEST_VALUE;
 	@Before
 	public void setup() throws Exception{
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -53,14 +56,34 @@ public class PublicDataRestControllerTest {
 				.build();
 		MockitoAnnotations.initMocks(this);
 	}
+	
+	//2016. 04. 11.
+	@Test
+	public void testGetSeoulOpenData() throws Exception {
+		when(seoulOpenDataObj.requestPublicData(isA(JSONObject.class))).thenReturn(new JSONObject());
+		
+		TEST_VALUE = "{\"serviceKey\":\"6473565a72696e7438326262524174\","+
+					  "\"returnType\":\"json\",\"serviceName\":\"TimeAverageAirQuality\","+
+					  "\"amount\":\"1/100\",\"dateTimeValue\":\"201601010100\",\"envType\":\"PM10\"}";
+		mockMvc.perform(post("/api/SeoulOpenData.do")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8) 
+				.content(TEST_VALUE))
+			.andExpect(status().isOk())
+			.andDo(print());
+	}
+	
+	//2016. 04. 11.
 	@Test
 	public void testGetPublicDataPortal() throws Exception {
 		when(publicDataPortalObj.requestPublicData(isA(JSONObject.class))).thenReturn(new JSONObject());
-	/*	String ttt = "{\"serviceName\":\"NuclearPowerPlantRealtimeLevelofRadiation\",\"serviceKey\":\"kCxEhXiTf1qmDBlQFOOmw%2BemcPSxQXn5V5%2Fx8EthoHdbSojIdQvwX%2BHtWFyuJaIco0nUJtu12e%2F9acb7HeRRRA%3D%3D\",\"startDate\":\"YK\"}";
+		
+		TEST_VALUE = "{\"serviceName\":\"NuclearPowerPlantRealtimeLevelofRadiation\","+
+					  "\"serviceKey\":\"kCxEhXiTf1qmDBlQFOOmw%2BemcPSxQXn5V5%2Fx8EthoHdbSojIdQvwX%2BHtWFyuJaIco0nUJtu12e%2F9acb7HeRRRA%3D%3D\","+
+					  "\"startDate\":\"YK\"}";
 		mockMvc.perform(post("/api/PublicDataPortal.do")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8) 
-				.param("2222", "23333"))
+				.content(TEST_VALUE))
 			.andExpect(status().isOk())
-			.andDo(print());*/
+			.andDo(print());
 	}
 }

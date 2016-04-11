@@ -29,6 +29,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.openGDSMobileApplicationServer.TestUtil;
 import com.openGDSMobileApplicationServer.service.TableService;
 
+
+//2016. 04. 11.
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(locations = {
 		"file:src/main/resources/webmapping/spring/context-*.xml",
@@ -36,13 +38,14 @@ import com.openGDSMobileApplicationServer.service.TableService;
 })
 @WebAppConfiguration
 public class AttrTablesRestControllerTest {
-	//**LinkedHashMap***//
 	@Mock
 	@Qualifier("AttributeTables")
 	TableService attrTableService;
 	
 	@InjectMocks
 	AttrTablesRestController attrTableRestController;
+	
+	String TEST_VALUE = "{\"tableName\" : \"seoul_sig\"}";
 	
 	private MockMvc mockMvc;
 
@@ -66,8 +69,8 @@ public class AttrTablesRestControllerTest {
 		.thenReturn(Mockito.anyList());
 
 		mockMvc.perform(get("/api/getAttrTable.do")
-				.contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.param("tableName", "seoul_sig"))
+				.content(TEST_VALUE)
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk())
 			.andDo(print());
 	}
@@ -79,8 +82,8 @@ public class AttrTablesRestControllerTest {
 		.thenReturn(Mockito.anyList());
 
 		mockMvc.perform(post("/api/getAttrTable.do")
-				.contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.param("tableName", "seoul_sig"))
+				.content(TEST_VALUE)
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk())
 			.andDo(print());
 	}

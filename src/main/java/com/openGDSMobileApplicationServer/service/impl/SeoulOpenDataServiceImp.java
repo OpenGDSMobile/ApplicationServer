@@ -22,7 +22,7 @@ public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements 
 	@Qualifier("seoulPublicDAO")
 	PublicData publicDataobj;   
 	
-	private String serviceName = null;
+	private String serviceName = "TimeAverageAirQuality";
 	private String serviceURL = null;
 	private String[] resultJSONKeys = null;
 	Logger log = LogManager.getLogger("org.springframework");
@@ -30,6 +30,7 @@ public class SeoulOpenDataServiceImp extends EgovAbstractServiceImpl implements 
 	@Override
 	public String requestPublicData(JSONObject data) {
 		Iterator<?> it = data.keySet().iterator();
+		serviceName = null;
 		log.info(data);
 		while(it.hasNext()){
 			String tmp = (String) it.next();

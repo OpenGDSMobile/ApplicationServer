@@ -8,9 +8,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ AttrTablesRestControllerTest.class,
 		GeoJsonRestControllerTest.class,
 		GeoServerManagerRestControllerTest.class,
-		PublicDataRestControllerTest.class,
-		RealtimeTableRestControllerTest.class,
-		SeoulOpenDataRestControllerTest.class })
+		PublicDataRestControllerTest.class/*,
+		RealtimeTableRestControllerTest.class*/ })
 public class AllTests {
 
 }

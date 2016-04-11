@@ -29,13 +29,13 @@ public class OpenGDSMobileTableDAO extends EgovAbstractMapper {
 	List<LinkedHashMap<String, Object>> tableContentList = new ArrayList<LinkedHashMap<String,Object>>();
 	Logger log = LogManager.getLogger("ERROR");
 	
-	
+	//2016. 04. 11.
 	public List<LinkedHashMap<String, Object>> attributeSelectTableInfo(JSONObject tableName) {
 		HashMap<String, Object> hashMapTableName = (HashMap<String, Object>) toMap(tableName);
 		try{
 			tableContentList = sess.selectList("OpenGDSMobileMapper.attrTable", hashMapTableName);
 		}catch(Exception e){
-
+			log.error(e);
 			tableContentList = null;
 		}		
 		return tableContentList;

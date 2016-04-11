@@ -21,7 +21,7 @@ public class GeoJsonRestController {
 	GeoJsonService geoJsonObj; 
 
 	@RequestMapping(value="/getGeoJson.do", method=RequestMethod.GET)
-	public Map<Object, Object> getGeoJsonGet(GeoJsonVO vo){
+	public Map<Object, Object> getGeoJsonGet(@RequestBody GeoJsonVO vo){
 		JSONObject JSONData = new JSONObject(vo);
 		System.out.println(JSONData.toString());
 		Map<Object, Object> message = new HashMap<>();
@@ -35,8 +35,9 @@ public class GeoJsonRestController {
 		} 
 		return message;
 	}
-	@RequestMapping(value="/getGeoJson.do", method=RequestMethod.POST, headers="Content-Type=application/json")
-	public Map<Object, Object> getGeoJsonPost(GeoJsonVO vo){
+	@RequestMapping(value="/getGeoJson.do", method=RequestMethod.POST, 
+					headers="Content-Type=application/json")
+	public Map<Object, Object> getGeoJsonPost(@RequestBody GeoJsonVO vo){
 		JSONObject JSONData = new JSONObject(vo);
 		Map<Object, Object> message = new HashMap<>();
 		System.out.println(JSONData.toString());

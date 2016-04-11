@@ -19,6 +19,8 @@ public class GeoJsonServiceImpTest {
 	
 	@Autowired
 	GeoJsonServiceImp service;
+	
+	//2016. 04. 11.
 	@Test
 	public void testGetLocation() {
 		JSONObject obj = new JSONObject();

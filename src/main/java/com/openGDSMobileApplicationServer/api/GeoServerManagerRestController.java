@@ -37,7 +37,7 @@ public class GeoServerManagerRestController {
 		} 
 	}
 	
-	@RequestMapping(value="/getLayerNames.do")
+	@RequestMapping(value="/getLayerNames.do", method=RequestMethod.GET)
 	public Map<String, Object> getLayerNames(@RequestParam("wsName") String wsName){ 
 		Map<String, Object> message = new HashMap<String, Object>();
 		try {

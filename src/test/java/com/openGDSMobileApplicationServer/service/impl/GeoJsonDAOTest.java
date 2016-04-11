@@ -28,7 +28,8 @@ public class GeoJsonDAOTest {
 
 	@Test
 	public void testReadFile() {
-		URL tpLocation = this.getClass().getResource("/webmapping/geoBasedData/SIDO.json");
+		URL tpLocation = this.getClass()
+				.getResource("/webmapping/geoBasedData/SIDO.json");
 		dao.readFile(tpLocation.getPath());
 	}
 

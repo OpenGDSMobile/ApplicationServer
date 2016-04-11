@@ -13,11 +13,10 @@ public class GeoJsonServiceImp implements GeoJsonService {
 	@Qualifier("geojsondao")
 	GeoJsonDAO geojson;
 	
+	//2016. 04. 11.
 	@Override
 	public JSONObject getLocation(JSONObject obj) {
-		// TODO Auto-generated method stub
 		String location = (String) obj.get("jsonName");
-		System.out.println(obj.toString());
 		JSONObject geojsonObj = geojson.getGeoJSON(location);
 		return geojsonObj;
 	}

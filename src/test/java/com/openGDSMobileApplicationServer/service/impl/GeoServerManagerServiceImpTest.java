@@ -19,16 +19,20 @@ public class GeoServerManagerServiceImpTest {
 	@Autowired
 	GeoServerManagerServiceImp service;
 
+	//2016. 04. 11.
 	@Test
 	public void testCreateWorkspace() {
 		assertTrue(service.createWorkspace("test"));
 		service.removeWorkspace("test");
 	}
 
+	//2016. 04. 11.
 	@Test
 	public void testGetLayerNames() {
 		assertNotNull(service.getLayerNames("OpenGDSMobile"));
 	}
+	
+	//2016. 04. 11.
 	@Test
 	public void testRemoveWorkspace() {
 		service.createWorkspace("test");

@@ -5,32 +5,35 @@ import static org.junit.Assert.*;
 import java.net.MalformedURLException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={
+		"file:src/main/webapp/WEB-INF/config/webmapping/context-*.xml",
+		"file:src/main/resources/webmapping/spring/context-*.xml"
+})
 public class GeoServerManagerDAOTest {
 	
-	GeoServerManagerDAO dao = null;
-		
+	@Autowired
+	GeoServerManagerDAO dao;
+	
+	//2016. 04. 11.
 	@Test
 	public void testGeoserverCreateWorkspace() {
-		try {
-			dao = new GeoServerManagerDAO("http://113.198.80.9/geoserver","admin","geoserver");
-			assertTrue(dao.geoserverCreateWorkspace("test"));
-			dao.getPublisher().removeWorkspace("test", true);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+		assertTrue(dao.geoserverCreateWorkspace("test"));
+		dao.getPublisher().removeWorkspace("test", true);	
 	}
 
+	//2016. 04. 11.
 	@Test
 	public void testGetGeoserverLayerNames() {
-		try {
-			dao = new GeoServerManagerDAO("http://113.198.80.9/geoserver","admin","geoserver");
-			assertNotNull(dao.getGeoserverLayerNames("OpenGDSMobile"));
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		assertNotNull(dao.getGeoserverLayerNames("OpenGDSMobile"));
+		
 	}
 
 }

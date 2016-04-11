@@ -6,8 +6,10 @@ import java.util.Map;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openGDSMobileApplicationServer.service.TableService;
@@ -20,10 +22,12 @@ public class AttrTablesRestController {
 	@Autowired
 	@Qualifier("AttributeTables")
 	TableService ts;
-
+	
+	//2016. 04. 11.
 	@RequestMapping(value="/getAttrTable.do", method=RequestMethod.GET)
-	public Map<String, Object> attrSearchTableGet(AttrTableVO vo){
-		Map<String, Object> message = new HashMap<String, Object>();
+	public Map<Object, Object> attrSearchTableGet(@RequestBody AttrTableVO vo){
+		Map<Object, Object> message = new HashMap<Object, Object>();
+		System.out.println(vo);
 		JSONObject JSONData = new JSONObject(vo);
 		try {
 			message.put("result", "OK");
@@ -35,8 +39,10 @@ public class AttrTablesRestController {
 		return message;
 	}
 	
-	@RequestMapping(value="/getAttrTable.do", method=RequestMethod.POST, headers="Content-Type=application/json")
-	public Map<String, Object> attrSearchTablePost(AttrTableVO vo){
+	//2016. 04. 11.
+	@RequestMapping(value="/getAttrTable.do", method=RequestMethod.POST, 
+					headers="Content-Type=application/json")
+	public Map<String, Object> attrSearchTablePost(@RequestBody AttrTableVO vo){
 		Map<String, Object> message = new HashMap<String, Object>();
 		JSONObject JSONData = new JSONObject(vo);
 		try {

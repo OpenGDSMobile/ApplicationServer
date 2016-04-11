@@ -46,7 +46,7 @@ public class PublicDataRestController {
 	
 	@RequestMapping(value="/PublicDataPortal.do",method=RequestMethod.POST,
 					headers="Content-Type=application/json")
-	public Map<String, Object> getPublicDataPortal(String str){ 
+	public Map<String, Object> getPublicDataPortal(@RequestBody String str){ 
 		System.out.println(str);
 		Map<String, Object> message = new HashMap<String, Object>();
 		JSONObject JSONData = new JSONObject(str);
