@@ -20,6 +20,12 @@
     <echo message="Please run: $ant -projecthelp"/>
   </target>
 
+	
+
+  <target name="cobertura-clean" description="Clean the output directory">
+    <delete file="cobertura.ser"/>
+  </target>
+
   <property name="src.dir" value="src" />
   <property name="cobertura.dir" value="target/cobertura" />
   <property name="cob.instrumented.dir" value="${cobertura.dir}/instrumented" />
@@ -116,6 +122,7 @@
 	
 	<target name="coverage-report" depends="cover-test">
 		<cobertura-report format="xml" srcdir="${src.dir}" destdir="${cobertura.dir}"/>
+		<cobertura-report format="html" srcdir="${src.dir}" destdir="${cobertura.dir}"/>
 	</target>	
 	
 </project>
