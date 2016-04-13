@@ -377,9 +377,10 @@
           todir="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib"/>
     <copy file="${maven.repo.local}/org/apache/logging/log4j/log4j-api/2.1/log4j-api-2.1.jar" 
           todir="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib"/>
-  	
+  	<!--
     <copy file="${maven.repo.local}/org/apache/logging/log4j/log4j-slf4j-impl/2.1/log4j-slf4j-impl-2.1.jar" 
           todir="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib"/>
+          -->
     <copy file="${maven.repo.local}/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar" 
           todir="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib"/>
     <copy file="${maven.repo.local}/org/slf4j/jcl-over-slf4j/1.7.7/jcl-over-slf4j-1.7.7.jar" 

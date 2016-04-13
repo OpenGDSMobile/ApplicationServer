@@ -46,7 +46,7 @@
 	
   <taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
 
-  <target name="instrument" depends="compile">
+  <target name="instrument" depends="package">
     <cobertura-instrument todir="${cob.instrumented.dir}">
         <classpath location="${lib.dir}/cobertura-2.0.3.jar"/>
         <classpath location="${cob.instrumented.dir}"/>
@@ -67,8 +67,7 @@
   </target>
 	
 	
-  <target name="cover-test" depends="instrument, junit-missing"
-    unless="junit.skipped" >
+  <target name="cover-test" depends="instrument">
   	<mkdir dir="${maven.test.reports}"/>
   	<mkdir dir="target/classes/webmapping"/>
   	<copy todir="${cob.instrumented.dir}/com/openGDSMobileApplicationServer/service">
