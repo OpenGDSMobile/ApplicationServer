@@ -61,7 +61,9 @@
     <pathelement location="${maven.repo.local}/egovframework/rte/egovframework.rte.fdl.logging/3.5.0/egovframework.rte.fdl.logging-3.5.0.jar"/>
     <pathelement location="${maven.repo.local}/org/apache/logging/log4j/log4j-core/2.1/log4j-core-2.1.jar"/>
     <pathelement location="${maven.repo.local}/org/apache/logging/log4j/log4j-api/2.1/log4j-api-2.1.jar"/>
+  	
     <pathelement location="${maven.repo.local}/org/apache/logging/log4j/log4j-slf4j-impl/2.1/log4j-slf4j-impl-2.1.jar"/>
+    
     <pathelement location="${maven.repo.local}/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar"/>
     <pathelement location="${maven.repo.local}/org/slf4j/jcl-over-slf4j/1.7.7/jcl-over-slf4j-1.7.7.jar"/>
     <pathelement location="${maven.repo.local}/org/slf4j/log4j-over-slf4j/1.7.7/log4j-over-slf4j-1.7.7.jar"/>
@@ -127,7 +129,7 @@
     <pathelement location="${maven.repo.local}/egovframework/rte/egovframework.rte.fdl.logging/3.5.0/egovframework.rte.fdl.logging-3.5.0.jar"/>
     <pathelement location="${maven.repo.local}/org/apache/logging/log4j/log4j-core/2.1/log4j-core-2.1.jar"/>
     <pathelement location="${maven.repo.local}/org/apache/logging/log4j/log4j-api/2.1/log4j-api-2.1.jar"/>
-    <pathelement location="${maven.repo.local}/org/apache/logging/log4j/log4j-slf4j-impl/2.1/log4j-slf4j-impl-2.1.jar"/>
+  	<pathelement location="${maven.repo.local}/org/apache/logging/log4j/log4j-slf4j-impl/2.1/log4j-slf4j-impl-2.1.jar"/>
     <pathelement location="${maven.repo.local}/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar"/>
     <pathelement location="${maven.repo.local}/org/slf4j/jcl-over-slf4j/1.7.7/jcl-over-slf4j-1.7.7.jar"/>
     <pathelement location="${maven.repo.local}/org/slf4j/log4j-over-slf4j/1.7.7/log4j-over-slf4j-1.7.7.jar"/>
@@ -143,7 +145,7 @@
     <pathelement location="${maven.repo.local}/egovframework/rte/egovframework.rte.fdl.property/3.5.0/egovframework.rte.fdl.property-3.5.0.jar"/>
     <pathelement location="${maven.repo.local}/org/springframework/spring-web/4.0.9.RELEASE/spring-web-4.0.9.RELEASE.jar"/>
     <pathelement location="${maven.repo.local}/org/springframework/spring-jdbc/4.0.9.RELEASE/spring-jdbc-4.0.9.RELEASE.jar"/>
-    <pathelement location="${maven.repo.local}/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar"/>
+  	<pathelement location="${maven.repo.local}/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar"/>
     <pathelement location="${maven.repo.local}/javax/servlet/jstl/1.2/jstl-1.2.jar"/>
     <pathelement location="${maven.repo.local}/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar"/>
     <pathelement location="${maven.repo.local}/commons-pool/commons-pool/1.5.4/commons-pool-1.5.4.jar"/>
@@ -375,6 +377,7 @@
           todir="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib"/>
     <copy file="${maven.repo.local}/org/apache/logging/log4j/log4j-api/2.1/log4j-api-2.1.jar" 
           todir="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib"/>
+  	
     <copy file="${maven.repo.local}/org/apache/logging/log4j/log4j-slf4j-impl/2.1/log4j-slf4j-impl-2.1.jar" 
           todir="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib"/>
     <copy file="${maven.repo.local}/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar" 
