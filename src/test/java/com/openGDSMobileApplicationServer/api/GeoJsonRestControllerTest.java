@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.nio.charset.Charset;
+
 import static org.mockito.Matchers.isA;
 
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -23,8 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-
-import com.openGDSMobileApplicationServer.TestUtil;
+ 
 import com.openGDSMobileApplicationServer.service.GeoJsonService;
 
 /*@RunWith(SpringJUnit4ClassRunner.class)*/
@@ -45,6 +47,8 @@ public class GeoJsonRestControllerTest {
     private MockMvc mockMvc;
 	String TEST_VALUE = "{\"jsonName\" : \"SIDO\"}";
 	
+	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
+			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf-8"));
 	@Before
 	public void setup() throws Exception{
 
@@ -64,7 +68,7 @@ public class GeoJsonRestControllerTest {
 			.thenReturn(new JSONObject());
 		
 		mockMvc.perform(post("/api/getGeoJson.do")
-				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.contentType(APPLICATION_JSON_UTF8)
 				.content(TEST_VALUE))
 			.andExpect(status().isOk())
 			.andDo(print());
@@ -75,7 +79,7 @@ public class GeoJsonRestControllerTest {
 			.thenReturn(new JSONObject());
 
 		mockMvc.perform(get("/api/getGeoJson.do")
-				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.contentType(APPLICATION_JSON_UTF8)
 				.content(TEST_VALUE))
 			.andExpect(status().isOk())
 			.andDo(print());

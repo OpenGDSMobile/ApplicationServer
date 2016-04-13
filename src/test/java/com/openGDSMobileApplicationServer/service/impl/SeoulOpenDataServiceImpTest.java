@@ -25,12 +25,10 @@ import com.openGDSMobileApplicationServer.service.PublicDataService;
 		"file:src/main/webapp/WEB-INF/config/webmapping/context-servlet.xml",
 		"file:src/main/resources/webmapping/spring/context-*.xml"
 })
-public class SeoulOpenDataServiceImpTest {
-
+public class SeoulOpenDataServiceImpTest { 
 	@Autowired
 	@Qualifier("Seoul")
-	PublicDataService publicService;
-	
+	PublicDataService publicService; 
 	String TEST_VALUE_AIR = "{\"serviceKey\":\"6473565a72696e7438326262524174\","+
 				  "\"returnType\":\"json\",\"serviceName\":\"TimeAverageAirQuality\","+
 				  "\"amount\":\"1/100\",\"dateTimeValue\":\"201601010100\",\"envType\":\"PM10\"}";
