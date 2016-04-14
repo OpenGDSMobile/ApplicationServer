@@ -358,21 +358,7 @@
                     <linkJavadoc>true</linkJavadoc>
                     <javadocDir>apidocs</javadocDir>
                 </configuration>
-            </plugin>
-            	<!-- Normally, we take off the dependency report, saves time. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.7</version>
-				<configuration>
-					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-				</configuration>
-			</plugin>
-		
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-			</plugin>            
+            </plugin>	
         </plugins>
     </reporting>
 </project>

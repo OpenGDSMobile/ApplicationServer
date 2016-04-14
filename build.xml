@@ -11,7 +11,15 @@
   <!-- ====================================================================== -->
 
   <import file="maven-build.xml"/>
-  
+
+
+  <!-- ====================================================================== -->
+  <!-- Import cobertura-build.xml into the current project                        -->
+  <!-- ====================================================================== -->
+
+  <import file="cobertura-build.xml"/>
+	
+	
   <!-- ====================================================================== -->
   <!-- Help target                                                            -->
   <!-- ====================================================================== -->
@@ -20,109 +28,7 @@
     <echo message="Please run: $ant -projecthelp"/>
   </target>
 
-	
 
-  <target name="cobertura-clean" description="Clean the output directory">
-    <delete file="cobertura.ser"/>
-  </target>
 
-  <property name="src.dir" value="src" />
-  <property name="cobertura.dir" value="target/cobertura" />
-  <property name="cob.instrumented.dir" value="${cobertura.dir}/instrumented" />
-  <property name="lib.dir" value="test-libs/cobertura" />
-  <property name="project.libs.dir" value="target/ApplicationServer/WEB-INF/lib" />
-	
-  <path id="cobertura.classpath">
-    <fileset dir="${lib.dir}">
-      <include name="cobertura-2.0.3.jar" />
-      <include name="**/*.jar" />
-    </fileset>
-  </path>
-
-  <path id="build.class.path">
-    <fileset dir="target/ApplicationServer/WEB-INF/lib">
-      <include name="*.jar" />
-    </fileset>
-  </path>	
-  <path id="mockito.class.path">
-    <fileset dir="test-libs/mockito">
-      <include name="*.jar" />
-    </fileset>
-  </path>	
-	
-  <taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
-
-  <target name="instrument" depends="package">
-    <cobertura-instrument todir="${cob.instrumented.dir}">
-        <classpath location="${lib.dir}/cobertura-2.0.3.jar"/>
-        <classpath location="${cob.instrumented.dir}"/>
-		<classpath>
-	              <path refid="build.class.path"/>
-		</classpath>
-    	<!--
-        <fileset dir="${maven.build.outputDir}">
-          <include name="**/*.class"/>
-        </fileset>
-        -->
-        <fileset dir="${maven.build.testOutputDir}">
-          <include name="**/*.class"/>
-        </fileset>
-        
-      	
-    </cobertura-instrument>
-  </target>
-	
-	
-  <target name="cover-test" depends="instrument">
-  	<mkdir dir="${maven.test.reports}"/>
-  	<mkdir dir="target/classes/webmapping"/>
-  	<copy todir="${cob.instrumented.dir}/com/openGDSMobileApplicationServer/service">
-  		<fileset dir="target/classes/com/openGDSMobileApplicationServer/service">
-  		</fileset>
-  	</copy>
-  	<copy todir="${cob.instrumented.dir}/webmapping">
-  		<fileset dir="target/classes/webmapping"/>
-  	</copy>
-  	<copy file="target/classes/log4j2.xml" todir="${cob.instrumented.dir}"/>
-  <!--  <junit dir="." printsummary="yes" 
-      fork="false" haltonerror="no">-->
-
-    <junit printSummary="yes" haltonerror="true" haltonfailure="true" fork="true" dir=".">
-    	<sysproperty key="net.sourceforge.cobertura.datafile" file="cobertura.ser" />
-        <formatter type="xml"/>
-        <formatter type="plain" usefile="false"/>
-    	
-        <classpath location="${cob.instrumented.dir}"/>
-    	
-        <classpath refid="cobertura.classpath" />
-		
-        <classpath>
-          <path refid="build.test.classpath"/>
-          <pathelement location="${maven.build.outputDir}"/>
-          <pathelement location="${maven.build.testOutputDir}"/>
-        </classpath>
-    	 
-        <classpath refid="mockito.class.path" />
-		<classpath>
-	              <path refid="build.class.path"/>
-		</classpath>  
-  		<!-- <fileset dir="${cob.instrumented.dir}">-->	 
-	  	<batchtest todir="${maven.test.reports}">	  	
-	      <fileset dir="${cob.instrumented.dir}"> 
-	          <include name="**/*Test*"/>
-	          <exclude name="**/Abstract*"/>
-	          <exclude name="**/*Suite*"/>
-	          <exclude name="**/RealtimeInfoTableServiceImpTest*"/>
-	          <exclude name="**/webSocket/*"/>
-	      </fileset>
-	    </batchtest> 
-    	
-    </junit>
-  </target>
-	
-	<target name="coverage-report" depends="cover-test">
-		<cobertura-report format="xml" srcdir="${src.dir}" destdir="${cobertura.dir}"/>
-		<cobertura-report format="html" srcdir="${src.dir}" destdir="${cobertura.dir}"/>
-	</target>	
 	
 </project>
