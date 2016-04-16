@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.openGDSMobileApplicationServer.service.TableService;
 
 @Controller
-public class RealtimeTableController {
-	
+public class MappingController {
+	/*
 	@Autowired
 	@Qualifier("realtimeTable")
 	TableService ts;
@@ -77,6 +77,6 @@ public class RealtimeTableController {
 		return message;
 		
 	}
-
+*/
 	
 }

@@ -20,7 +20,7 @@
   <property name="maven.build.testOutputDir" value="${maven.build.dir}/test-classes" />
   <property name="maven.test.reports" value="${maven.build.dir}/test-reports" />
  -->  
- 
+  <import file="maven-build.xml"/>
   <property name="src.dir" value="src" />
   <property name="cobertura.dir" value="${maven.build.dir}/cobertura" />
   <property name="cob.instrumented.dir" value="${cobertura.dir}/instrumented" />
@@ -69,8 +69,6 @@
           <include name="**/*.class"/>
           <exclude name="**/*VO*"/>
           <exclude name="**/*Handler*"/>
-          <exclude name="**/RealtimeTableController*"/>
-          <exclude name="**/RealtimeInfoTableServiceImpTest*"/>
 	      <exclude name="**/Handshake*"/>
         </fileset>
     </cobertura-instrument>
@@ -111,8 +109,6 @@
 	          <include name="**/*Test*"/>
 	          <exclude name="**/*VO*"/>
 	          <exclude name="**/*Handler*"/>
-	          <exclude name="**/RealtimeTableController*"/>
-         	  <exclude name="**/RealtimeInfoTableServiceImpTest*"/>
 	          <exclude name="**/Handshake*"/>
 	      </fileset>
 	    </batchtest> 

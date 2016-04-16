@@ -205,11 +205,13 @@
                     <artifactId>tomcat7-maven-plugin</artifactId>
                     <version>2.2</version>
                     <configuration>
-						<url>http://localhost:8081/manager/text</url>
+						<!-- <url>http://localhost:8081/manager/text</url> -->
+						<url>http://113.198.80.60:8080/manager/text</url>
 						<server>TomcatServer</server>
 					  	<path>/ApplicationServer</path>
 					    <username>intruder</username>
-					    <password>intruderPass</password>
+					    <!--  <password>intruderPass</password>-->
+					    <password>tomcat7</password>
 					</configuration>  
                 </plugin>
                 <plugin>

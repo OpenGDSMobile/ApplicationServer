@@ -7,10 +7,10 @@ public class UsersVO {
 	public UsersVO() {
 		super();
 	}
-	public UsersVO(String column, String userid, String subject) {
+	public UsersVO(String column, String userId, String subject) {
 		super();
 		this.column = column;
-		this.userid = userid;
+		this.userid = userId;
 		this.subject = subject;
 	}
 	public String getColumn() {

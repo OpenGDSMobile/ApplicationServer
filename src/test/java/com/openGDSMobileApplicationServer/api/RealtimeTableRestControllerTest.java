@@ -45,7 +45,7 @@ public class RealtimeTableRestControllerTest {
 	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
 			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf-8"));
     private MockMvc mockMvc;
-
+    String TEST_VALUE;
 	@Before
 	public void setup() throws Exception{
 
@@ -58,35 +58,33 @@ public class RealtimeTableRestControllerTest {
 				.build();
 		MockitoAnnotations.initMocks(this);
 	}
-	
-	@SuppressWarnings("unchecked")
+	 
 	@Test
 	public void testRealtimeSearchTable() throws Exception {
-		when(ts.searchTable(isA(JSONObject.class))).thenReturn(Mockito.anyList());
-
+		TEST_VALUE = "{\"column\":\"SUBJECT\"}";
 		mockMvc.perform(post("/api/realtimeInfoSearch.do")
-				.contentType(APPLICATION_JSON_UTF8)
-				.param("column", "userid"))
+				.contentType(APPLICATION_JSON_UTF8) 
+				.content(TEST_VALUE))
 			.andExpect(status().isOk())
 			.andDo(print());
 	}
 
 	@Test
 	public void testRealtimeInsertTable() throws Exception {
-		when(ts.insertData(isA(JSONObject.class))).thenReturn(1);
+		TEST_VALUE = "{\"subject\":\"seoul_sig\",\"userid\":\"user\",\"session\":\"testSession\"}";
 		mockMvc.perform(post("/api/realtimeInfoInsert.do")
-				.contentType(APPLICATION_JSON_UTF8)
-				.param("session", "0"))
+				.contentType(APPLICATION_JSON_UTF8) 
+				.content(TEST_VALUE))
 			.andExpect(status().isOk())
 			.andDo(print());
 	}
 
 	@Test
 	public void testRealtimeDeleteTable() throws Exception {
-		when(ts.deleteData(isA(JSONObject.class))).thenReturn(1);
+		TEST_VALUE = "{\"session\":\"testSession\"}";
 		mockMvc.perform(post("/api/realtimeInfoDelete.do")
-				.contentType(APPLICATION_JSON_UTF8)
-				.param("session", "0"))
+				.contentType(APPLICATION_JSON_UTF8) 
+				.content(TEST_VALUE))
 			.andExpect(status().isOk())
 			.andDo(print());
 	}

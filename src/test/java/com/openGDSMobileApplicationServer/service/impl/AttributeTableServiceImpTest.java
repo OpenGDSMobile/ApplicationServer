@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.openGDSMobileApplicationServer.service.TableService;
+import com.openGDSMobileApplicationServer.service.impl.AttributeTableServiceImp;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
@@ -22,7 +25,7 @@ public class AttributeTableServiceImpTest {
 	
 	@Autowired
 	@Qualifier("AttributeTables")
-	AttributeTableServiceImp attr;
+	TableService attr;
 	
 	//2016. 04. 11.
 	@Test
@@ -56,7 +59,7 @@ public class AttributeTableServiceImpTest {
 	@Test
 	public void testUpdateTable() {
 		JSONArray tableName = new JSONArray();
-		assertNull(attr.updateTable(tableName));
+		assertEquals(attr.updateTable(tableName), 1);
 	}
 
 	@Test

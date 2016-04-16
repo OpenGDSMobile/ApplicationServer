@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.openGDSMobileApplicationServer.service.impl.SeoulOpenDataDAO;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
 		"file:src/main/webapp/WEB-INF/config/webmapping/context-servlet.xml",

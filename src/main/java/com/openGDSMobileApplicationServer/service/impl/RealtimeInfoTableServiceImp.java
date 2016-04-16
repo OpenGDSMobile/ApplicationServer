@@ -32,14 +32,14 @@ public class RealtimeInfoTableServiceImp implements TableService {
 		List<LinkedHashMap<String, Object>> resultData = null;
 		List<String> sub = null;
 		int cnt = 0;
-		if (type.get("column") == "all") {
-			tmpData = at.realtimeSelectTableInfo();
+		if (type.get("column").equals("ALL")) {
+			resultData = at.realtimeSelectTableInfo();
 			
 		} else {
 			tmpData = at.realtimeSelectTableInfo(type);
 			if (tmpData != null){
 				ListIterator<LinkedHashMap<String, Object>> listItr = tmpData.listIterator();
-				if (type.get("column").equals("subject")) {
+				if (type.get("column").equals("SUBJECT")) {
 					while(listItr.hasNext()){
 						LinkedHashMap<String, Object> tmp = listItr.next();
 						String subject = (String) tmp.get(type.get("column"));
@@ -58,7 +58,7 @@ public class RealtimeInfoTableServiceImp implements TableService {
 							}
 						}
 					}
-				} else if (type.get("column").equals("userid")) {
+				} else if (type.get("column").equals("USER_ID")) {
 					while(listItr.hasNext()) {
 						LinkedHashMap<String, Object> tmp = listItr.next();
 						String userid = (String) tmp.get(type.get("column"));
@@ -76,7 +76,7 @@ public class RealtimeInfoTableServiceImp implements TableService {
 		return resultData;
 	}
 	@Override
-	public String searchTableCount(JSONObject type) {
+	public String searchTableCount(JSONObject type) {		
 		return at.realtimeSelectTableInfoCount(type).get("count").toString();
 	}
 	/*성공 1, 아이디가 있는 경우 -1, 그 외 0*/
@@ -92,18 +92,20 @@ public class RealtimeInfoTableServiceImp implements TableService {
 	}
 
 	@Override
-	public List<LinkedHashMap<String, Object>> updateTable(JSONArray editObj) {
-		// TODO Auto-generated method stub
-		for(int i=0; i<editObj.length(); i++) {
-			at.attributeUpdateTable(editObj.getJSONObject(i));
-		}
-		return null;
-	}
-	@Override
 	public List<LinkedHashMap<String, Object>> searchTableWhere(JSONObject type) {
 		// TODO Auto-generated method stub
+		System.out.println(at.realtimeSelectTableWhereSubject(type));
 		return at.realtimeSelectTableWhereSubject(type);
 	}
 
+	@Override
+	public int updateTable(JSONArray editObj) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		for(int i=0; i<editObj.length(); i++) {
+			result = at.attributeUpdateTable(editObj.getJSONObject(i));
+		}
+		return result;
+	}
 
 }

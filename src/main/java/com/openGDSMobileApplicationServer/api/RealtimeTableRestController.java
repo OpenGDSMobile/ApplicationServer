@@ -25,14 +25,14 @@ public class RealtimeTableRestController {
 	
 	@RequestMapping(value="/realtimeInfoSearch.do", method=RequestMethod.POST,
 					headers="Content-Type=application/json")
-	public Map<String, Object> realtimeSearchTable(UsersVO vo){
+	public Map<String, Object> realtimeSearchTable(@RequestBody UsersVO vo){
 		Map<String, Object> message = new HashMap<String, Object>();
 		JSONObject JSONData = new JSONObject(vo);
 		System.out.println(JSONData.toString());
 		try {
 			message.put("result", "OK");
 			message.put("message", null);
-			if (JSONData.get("column").equals("userid")) {
+			if (JSONData.get("column").equals("USER_ID")) {
 				boolean resultData;
 				if (ts.searchTable(JSONData) == null ){
 					resultData = true;
@@ -51,7 +51,7 @@ public class RealtimeTableRestController {
 	}
 	@RequestMapping(value="/realtimeInfoInsert.do", method=RequestMethod.POST,
 					headers="Content-Type=application/json")
-	public Map<String, Object> realtimeInsertTable(UsersVO vo){
+	public Map<String, Object> realtimeInsertTable(@RequestBody String vo){
 		Map<String, Object> message = new HashMap<String, Object>();
 		JSONObject JSONData = new JSONObject(vo);
 		try {
@@ -65,7 +65,7 @@ public class RealtimeTableRestController {
 	}
 	@RequestMapping(value="/realtimeInfoDelete.do", method=RequestMethod.POST,
 					headers="Content-Type=application/json")
-	public Map<String, Object> realtimeDeleteTable(UsersVO vo){
+	public Map<String, Object> realtimeDeleteTable(@RequestBody String vo){
 		Map<String, Object> message = new HashMap<String, Object>();
 		JSONObject JSONData = new JSONObject(vo);
 		try {

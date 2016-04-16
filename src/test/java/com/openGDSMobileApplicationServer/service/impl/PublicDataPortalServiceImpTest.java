@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.openGDSMobileApplicationServer.service.PublicDataService;
+import com.openGDSMobileApplicationServer.service.impl.PublicDataPortalServiceImp;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={

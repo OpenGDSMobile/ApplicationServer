@@ -62,9 +62,9 @@ public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements
 
 
 	@Override
-	public List<LinkedHashMap<String, Object>> updateTable(JSONArray editObj) {
+	public int updateTable(JSONArray editObj) {
 		// TODO Auto-generated method stub
-		return null;
+		return 1;
 	}
 
 
