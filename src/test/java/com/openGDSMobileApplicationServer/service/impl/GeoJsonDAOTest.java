@@ -5,10 +5,23 @@ import static org.junit.Assert.*;
 import java.net.URL;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.openGDSMobileApplicationServer.service.impl.GeoJsonDAO;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={
+		"file:src/main/webapp/WEB-INF/config/webmapping/context-servlet.xml",
+		"file:src/main/resources/webmapping/spring/context-*.xml"
+})
 public class GeoJsonDAOTest {
 
-	GeoJsonDAO dao = new GeoJsonDAO();
+	@Autowired
+	GeoJsonDAO dao;
 	
 	@Test
 	public void testGetGeoJSON() {
@@ -18,7 +31,8 @@ public class GeoJsonDAOTest {
 
 	@Test
 	public void testReadFile() {
-		URL tpLocation = this.getClass().getResource("/webmapping/geoBasedData/SIDO.json");
+		URL tpLocation = this.getClass()
+				.getResource("/webmapping/geoBasedData/SIDO.json");
 		dao.readFile(tpLocation.getPath());
 	}
 

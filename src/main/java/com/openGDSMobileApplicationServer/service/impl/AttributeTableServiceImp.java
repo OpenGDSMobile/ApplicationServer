@@ -27,6 +27,7 @@ public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements
 	OpenGDSMobileTableDAO at; 
 	Logger log = LogManager.getLogger("org.springframework");
 
+	//2016. 04. 11.
 	@Override
 	public List<LinkedHashMap<String, Object>> searchTable(JSONObject tableName) {
 		List<LinkedHashMap<String, Object>> resultData = at.attributeSelectTableInfo(tableName);
@@ -61,9 +62,9 @@ public class AttributeTableServiceImp extends EgovAbstractServiceImpl implements
 
 
 	@Override
-	public List<LinkedHashMap<String, Object>> updateTable(JSONArray editObj) {
+	public int updateTable(JSONArray editObj) {
 		// TODO Auto-generated method stub
-		return null;
+		return 1;
 	}
 
 

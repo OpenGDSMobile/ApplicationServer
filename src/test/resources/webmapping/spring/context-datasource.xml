@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<util:properties id="pgProperties" location="classpath:/webmapping/property/jdbc.properties" />
+	<!-- PostgreSQL JDBC setting -->
+	<bean id="dataSource-postgresql" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="#{pgProperties['jdbc.driverClassName']}" />
+		<property name="url" value="#{pgProperties['jdbc.url']}" />
+		<property name="username" value="#{pgProperties['jdbc.username']}" />
+		<property name="password" value="#{pgProperties['jdbc.password']}" /> 
+	</bean>	 
+	
+	<!-- SqlSessionTemplate Setting --> 
+	<bean id="sqlSession-postgresql" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSession" />
+	</bean>	
+</beans>

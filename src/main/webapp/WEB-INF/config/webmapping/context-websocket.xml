@@ -15,6 +15,10 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 
-	<bean id="attrEditHandler" class="com.openGDSMobileApplicationServer.webSocket.AttrEditHandler"></bean>
+	<bean id="attrEditHandler" class="com.openGDSMobileApplicationServer.webSocket.AttrInfoWebSocketHandler"></bean>
 	
+	<bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
+        <property name="maxTextMessageBufferSize" value="8192"/>
+        <property name="maxBinaryMessageBufferSize" value="8192"/>
+    </bean>
 </beans>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="OpenGDSMobileTable.RealTime">
+	
+	<select id="SelectTable" resultType="java.util.LinkedHashMap">
+		select * from "REALTIMEINFO"
+	</select>	
+	
+	<select id="SelectTable-columns" parameterType="hashmap" resultType="java.util.LinkedHashMap">
+		select "${column}" from "REALTIMEINFO"
+	</select>
+	
+	<select id="SelectTable-Session-Subject" parameterType="hashmap" resultType="java.util.LinkedHashMap">
+		select "SESSION" from "REALTIMEINFO" where "SUBJECT" = '${subject}' 
+	</select>
+	
+	
+	<select id="CountSession" parameterType="hashmap" resultType="hashmap">
+		select COUNT(*) from "REALTIMEINFO" WHERE "SESSION" = '${session}' 
+	</select>
+	
+	<insert id="InsertData" parameterType="hashmap">
+		insert into "REALTIMEINFO" ("SUBJECT", "USER_ID", "SESSION") values('${subject}', '${userid}', '${session}')
+	</insert>
+	
+	<delete id="DeleteData" parameterType="hashmap" >
+		delete from "REALTIMEINFO" where "SESSION" = '${session}'
+	</delete>
+</mapper>
+
+<!-- 
+<mapper namespace="OpenGDSMobileMapper">
+	<update id="updateAttrTable" parameterType="java.util.HashMap">
+		UPDATE #{tableName} SET #{column}='#{dstData}' WHERE #{column}='#{srcData}';
+	</update>
+	<select id="realTimeTableColum" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+		select ${column} from "REALTIMEINFO"
+	</select>
+	
+	<select id="realTimeTableColumWhere" parameterType="HashMap" resultType="HashMap">
+		select COUNT(*) from "REALTIMEINFO" WHERE session = ${session} 
+	</select>
+	<insert id="realTimeTableInsert" parameterType="java.util.HashMap" >
+		insert into "REALTIMEINFO" (subject, userid, session) values ('#{subject}', '#{userId}', '#{session}')
+	</insert>
+	<delete id="realTimeTableDelete" parameterType="java.util.HashMap" >
+		delete from "REALTIMEINFO" where session = '#{session}'
+	</delete>
+</mapper> -->

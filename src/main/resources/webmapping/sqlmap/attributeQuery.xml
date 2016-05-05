@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="OpenGDSMobileTable.Attr">
+	<select id="SelectTable" parameterType="hashmap" resultType="java.util.LinkedHashMap">
+		SELECT * FROM ${tableName}
+		<!-- TEST Query: select * from seoul_sig -->
+	</select>
+	
+	<update id="UpdateTable" parameterType="hashmap">
+		UPDATE ${tableName} SET ${column}='${dstData}' WHERE ${column}='${srcData}';
+	</update>
+	
+	
+</mapper>

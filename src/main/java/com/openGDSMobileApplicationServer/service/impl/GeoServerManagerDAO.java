@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository("geodao")
 public class GeoServerManagerDAO{
  
-	static String geoServerUrl = "http://127.0.0.1/geoserver";
+	static String geoServerUrl = "http://113.198.80.9/geoserver";
 	static String geoServerUser = "admin";
 	static String geoServerPw = "geoserver";
 	
@@ -24,14 +24,6 @@ public class GeoServerManagerDAO{
 	
 	GeoServerManagerDAO() throws MalformedURLException{
 		super();
-		publisher = new GeoServerRESTPublisher(geoServerUrl, geoServerUser, geoServerPw);
-		reader= new GeoServerRESTReader(geoServerUrl, geoServerUser, geoServerPw);
-	}
-	GeoServerManagerDAO(String geoServer_url, String geoServer_user, String geoServer_pw) throws MalformedURLException{
-		super();
-		geoServerUrl = geoServer_url;
-		geoServerUser = geoServer_user;
-		geoServerPw = geoServer_pw;
 		publisher = new GeoServerRESTPublisher(geoServerUrl, geoServerUser, geoServerPw);
 		reader= new GeoServerRESTReader(geoServerUrl, geoServerUser, geoServerPw);
 	}

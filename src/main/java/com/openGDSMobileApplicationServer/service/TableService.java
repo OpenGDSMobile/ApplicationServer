@@ -13,6 +13,6 @@ public interface TableService {
 	List<LinkedHashMap<String, Object>> searchTable(JSONObject tableName);
 	int insertData(JSONObject insertData);
 	int deleteData(JSONObject deleteData);
-	List<LinkedHashMap<String, Object>> updateTable(JSONArray editObj);
+	int updateTable(JSONArray editObj);
 	List<LinkedHashMap<String, Object>> searchTableWhere(JSONObject type);
 }
