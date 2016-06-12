@@ -12,3 +12,8 @@ How to Install?
 Dependent libraries
 ================
 > pom.xml
+
+License
+================
+> LGPL v3 
+> See LICENSE file. 

@@ -54,7 +54,7 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 			//Nuclear Power Plant Realtime Level of Radiation Request URL
 			serviceURL = processServiceURL(data, baseURL);			
 			Document doc = publicDataobj.getXMLPublicData(serviceURL);
-			
+			log.info(baseURL);
 			resultJSONKeys = new String[]{"expl", "name", "time", "value"};
 			return processXmlbyPublicData(doc, resultJSONKeys);  
 		}
@@ -67,7 +67,7 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 			//Green Gas Emission Report Request URL
 			serviceURL = processServiceURL(data, baseURL);			
 			Document doc = publicDataobj.getXMLPublicData(serviceURL);
-
+			log.info(baseURL);
 			resultJSONKeys = new String[]{"basYm", "brNm", "tco2eqUnit", "totEmTco2eq"};
 			return processXmlbyPublicData(doc, resultJSONKeys);  
 		}
@@ -79,7 +79,7 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		else if(serviceName.equals("ArpltnInforInqireSvc")){
 			baseURL = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?";			
 			serviceURL=processServiceURL(data, baseURL);
-			
+			log.info(baseURL);
 			Document doc = publicDataobj.getXMLPublicData(serviceURL);
 			
 			resultJSONKeys = new String[]{"stationName", (String) data.get("envType") };
@@ -107,7 +107,7 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		Element root = src.getRootElement();
 		JSONObject result = new JSONObject();
 		JSONArray list = new JSONArray();
-
+		
 		List<Element> bodyNodes = root.getChildren("body");
 		for(Element bodyNode : bodyNodes){
 			List<Element> itemsNodes = bodyNode.getChildren("items");
