@@ -87,9 +87,11 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		}
 		/**
 		 * JSON Object
-		 * {serviceName:"PublicStandardDataSvc", serviceIdentity: ??, serviceKey: ??, s_page: ??, s_list: ??, type: ??, numOfRows: ??, pageNo: ??}
-		 * Traditional national markets, Children Protection Zone, City Park, Public Toilets, Parking lot, Social Enterprise, CCTV, Unattended complaints dispenser,
-		 * Free Wi-Fi, Daycare Center, Library
+		 * {serviceName:"PublicStandardDataSvc", serviceIdentity: ??, serviceKey: ??, s_page: ??, s_list: ??, type: ??, numOfRows: ??, 
+		 * pageNo: ??, pageSize: ??, startPage: ??}
+		 * endPoint(serviceIdentity key) value may be changed.
+		 * serviceIdentity List: Traditional national markets, Children Protection Zone, City Park, Public Toilets, Parking lot, Social Enterprise, CCTV,
+		 * Unattended complaints dispenser, Free Wi-Fi, Daycare Center, Library
 		 **/
 		else if(serviceName.equals("PublicStandardDataSvc")){
 			
