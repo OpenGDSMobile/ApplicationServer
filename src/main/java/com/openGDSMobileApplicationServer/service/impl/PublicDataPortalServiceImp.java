@@ -85,7 +85,24 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 			resultJSONKeys = new String[]{"stationName", (String) data.get("envType") };
 			return processXmlbyPublicData(doc, resultJSONKeys); 
 		}
-		
+		/**
+		 * JSON Object
+		 * {serviceName:"PublicStandardDataSvc", serviceIdentity: ??, serviceKey: ??, s_page: ??, s_list: ??, type: ??, numOfRows: ??, 
+		 * pageNo: ??, pageSize: ??, startPage: ??}
+		 * endPoint(serviceIdentity key) value may be changed.
+		 * serviceIdentity List: Traditional national markets, Children Protection Zone, City Park, Public Toilets, Parking lot, Social Enterprise, CCTV,
+		 * Unattended complaints dispenser, Free Wi-Fi, Daycare Center, Library
+		 **/
+		else if(serviceName.equals("PublicStandardDataSvc")){
+			
+			baseURL = "http://api.data.go.kr/openapi/" + (String) data.get("serviceIdentity") + "?";			
+	
+			serviceURL=processServiceURL(data, baseURL);
+
+			JSONObject result = publicDataobj.getJSONPublicData(serviceURL);
+				
+			return result;
+		}		
 		return null;
 	}  
 	
@@ -94,7 +111,7 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		Iterator<?> it = data.keySet().iterator();
 		while(it.hasNext()){
 			String key = (String) it.next();
-			if (key.equals("serviceName")){
+			if (key.equals("serviceName") || key.equals("serviceIdentity")){
 				continue;
 			}
 			url += key + "=" + data.get(key) + "&";
@@ -130,4 +147,5 @@ public class PublicDataPortalServiceImp extends EgovAbstractServiceImpl implemen
 		log.info(result);
 		return result;
 	}
+	
 }
