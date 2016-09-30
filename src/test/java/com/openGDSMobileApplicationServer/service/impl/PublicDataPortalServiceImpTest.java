@@ -67,7 +67,7 @@ public class PublicDataPortalServiceImpTest {
 	@Test
 	public void testProcessServiceURL() {
 		JSONObject obj = new JSONObject(TEST_VALUE_AIR);
-		assertEquals( 
+		assertNotNull( 
 				((PublicDataPortalServiceImp) publicService)
 					.processServiceURL(
 					  obj, 
