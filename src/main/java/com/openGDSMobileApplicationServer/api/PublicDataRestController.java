@@ -25,7 +25,7 @@ public class PublicDataRestController {
 	@Qualifier("Portal")
 	PublicDataService publicDataPortalObj; 
 
-	@RequestMapping(value="/SeoulOpenData.do", method=RequestMethod.POST,
+	@RequestMapping(value="/seoulOpenData.do", method=RequestMethod.POST,
 					headers="Content-Type=application/json")
 	public Map<String, Object> getSeoulOpenData(@RequestBody String str){ 
 		Map<String, Object> message = new HashMap<String, Object>();
@@ -44,7 +44,7 @@ public class PublicDataRestController {
 		} 
 	} 
 	
-	@RequestMapping(value="/PublicDataPortal.do",method=RequestMethod.POST,
+	@RequestMapping(value="/publicDataPortal.do",method=RequestMethod.POST,
 					headers="Content-Type=application/json")
 	public Map<String, Object> getPublicDataPortal(@RequestBody String str){ 
 		System.out.println(str);

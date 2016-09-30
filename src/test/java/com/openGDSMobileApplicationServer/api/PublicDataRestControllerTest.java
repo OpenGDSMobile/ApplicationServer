@@ -8,8 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.nio.charset.Charset;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +23,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
- 
+
 import com.openGDSMobileApplicationServer.service.PublicDataService;
+ 
 
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(locations = {
@@ -72,7 +71,7 @@ public class PublicDataRestControllerTest {
 		TEST_VALUE = "{\"serviceKey\":\"6473565a72696e7438326262524174\","+
 					  "\"returnType\":\"json\",\"serviceName\":\"TimeAverageAirQuality\","+
 					  "\"amount\":\"1/100\",\"dateTimeValue\":\"201601010100\",\"envType\":\"PM10\"}";
-		mockMvc.perform(post("/api/SeoulOpenData.do")
+		mockMvc.perform(post("/api/seoulOpenData.do")
 				.contentType(APPLICATION_JSON_UTF8) 
 				.content(TEST_VALUE))
 			.andExpect(status().isOk())
@@ -87,7 +86,7 @@ public class PublicDataRestControllerTest {
 		TEST_VALUE = "{\"serviceName\":\"NuclearPowerPlantRealtimeLevelofRadiation\","+
 					  "\"serviceKey\":\"kCxEhXiTf1qmDBlQFOOmw%2BemcPSxQXn5V5%2Fx8EthoHdbSojIdQvwX%2BHtWFyuJaIco0nUJtu12e%2F9acb7HeRRRA%3D%3D\","+
 					  "\"startDate\":\"YK\"}";
-		mockMvc.perform(post("/api/PublicDataPortal.do")
+		mockMvc.perform(post("/api/publicDataPortal.do")
 				.contentType(APPLICATION_JSON_UTF8) 
 				.content(TEST_VALUE))
 			.andExpect(status().isOk())
