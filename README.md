@@ -1,5 +1,18 @@
+### This version is not used.
+
+Please refer to the Following URL.
+
+syntax: [OpenGDS Mobile Application Server](https://github.com/OpenGDSMobile/ApplicatinoServer3.6)
+
+
+
+
+
+
+
 OpenGDS Mobile Application Server 1.3
 =================
+
 > + Public Data Request/Response and GeoServer Connect Java Module
 > + Experimental Web Server System
 
@@ -17,3 +30,4 @@ License
 ================
 > LGPL v3 
 > See LICENSE file. 
+
